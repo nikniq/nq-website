@@ -3,6 +3,7 @@
 @section('content')
     <h1>Create your player account</h1>
     <p class="sub">One login for every game on the portal. Your favourites, scores and activity follow you.</p>
+    @include('auth._google', ['label' => 'Sign up with Google'])
     <form class="stack" method="post" action="{{ route('register') }}">@csrf
         <label>Name <input type="text" name="name" value="{{ old('name') }}" required autofocus></label>
         @error('name')<div class="err">{{ $message }}</div>@enderror

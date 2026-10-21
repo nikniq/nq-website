@@ -63,6 +63,16 @@
         .muted { color:var(--muted); }
         @media (max-width:600px){ h1 { font-size:1.5rem; } }
     </style>
+    @if(($gaId = config('portal.ga_measurement_id')) && (app()->environment('production') || config('portal.ga_always')))
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', @json($gaId));
+    </script>
+    @endif
     @stack('head')
 </head>
 <body>

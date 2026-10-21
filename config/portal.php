@@ -5,6 +5,11 @@ return [
     'name' => env('PORTAL_NAME', 'NikniQ Games'),
     'tagline' => env('PORTAL_TAGLINE', 'Play, collect favourites, climb the leaderboards.'),
 
+    // Google Analytics 4 measurement id. The tag renders only in production
+    // (or when GA_ALWAYS=true), so local and test traffic never reaches it.
+    'ga_measurement_id' => env('GA_MEASUREMENT_ID', 'G-34RWEG01MV'),
+    'ga_always' => (bool) env('GA_ALWAYS', false),
+
     // How long an authorization code stays valid after /sso/authorize.
     'code_ttl_minutes' => (int) env('SSO_CODE_TTL_MINUTES', 5),
 

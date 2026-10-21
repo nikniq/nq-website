@@ -21,7 +21,24 @@ php artisan test
 
 The default `.env` uses sqlite (`database/database.sqlite`). For MySQL set the `DB_*` variables and re-run the migration. `SESSION_DRIVER=database` is the default, so the sessions table must exist (it is created by the migrations).
 
-Thumbnails: drop `public_html/images/games/{slug}.png` and either re-run the seeder (it only inserts missing games) or set the thumbnail path in the admin form.
+Thumbnails live in `public_html/images/games/{slug}.svg` (one tile per seeded game). To replace one with a screenshot, drop the file in that folder and set the thumbnail path in the admin form. The seeder refreshes catalogue fields (name, description, genre, URL, thumbnail, order) on every run but never touches credentials or the enabled/featured flags.
+
+### Google sign-in
+
+Create an OAuth client in Google Cloud with the authorised redirect URI `https://nikniq.com/auth/google/callback`, then set in `.env`:
+
+```
+GOOGLE_OAUTH_ENABLED=true
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
+```
+
+Google sign-up requires a verified Google email. A Google email only takes over an existing password account when Google reports it verified; otherwise the player logs in with their password and links Google from `/profile`. Accounts created through Google have no password until they set one on `/profile`, and unlinking requires a password so nobody gets locked out.
+
+### Google Analytics
+
+`GA_MEASUREMENT_ID` (default `G-34RWEG01MV`) renders the gtag snippet in every layout, in production only. Set `GA_ALWAYS=true` to force it elsewhere, or set the id empty to disable.
 
 ## Pages
 

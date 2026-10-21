@@ -15,16 +15,34 @@
     </div>
 
     <div class="panel" style="margin-bottom:1rem">
-        <h2 style="margin-top:0">Change password</h2>
+        <h2 style="margin-top:0">{{ $user->hasPassword() ? 'Change password' : 'Set a password' }}</h2>
+        @unless($user->hasPassword())<p class="muted">You signed up with {{ $user->providerLabel() }}. Setting a password lets you log in without it too.</p>@endunless
         <form class="stack" method="post" action="{{ route('profile.password') }}">@csrf @method('PUT')
+            @if($user->hasPassword())
             <label>Current password <input type="password" name="current_password" required autocomplete="current-password"></label>
             @error('current_password')<div class="err">{{ $message }}</div>@enderror
+            @endif
             <label>New password <input type="password" name="password" required autocomplete="new-password"></label>
             @error('password')<div class="err">{{ $message }}</div>@enderror
             <label>Confirm new password <input type="password" name="password_confirmation" required autocomplete="new-password"></label>
             <div><button class="btn" type="submit">Change password</button></div>
         </form>
     </div>
+
+    @if(config('social.providers.google.enabled'))
+    <div class="panel" style="margin-bottom:1rem">
+        <h2 style="margin-top:0">Google sign-in</h2>
+        @error('provider')<div class="flash error">{{ $message }}</div>@enderror
+        @if($user->hasLinkedProvider())
+            <p>Linked to your {{ $user->providerLabel() }} account. @if($user->avatar)<img class="avatar" src="{{ $user->avatar }}" alt="">@endif</p>
+            <form method="post" action="{{ route('social.unlink') }}">@csrf<button class="btn sm ghost" type="submit" @unless($user->hasPassword()) disabled title="Set a password first" @endunless>Unlink Google</button></form>
+            @unless($user->hasPassword())<p class="muted" style="font-size:.85rem">Set a password above before unlinking, or you will be locked out.</p>@endunless
+        @else
+            <p class="muted">Link Google to sign in with one click.</p>
+            @include('auth._google', ['label' => 'Link Google account'])
+        @endif
+    </div>
+    @endif
 
     <div class="panel">
         <h2 style="margin-top:0">Connected games</h2>

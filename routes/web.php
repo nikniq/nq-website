@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\GamesController;
@@ -23,7 +24,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisterController::class, 'store'])->middleware('throttle:10,1');
 });
 
+// Google sign-in. Guests sign in or sign up; signed-in users link the account.
+Route::get('/auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->whereIn('provider', ['google'])->name('social.redirect');
+Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'callback'])->whereIn('provider', ['google'])->name('social.callback');
+
 Route::middleware('auth')->group(function () {
+    Route::post('/auth/unlink', [SocialLoginController::class, 'unlink'])->name('social.unlink');
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::post('/games/{game}/favourite', [FavouriteController::class, 'toggle'])->name('games.favourite');

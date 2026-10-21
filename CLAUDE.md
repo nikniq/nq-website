@@ -30,6 +30,9 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - The events endpoint rejects a token issued for a different game (403). Batches are capped at `portal.max_batch`.
 - `GET /games/{slug}/play` records a `launch` event for signed-in users before redirecting; `launch` is not in `play_events` so it does not count as a play.
 - Favourites are a `user_id`/`game_id` pivot (`favourites`); toggled on the web via `POST /games/{slug}/favourite` and from games via `POST|DELETE /api/sso/favourite`.
+- Google sign-in lives in `Auth\SocialLoginController` (Socialite), enabled by `GOOGLE_OAUTH_ENABLED`. OAuth-only users have `password = null`; `User::hasPassword()` gates the login form, unlinking, and the current-password check. Tests mock `Socialite::shouldReceive('driver')` (see `tests/Feature/GoogleLoginTest.php`).
+- Google Analytics: `portal.ga_measurement_id`, rendered by the layout in production only (`portal.ga_always` forces it).
+- Seeded catalogue fields are refreshed on every `GamesSeeder` run; credentials and flags are insert-only. Hostnames in `GamesSeeder::GAMES` were verified live (e.g. `spaceinvaders`, `missilecommand`, `candyrush`, `lawyermemory`).
 - Admin is the `users.is_admin` flag (`EnsureUserIsAdmin`, alias `admin`). The client secret is shown once after create/rotate via the `client_secret` flash.
 
 ## Conventions

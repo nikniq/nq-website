@@ -49,13 +49,14 @@ class ProfileController extends Controller
 
     public function password(Request $request): RedirectResponse
     {
-        $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-        ]);
+        $rules = ['password' => ['required', 'confirmed', Password::defaults()]];
+        if ($request->user()->hasPassword()) {
+            $rules['current_password'] = ['required', 'current_password'];
+        }
+        $request->validate($rules);
         $request->user()->update(['password' => $request->input('password')]);
 
-        return back()->with('status', 'Password changed.');
+        return back()->with('status', $request->user()->wasChanged('password') ? 'Password set.' : 'Password changed.');
     }
 
     /** Sign out of one game (revokes every token it holds), or all games. */

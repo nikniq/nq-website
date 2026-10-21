@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,11 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
+
+        $existing = User::where('email', $credentials['email'])->first();
+        if ($existing && ! $existing->hasPassword()) {
+            throw ValidationException::withMessages(['email' => 'This account signs in with '.$existing->providerLabel().'. Use the button below, or set a password from your profile after signing in.']);
+        }
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages(['email' => 'These credentials do not match our records.']);

@@ -14,7 +14,7 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'avatar'];
+    protected $fillable = ['name', 'email', 'password', 'avatar', 'provider_name', 'provider_id', 'email_verified_at'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -45,6 +45,24 @@ class User extends Authenticatable
     public function playerTokens(): HasMany
     {
         return $this->hasMany(PlayerToken::class);
+    }
+
+    public function hasPassword(): bool
+    {
+        return ! empty($this->password);
+    }
+
+    public function hasLinkedProvider(): bool
+    {
+        return ! empty($this->provider_name) && ! empty($this->provider_id);
+    }
+
+    public function providerLabel(): string
+    {
+        return match ($this->provider_name) {
+            'google' => 'Google',
+            default => ucfirst((string) $this->provider_name),
+        };
     }
 
     public function hasFavourited(Game $game): bool

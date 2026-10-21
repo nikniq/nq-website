@@ -2,6 +2,7 @@
 @section('title', 'Log in')
 @section('content')
     <h1>Log in</h1>
+    @include('auth._google')
     <form class="stack" method="post" action="{{ route('login') }}">@csrf
         <label>Email <input type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email"></label>
         @error('email')<div class="err">{{ $message }}</div>@enderror
