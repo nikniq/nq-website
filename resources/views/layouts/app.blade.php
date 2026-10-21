@@ -95,6 +95,11 @@
 </header>
 <main>
     <div class="wrap">
+        @auth
+            @if(! auth()->user()->hasPassword() && ! auth()->user()->hasLinkedProvider() && ! request()->routeIs('register.password'))
+                <div class="flash error">Your account has no password yet. <a href="{{ route('register.password') }}">Choose one now</a> so you can log in next time.</div>
+            @endif
+        @endauth
         @if(session('status'))<div class="flash">{{ session('status') }}</div>@endif
         @if(session('error'))<div class="flash error">{{ session('error') }}</div>@endif
         @yield('content')

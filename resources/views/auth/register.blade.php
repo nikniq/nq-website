@@ -5,13 +5,9 @@
     <p class="sub">One login for every game on the portal. Your favourites, scores and activity follow you.</p>
     @include('auth._google', ['label' => 'Sign up with Google'])
     <form class="stack" method="post" action="{{ route('register') }}">@csrf
-        <label>Name <input type="text" name="name" value="{{ old('name') }}" required autofocus></label>
-        @error('name')<div class="err">{{ $message }}</div>@enderror
-        <label>Email <input type="email" name="email" value="{{ old('email') }}" required autocomplete="email"></label>
+        <label>Email <input type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="you@example.com"></label>
         @error('email')<div class="err">{{ $message }}</div>@enderror
-        <label>Password <input type="password" name="password" required autocomplete="new-password"></label>
-        @error('password')<div class="err">{{ $message }}</div>@enderror
-        <label>Confirm password <input type="password" name="password_confirmation" required autocomplete="new-password"></label>
-        <div class="row"><button class="btn" type="submit">Sign up</button> <span class="muted">Already have an account? <a href="{{ route('login') }}">Log in</a></span></div>
+        <p class="muted" style="margin:0;font-size:.9rem">We'll email you a link to confirm your address. You choose a password after that.</p>
+        <div class="row"><button class="btn" type="submit">Send me the link</button> <span class="muted">Already have an account? <a href="{{ route('login') }}">Log in</a></span></div>
     </form>
 @endsection

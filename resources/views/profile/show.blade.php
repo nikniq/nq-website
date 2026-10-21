@@ -16,7 +16,7 @@
 
     <div class="panel" style="margin-bottom:1rem">
         <h2 style="margin-top:0">{{ $user->hasPassword() ? 'Change password' : 'Set a password' }}</h2>
-        @unless($user->hasPassword())<p class="muted">You signed up with {{ $user->providerLabel() }}. Setting a password lets you log in without it too.</p>@endunless
+        @unless($user->hasPassword())<p class="muted">{{ $user->hasLinkedProvider() ? 'You signed up with '.$user->providerLabel().'. Setting a password lets you log in without it too.' : 'Set a password so you can log in with your email.' }}</p>@endunless
         <form class="stack" method="post" action="{{ route('profile.password') }}">@csrf @method('PUT')
             @if($user->hasPassword())
             <label>Current password <input type="password" name="current_password" required autocomplete="current-password"></label>

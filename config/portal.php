@@ -10,6 +10,9 @@ return [
     'ga_measurement_id' => env('GA_MEASUREMENT_ID', 'G-34RWEG01MV'),
     'ga_always' => (bool) env('GA_ALWAYS', false),
 
+    // How long the sign-up confirmation link stays valid.
+    'verify_ttl_minutes' => (int) env('VERIFY_TTL_MINUTES', 60),
+
     // How long an authorization code stays valid after /sso/authorize.
     'code_ttl_minutes' => (int) env('SSO_CODE_TTL_MINUTES', 5),
 

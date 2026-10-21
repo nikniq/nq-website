@@ -23,6 +23,22 @@ The default `.env` uses sqlite (`database/database.sqlite`). For MySQL set the `
 
 Thumbnails live in `public_html/images/games/{slug}.svg` (one tile per seeded game). To replace one with a screenshot, drop the file in that folder and set the thumbnail path in the admin form. The seeder refreshes catalogue fields (name, description, genre, URL, thumbnail, order) on every run but never touches credentials or the enabled/featured flags.
 
+### Sign-up and email
+
+Sign-up asks for an email only. The portal creates a password-less account, emails a signed link (valid for `VERIFY_TTL_MINUTES`, default 60), and the link confirms the address, logs the player in and asks them to choose a display name and password. Unfinished accounts cannot log in with the form; the login page offers to resend the link. Set a real mailer in `.env` for production:
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=...
+MAIL_PORT=587
+MAIL_USERNAME=...
+MAIL_PASSWORD=...
+MAIL_SCHEME=tls
+MAIL_FROM_ADDRESS=hello@nikniq.com
+```
+
+With `MAIL_MAILER=log` (the default) the link is written to `storage/logs/laravel.log` instead of being sent.
+
 ### Google sign-in
 
 Create an OAuth client in Google Cloud with the authorised redirect URI `https://nikniq.com/auth/google/callback`, then set in `.env`:

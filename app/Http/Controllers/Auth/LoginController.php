@@ -26,7 +26,10 @@ class LoginController extends Controller
 
         $existing = User::where('email', $credentials['email'])->first();
         if ($existing && ! $existing->hasPassword()) {
-            throw ValidationException::withMessages(['email' => 'This account signs in with '.$existing->providerLabel().'. Use the button below, or set a password from your profile after signing in.']);
+            $message = $existing->hasLinkedProvider()
+                ? 'This account signs in with '.$existing->providerLabel().'. Use the button below, or set a password from your profile after signing in.'
+                : 'This account has not finished signing up. Check your email for the confirmation link, or request a new one below.';
+            throw ValidationException::withMessages(['email' => $message])->redirectTo(route('login').'?resend='.urlencode($credentials['email']));
         }
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {

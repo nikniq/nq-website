@@ -30,6 +30,7 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - The events endpoint rejects a token issued for a different game (403). Batches are capped at `portal.max_batch`.
 - `GET /games/{slug}/play` records a `launch` event for signed-in users before redirecting; `launch` is not in `play_events` so it does not count as a play.
 - Favourites are a `user_id`/`game_id` pivot (`favourites`); toggled on the web via `POST /games/{slug}/favourite` and from games via `POST|DELETE /api/sso/favourite`.
+- Sign-up is email-first (`Auth\RegisterController`): create password-less user, mail `App\Mail\VerifyEmail` (temporary signed route `register.verify`), the link logs in and sends to `register.password`. Users with `password = null` and no provider cannot log in; the login error offers a resend. The layout nags signed-in password-less users.
 - Google sign-in lives in `Auth\SocialLoginController` (Socialite), enabled by `GOOGLE_OAUTH_ENABLED`. OAuth-only users have `password = null`; `User::hasPassword()` gates the login form, unlinking, and the current-password check. Tests mock `Socialite::shouldReceive('driver')` (see `tests/Feature/GoogleLoginTest.php`).
 - Google Analytics: `portal.ga_measurement_id`, rendered by the layout in production only (`portal.ga_always` forces it).
 - Seeded catalogue fields are refreshed on every `GamesSeeder` run; credentials and flags are insert-only. Hostnames in `GamesSeeder::GAMES` were verified live (e.g. `spaceinvaders`, `missilecommand`, `candyrush`, `lawyermemory`).
