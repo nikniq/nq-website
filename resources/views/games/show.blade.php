@@ -24,7 +24,7 @@
     </div>
 
     @if($game->thumbnailUrl())
-        <div class="card" style="margin:1rem 0;max-width:640px"><div class="thumb" style="background-image:url('{{ $game->thumbnailUrl() }}')"></div></div>
+        <div class="card" style="margin:1rem 0;max-width:640px"><span class="thumb"><img src="{{ $game->thumbnailUrl() }}" alt="{{ $game->name }}"></span></div>
     @endif
     <p>{{ $game->description }}</p>
 

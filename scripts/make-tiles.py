@@ -2,7 +2,8 @@
 # Generates the catalogue tiles in public_html/images/games/{slug}.svg.
 # Run from the project root:  python3 scripts/make-tiles.py
 # Pure standard library; every tile is a 640x360 scene built from shapes,
-# with shared glow/shadow filters, scanlines, a vignette and a title band.
+# with shared glow/shadow filters, scanlines and a vignette. Titles are
+# overlaid by the card markup, not baked in.
 import random
 W,H=640,360
 def rect(x,y,w,h,f,r=0,o=1,extra=''): return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{f}" rx="{r}" opacity="{o}" {extra}/>'
@@ -224,21 +225,21 @@ sn+=rect(354,258,28,28,'#3ddc97',7,1,GLOW)+circ(362,266,4,'#111')+circ(374,266,4
 apple=g(circ(500,112,13,'#ff3b81',1,GLOW)+circ(495,107,4,'#fff',.5)+rect(498,94,4,9,'#5a9e3a')+ell(506,97,6,3,'#7ac943'))
 games['snake']=('#0a2a18','#0f3d25','#7ac943', grid('#7ac943',32,.12)+rect(2,2,W-4,H-44,'none',6,1,'stroke="#7ac943" stroke-opacity=".4" stroke-width="3"')+sn+apple+text(24,32,'SCORE 12','#7ac943',16))
 # ---------- Pong ----------
-games['pong']=('#000','#111','#fff', "".join(rect(317,y,6,16,'#fff',0,.5) for y in range(0,320,32))+rect(40,110,12,80,'#fff',3,1,GLOW)+rect(588,160,12,80,'#fff',3,1,GLOW)+"".join(rect(380-i*26,140+i*12,14,14,'#fff',2,.08*(6-i)) for i in range(1,6))+rect(380,140,14,14,'#fff',2,1,GLOW)+text(240,70,'3','#fff',48,'monospace',.8)+text(380,70,'5','#fff',48,'monospace',.8))
+games['pong']=('#05050a','#141420','#fff', "".join(rect(317,y,6,16,'#fff',0,.5) for y in range(0,320,32))+rect(12,12,W-24,H-24,'none',6,1,'stroke="#fff" stroke-opacity=".25" stroke-width="3"')+rect(40,110,12,80,'#00d1ff',3,1,GLOW)+rect(588,160,12,80,'#ff3b81',3,1,GLOW)+"".join(circ(380-i*30,147+i*14,7-i,'#fff',.1*(7-i)) for i in range(1,7))+rect(380,140,14,14,'#fff',2,1,GLOW)+circ(387,147,22,'#fff',.12,GLOW)+text(236,74,'3','#00d1ff',52,'monospace',.9,GLOW)+text(376,74,'5','#ff3b81',52,'monospace',.9,GLOW))
 # ---------- Reversi ----------
 rv=rect(154,-6,332,332,'#1a4a2e',8)+"".join(rect(x,y,38,38,'#2e8b57' if (x//40+y//40)%2 else '#27794a') for x in range(160,480,40) for y in range(0,320,40))
 pieces=[(280,120,'#111'),(320,120,'#eee'),(280,160,'#eee'),(320,160,'#111'),(240,160,'#111'),(360,120,'#111'),(320,200,'#eee'),(360,200,'#eee'),(240,120,'#eee'),(200,160,'#eee'),(400,160,'#111')]
-rv+="".join(circ(x+21,y+22,15,'#000',.4)+circ(x+20,y+20,15,c)+circ(x+15,y+15,5,'#fff' if c=='#eee' else '#555',.5) for (x,y,c) in pieces)
+rv+="".join(ell(x+20,y+24,15,6,'#000',.45,'filter="url(#blur2)"')+circ(x+20,y+22,15,'#888' if c=='#eee' else '#000')+circ(x+20,y+19,15,c)+ell(x+16,y+13,7,4,'#fff' if c=='#eee' else '#666',.6) for (x,y,c) in pieces)+ell(320,160,220,160,'#ffc857',.12,'filter="url(#blur30)"')
 rv+=circ(420,100,15,'#ffc857',.45,GLOW)+circ(180,220,15,'#ffc857',.45,GLOW)
 games['reversi']=('#0a2e1c','#1b5e3a','#ffc857', rv)
 # ---------- Minesweeper ----------
-ms=rect(154,-6,332,332,'#9a9aa8',4)
+ms=rect(148,-12,344,344,'#5d5d70',6)+rect(154,-6,332,332,'#8f8fa0',4)
 r=random.Random(4)
 revealed={(200,80):1,(240,80):2,(280,120):3,(320,160):1,(200,200):2,(360,240):1,(240,120):0,(200,120):0,(200,160):0,(240,160):0}
 for x in range(160,480,40):
     for y in range(0,320,40):
-        if (x,y) in revealed: ms+=rect(x,y,38,38,'#c6c6d2',2)+rect(x,y,38,38,'none',2,1,'stroke="#8a8a98" stroke-width="1"')
-        else: ms+=rect(x,y,38,38,'#e4e4ec',3)+rect(x,y,38,4,'#fff',0,.8)+rect(x,y+34,38,4,'#8a8a98',0,.8)+rect(x+34,y,4,38,'#8a8a98',0,.8)
+        if (x,y) in revealed: ms+=rect(x,y,38,38,'#b4b4c4',2)+rect(x,y,38,38,'none',2,1,'stroke="#80808f" stroke-width="1"')
+        else: ms+=rect(x,y,38,38,'#d2d2de',3)+rect(x,y,38,4,'#f4f4fa',0,.9)+rect(x,y,4,38,'#f4f4fa',0,.9)+rect(x,y+34,38,4,'#7d7d8c',0,.9)+rect(x+34,y,4,38,'#7d7d8c',0,.9)
 for (x,y),n in revealed.items():
     if n: ms+=text(x+11,y+28,n,{1:'#1a3dff',2:'#0a7a0a',3:'#d00'}[n],24)
 ms+=circ(418,218,13,'#111')+"".join(line(418,218,418+dx,218+dy,'#111',3) for (dx,dy) in [(0,-18),(0,18),(-18,0),(18,0),(13,-13),(-13,13),(13,13),(-13,-13)])+circ(413,213,4,'#fff',.6)
@@ -373,9 +374,7 @@ for slug,(c1,c2,acc,body) in games.items():
 {body}
 {scanlines()}
 {vignette()}
-<rect x="0" y="{H-120}" width="{W}" height="120" fill="url(#fade)"/>
-<rect x="24" y="{H-54}" width="8" height="30" fill="{acc}" rx="2" filter="url(#glow)"/>
-<text x="44" y="{H-30}" font-family="ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial" font-size="30" font-weight="800" fill="#fff" letter-spacing="1">{title}</text>
+<rect x="0" y="{H-90}" width="{W}" height="90" fill="url(#fade)" opacity=".7"/>
 </svg>'''
     open(f'public_html/images/games/{slug}.svg','w').write(svg)
 print(len(games),"tiles")
