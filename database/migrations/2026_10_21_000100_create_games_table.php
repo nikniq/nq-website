@@ -2,12 +2,21 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     public function up(): void
     {
+        // The old nikniq.com app had a polymorphic `favourites` table (users ->
+        // products). Keep it aside so the new pivot can take the name; its rows
+        // are ported into the new table at the end of this migration.
+        $legacyFavourites = Schema::hasTable('favourites') && Schema::hasColumn('favourites', 'favoritable_type');
+        if ($legacyFavourites) {
+            Schema::rename('favourites', 'legacy_favourites');
+        }
+
         // A game hosted elsewhere (usually a nikniq.com subdomain). The row is
         // both the catalogue entry and the SSO client the game authenticates as.
         Schema::create('games', function (Blueprint $table) {
@@ -100,6 +109,38 @@ return new class extends Migration
             $table->unique(['game_id', 'user_id']);
             $table->index(['game_id', 'best_score']);
         });
+
+        if ($legacyFavourites) {
+            $this->portLegacyFavourites();
+        }
+    }
+
+    /**
+     * Old favourites pointed at `products` rows; match them to games by name.
+     * Games only exist after the seeder runs, so this also runs again from
+     * GamesSeeder, and only inserts pairs that are still missing.
+     */
+    private function portLegacyFavourites(): void
+    {
+        if (! Schema::hasTable('products') || ! Schema::hasTable('legacy_favourites')) {
+            return;
+        }
+
+        $rows = DB::table('legacy_favourites as f')
+            ->join('products as p', 'p.id', '=', 'f.favoritable_id')
+            ->join('games as g', 'g.name', '=', 'p.name')
+            ->where('f.favoritable_type', 'like', '%Product')
+            ->select('f.user_id', 'g.id as game_id', 'f.created_at')
+            ->get();
+
+        foreach ($rows as $row) {
+            DB::table('favourites')->insertOrIgnore([
+                'user_id' => $row->user_id,
+                'game_id' => $row->game_id,
+                'created_at' => $row->created_at ?? now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 
     public function down(): void
@@ -110,5 +151,8 @@ return new class extends Migration
         Schema::dropIfExists('sso_codes');
         Schema::dropIfExists('favourites');
         Schema::dropIfExists('games');
+        if (Schema::hasTable('legacy_favourites')) {
+            Schema::rename('legacy_favourites', 'favourites');
+        }
     }
 };

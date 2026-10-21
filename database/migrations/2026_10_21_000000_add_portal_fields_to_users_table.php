@@ -6,18 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Guarded: the production database is inherited from the old nikniq.com
+     * app, whose users table already carries is_admin and avatar.
+     */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(false)->after('password');
-            $table->string('avatar', 2048)->nullable()->after('is_admin');
+            if (! Schema::hasColumn('users', 'is_admin')) {
+                $table->boolean('is_admin')->default(false)->after('password');
+            }
+            if (! Schema::hasColumn('users', 'avatar')) {
+                $table->string('avatar', 2048)->nullable();
+            }
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['is_admin', 'avatar']);
-        });
+        // Columns may predate this app; leave them in place.
     }
 };

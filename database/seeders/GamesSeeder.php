@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Game;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Starter catalogue: the nq-* games. Safe to re-run: existing rows keep their
@@ -77,6 +79,35 @@ class GamesSeeder extends Seeder
                 'is_enabled' => true,
                 'is_featured' => $g['featured'] ?? false,
                 'sort_order' => $i,
+            ]);
+        }
+
+        $this->portLegacyFavourites();
+    }
+
+    /**
+     * Favourites inherited from the old nikniq.com database pointed at
+     * `products`; match them to games by name now that the games exist.
+     */
+    private function portLegacyFavourites(): void
+    {
+        if (! Schema::hasTable('legacy_favourites') || ! Schema::hasTable('products')) {
+            return;
+        }
+
+        $rows = DB::table('legacy_favourites as f')
+            ->join('products as p', 'p.id', '=', 'f.favoritable_id')
+            ->join('games as g', 'g.name', '=', 'p.name')
+            ->where('f.favoritable_type', 'like', '%Product')
+            ->select('f.user_id', 'g.id as game_id', 'f.created_at')
+            ->get();
+
+        foreach ($rows as $row) {
+            DB::table('favourites')->insertOrIgnore([
+                'user_id' => $row->user_id,
+                'game_id' => $row->game_id,
+                'created_at' => $row->created_at ?? now(),
+                'updated_at' => now(),
             ]);
         }
     }
