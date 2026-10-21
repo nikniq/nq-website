@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# Generates the catalogue tiles in public_html/images/games/{slug}.svg.
+# Run from the project root:  python3 scripts/make-tiles.py
+# Pure standard library; every tile is a 640x360 scene built from shapes,
+# with shared glow/shadow filters, scanlines, a vignette and a title band.
 import random
 W,H=640,360
 def rect(x,y,w,h,f,r=0,o=1,extra=''): return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{f}" rx="{r}" opacity="{o}" {extra}/>'
