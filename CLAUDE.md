@@ -13,7 +13,7 @@ php artisan test                    # in-memory sqlite via phpunit.xml
 ./vendor/bin/pint                   # code style
 ```
 
-Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, migrate, optional seeder, optimize). `cx.sh [--fix]` is a server-side setup checker that reads config through tinker; it needs no settings file.
+Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, migrate, optional seeder, optimize). `cx.sh [--fix | --mail addr]` is a server-side setup checker that reads config through tinker; it needs no settings file. `--mail` sends a test message and a rendered sign-up email.
 
 ## Layout
 

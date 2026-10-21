@@ -7,8 +7,9 @@
 # config are honoured.
 #
 # Usage:
-#   ./cx.sh          report problems only
-#   ./cx.sh --fix    report and apply corrections
+#   ./cx.sh                        report problems only
+#   ./cx.sh --fix                  report and apply corrections
+#   ./cx.sh --mail you@example.com send a test email through the configured mailer
 #
 # Checks: PHP binary, version and extensions, Composer, vendor/ and its
 # platform check, .env and APP_KEY (generated if missing), APP_DEBUG in
@@ -21,7 +22,13 @@ set -u
 cd "$(dirname "$0")"
 
 FIX=0
-[ "${1:-}" = "--fix" ] && FIX=1
+MAIL_TO=""
+case "${1:-}" in
+    --fix) FIX=1 ;;
+    --mail)
+        MAIL_TO="${2:-}"
+        if [ -z "$MAIL_TO" ]; then echo "Usage: ./cx.sh --mail you@example.com"; exit 1; fi ;;
+esac
 
 PHP_BIN="${PHP_BIN:-php}"
 COMPOSER_BIN="${COMPOSER_BIN:-composer}"
@@ -215,6 +222,57 @@ if [ "$db_ping" = "up" ]; then
 
     if [ "$session_driver" = "database" ] && ! tinker 'echo Schema::hasTable("sessions") ? "yes" : "no";' | grep -q yes; then
         fail "SESSION_DRIVER=database but the sessions table is missing (run migrations)"
+    fi
+fi
+
+# --- mail (sign-up links depend on it) -------------------------------------
+mail_info=$(tinker 'echo implode("|", [config("mail.default"), config("mail.mailers.".config("mail.default").".host") ?? "", config("mail.mailers.".config("mail.default").".port") ?? "", config("mail.from.address") ?? "", config("mail.from.name") ?? ""]);')
+IFS='|' read -r mail_driver mail_host mail_port mail_from mail_from_name <<<"$mail_info"
+
+case "$mail_driver" in
+    log|array)
+        if [ "$app_env" = "production" ]; then
+            fail "MAIL_MAILER=$mail_driver in production: sign-up links are written to the log, never sent. Set MAIL_MAILER=smtp and MAIL_HOST/PORT/USERNAME/PASSWORD/SCHEME in .env"
+        else
+            warn "MAIL_MAILER=$mail_driver: sign-up links go to storage/logs/laravel.log (fine locally)"
+        fi ;;
+    smtp)
+        ok "mail: smtp $mail_host:$mail_port from $mail_from"
+        [ -z "$mail_host" ] && fail "MAIL_HOST is empty" ;;
+    *)
+        ok "mail: $mail_driver from $mail_from" ;;
+esac
+if [ -z "$mail_from" ] || [[ "$mail_from" == *example.com ]]; then
+    if [ "$app_env" = "production" ]; then
+        fail "MAIL_FROM_ADDRESS is '$mail_from'; set a real sender such as hello@nikniq.com or messages will be rejected"
+    else
+        warn "MAIL_FROM_ADDRESS is '$mail_from' (set a real sender before going live)"
+    fi
+fi
+if [ "$app_env" = "production" ] && [[ "$app_url" != https://* ]]; then
+    fail "APP_URL=$app_url: sign-up links are signed against APP_URL and must use the public https address"
+fi
+
+if [ -n "$MAIL_TO" ]; then
+    echo
+    echo "Sending a test email to $MAIL_TO via $mail_driver ..."
+    mail_result=$(tinker 'try { Mail::raw("Test message from ".config("portal.name")." at ".now()->toDateTimeString()." (mailer: ".config("mail.default").")", fn ($m) => $m->to("'"$MAIL_TO"'")->subject("[".config("portal.name")."] mail test")); echo "sent"; } catch (\Throwable $e) { echo "error: ".$e->getMessage(); }')
+    if [ "$mail_result" = "sent" ]; then
+        if [ "$mail_driver" = "log" ]; then
+            ok "accepted by the log mailer; see storage/logs/laravel.log (nothing was delivered)"
+        else
+            ok "accepted by $mail_driver. Check the inbox (and spam folder) of $MAIL_TO"
+        fi
+    else
+        fail "mail send failed: ${mail_result#error: }"
+    fi
+    echo
+    echo "Sending a sign-up link preview to $MAIL_TO ..."
+    link_result=$(tinker '$u = App\Models\User::firstOrNew(["email" => "'"$MAIL_TO"'"], ["name" => "cx test"]); if (! $u->exists) { $u->id = 0; } try { Mail::to("'"$MAIL_TO"'")->send(new App\Mail\VerifyEmail($u)); echo "sent"; } catch (\Throwable $e) { echo "error: ".$e->getMessage(); }')
+    if [ "$link_result" = "sent" ]; then
+        ok "sign-up email rendered and accepted (the link in it is a preview and will not verify an account)"
+    else
+        fail "sign-up email failed: ${link_result#error: }"
     fi
 fi
 

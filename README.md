@@ -39,6 +39,8 @@ MAIL_FROM_ADDRESS=hello@nikniq.com
 
 With `MAIL_MAILER=log` (the default) the link is written to `storage/logs/laravel.log` instead of being sent.
 
+To test delivery, `./cx.sh` reports the mailer, sender and `APP_URL` problems, and `./cx.sh --mail you@example.com` sends a plain test message plus a rendered sign-up email through the configured mailer, printing the SMTP error if the server rejects it.
+
 ### Google sign-in
 
 Create an OAuth client in Google Cloud with the authorised redirect URI `https://nikniq.com/auth/google/callback`, then set in `.env`:
@@ -140,7 +142,7 @@ Two scripts, both run on the server from the project root:
 | Script | Purpose |
 | --- | --- |
 | `deploy.sh` | pull, `composer install` if the lockfile moved, migrate, rebuild caches (optionally run a seeder: `./deploy.sh GamesSeeder` or `--seed`) |
-| `cx.sh` | setup checker: PHP and extensions, Composer and vendor/, `.env` and `APP_KEY`, `APP_DEBUG`, database connection, pending migrations, empty catalogue, admin user, storage permissions and link, stale config cache. `./cx.sh --fix` applies the corrections (migrate, seed, key, chmod, caches). |
+| `cx.sh` | setup checker: PHP and extensions, Composer and vendor/, `.env` and `APP_KEY`, `APP_DEBUG`, database connection, pending migrations, empty catalogue, admin user, mail configuration, storage permissions and link, stale config cache. `./cx.sh --fix` applies the corrections (migrate, seed, key, chmod, caches); `./cx.sh --mail you@example.com` sends a test email. |
 
 `cx.sh` needs no settings file: it reads the database and app settings from the app's own config through `php artisan tinker`.
 
