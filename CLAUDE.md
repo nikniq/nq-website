@@ -13,7 +13,7 @@ php artisan test                    # in-memory sqlite via phpunit.xml
 ./vendor/bin/pint                   # code style
 ```
 
-`deploy.sh` runs on the server (pull, composer if lockfile moved, migrate, optimize).
+Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, migrate, optional seeder, optimize). `cx.sh` runs locally and drives the server over SSH; it needs a gitignored `vars.sh` copied from `vars.sh.example`. Never copy `cx.sh` to the server.
 
 ## Layout
 

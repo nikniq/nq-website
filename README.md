@@ -102,7 +102,22 @@ const { access_token, player } = await res.json();
 
 ## Deployment
 
-`deploy.sh` runs on the server: pull, `composer install` if the lockfile moved, migrate, rebuild caches. Point the web server (or the hosting account's document root) at `public_html/`. The app has no front-end build step; views use inline CSS.
+Two scripts, running in opposite places:
+
+| Script | Runs on | Purpose |
+| --- | --- | --- |
+| `deploy.sh` | the **server** | pull, `composer install` if the lockfile moved, migrate, rebuild caches (optionally run a seeder: `./deploy.sh GamesSeeder` or `--seed`) |
+| `cx.sh` | your **local machine** | SSH menu: deploy, compare what's live, caches, logs, health check, game/player stats, promote admin, purge expired SSO rows, maintenance mode, backups |
+
+`cx.sh` reads `vars.sh` (gitignored, holds host and account details): copy `vars.sh.example` to `vars.sh` and fill it in. Never copy `cx.sh` to the server.
+
+```bash
+git push                 # the server deploys by pulling, so unpushed commits never deploy
+./cx.sh 20               # deploy
+./cx.sh 30               # health check the live site
+```
+
+Point the web server (or the hosting account's document root) at `public_html/`. The app has no front-end build step; views use inline CSS.
 
 ## Layout
 

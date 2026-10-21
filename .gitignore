@@ -25,3 +25,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# cx.sh local settings (hosts and accounts) and its output
+vars.sh
+/log
+/backups
