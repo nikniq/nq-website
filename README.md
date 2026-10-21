@@ -102,19 +102,19 @@ const { access_token, player } = await res.json();
 
 ## Deployment
 
-Two scripts, running in opposite places:
+Two scripts, both run on the server from the project root:
 
-| Script | Runs on | Purpose |
-| --- | --- | --- |
-| `deploy.sh` | the **server** | pull, `composer install` if the lockfile moved, migrate, rebuild caches (optionally run a seeder: `./deploy.sh GamesSeeder` or `--seed`) |
-| `cx.sh` | your **local machine** | SSH menu: deploy, compare what's live, caches, logs, health check, game/player stats, promote admin, purge expired SSO rows, maintenance mode, backups |
+| Script | Purpose |
+| --- | --- |
+| `deploy.sh` | pull, `composer install` if the lockfile moved, migrate, rebuild caches (optionally run a seeder: `./deploy.sh GamesSeeder` or `--seed`) |
+| `cx.sh` | setup checker: PHP and extensions, Composer and vendor/, `.env` and `APP_KEY`, `APP_DEBUG`, database connection, pending migrations, empty catalogue, admin user, storage permissions and link, stale config cache. `./cx.sh --fix` applies the corrections (migrate, seed, key, chmod, caches). |
 
-`cx.sh` reads `vars.sh` (gitignored, holds host and account details): copy `vars.sh.example` to `vars.sh` and fill it in. Never copy `cx.sh` to the server.
+`cx.sh` needs no settings file: it reads the database and app settings from the app's own config through `php artisan tinker`.
 
 ```bash
-git push                 # the server deploys by pulling, so unpushed commits never deploy
-./cx.sh 20               # deploy
-./cx.sh 30               # health check the live site
+git push             # the server deploys by pulling, so unpushed commits never deploy
+./deploy.sh          # on the server
+./cx.sh --fix        # on the server, when something looks wrong
 ```
 
 Point the web server (or the hosting account's document root) at `public_html/`. The app has no front-end build step; views use inline CSS.

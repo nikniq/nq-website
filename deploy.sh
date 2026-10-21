@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Production deploy for the NikniQ Games portal. Run ON the server from the
-# project root (its local counterpart is cx.sh, which drives this over SSH):
+# project root (cx.sh checks the setup and can fix it; deploy.sh updates it):
 #
 #   ./deploy.sh                 # pull + composer (if lockfile moved) + migrate + caches
 #   ./deploy.sh GamesSeeder     # ...and re-run one seeder class
