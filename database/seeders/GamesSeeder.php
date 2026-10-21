@@ -53,7 +53,10 @@ class GamesSeeder extends Seeder
         $i = 0;
         foreach (self::GAMES as $slug => [$name, $host, $genre, $description]) {
             $featured = (bool) (self::GAMES[$slug][4] ?? false);
-            $thumb = "/images/games/{$slug}.svg";
+            // A real screenshot (jpg/png) wins over the generated SVG tile.
+            $thumb = collect(['jpg', 'png', 'svg'])
+                ->map(fn ($ext) => "/images/games/{$slug}.{$ext}")
+                ->first(fn ($path) => file_exists(public_path($path)));
 
             $catalogue = [
                 'name' => $name,
@@ -61,7 +64,7 @@ class GamesSeeder extends Seeder
                 'genre' => $genre,
                 'tags' => ['browser'],
                 'url' => "https://{$host}.nikniq.com",
-                'thumbnail' => file_exists(public_path($thumb)) ? $thumb : null,
+                'thumbnail' => $thumb,
                 'sort_order' => $i++,
             ];
 
