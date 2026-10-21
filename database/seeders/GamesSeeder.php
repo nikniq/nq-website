@@ -43,8 +43,13 @@ class GamesSeeder extends Seeder
         'doctor-memory' => ['Doctor Memory', 'doctormemory', 'Puzzle', 'A medical-themed memory matching game.'],
     ];
 
+    /** Seeded in an earlier version but with no live site: disabled, not deleted, so any stats survive. */
+    public const RETIRED = ['field-command'];
+
     public function run(): void
     {
+        Game::whereIn('slug', self::RETIRED)->update(['is_enabled' => false]);
+
         $i = 0;
         foreach (self::GAMES as $slug => [$name, $host, $genre, $description]) {
             $featured = (bool) (self::GAMES[$slug][4] ?? false);
