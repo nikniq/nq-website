@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -26,6 +27,22 @@ $app = Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        // A missing page (old nikniq.com URL, typo, stale link, unknown game
+        // slug) sends the visitor to the catalogue instead of a 404 page.
+        // API calls and asset-like paths (anything with a file extension)
+        // still get a real 404 so clients and crawlers are not misled.
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/*') || $request->expectsJson() || ! $request->isMethod('GET')) {
+                return null;
+            }
+            if (preg_match('/\.[a-z0-9]{2,5}$/i', $request->path())) {
+                return null;
+            }
+
+            return redirect()->route('games.index')
+                ->with('status', 'That page does not exist here, so here is the games catalogue.');
+        });
     })->create();
 
 // The web root is public_html (shared hosting convention), not public.

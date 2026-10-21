@@ -34,6 +34,7 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - Google sign-in lives in `Auth\SocialLoginController` (Socialite), enabled by `GOOGLE_OAUTH_ENABLED`. OAuth-only users have `password = null`; `User::hasPassword()` gates the login form, unlinking, and the current-password check. Tests mock `Socialite::shouldReceive('driver')` (see `tests/Feature/GoogleLoginTest.php`).
 - Google Analytics: `portal.ga_measurement_id`, rendered by the layout in production only (`portal.ga_always` forces it).
 - Seeded catalogue fields are refreshed on every `GamesSeeder` run; credentials and flags are insert-only. Hostnames in `GamesSeeder::GAMES` were verified live (e.g. `spaceinvaders`, `missilecommand`, `candyrush`, `lawyermemory`).
+- `/sitemap.xml` is `SitemapController`, cached under `sitemap.xml`; the `Game` model forgets it on save/delete. `bootstrap/app.php` turns `NotFoundHttpException` on HTML GETs without a file extension into a redirect to `games.index`; API, assets and non-GET keep a 404.
 - Admin is the `users.is_admin` flag (`EnsureUserIsAdmin`, alias `admin`). The client secret is shown once after create/rotate via the `client_secret` flash.
 
 ## Conventions

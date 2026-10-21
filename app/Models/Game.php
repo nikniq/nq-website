@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -29,6 +30,13 @@ class Game extends Model
         'is_enabled' => 'boolean',
         'is_featured' => 'boolean',
     ];
+
+    protected static function booted(): void
+    {
+        $forget = fn () => Cache::forget('sitemap.xml');
+        static::saved($forget);
+        static::deleted($forget);
+    }
 
     public function getRouteKeyName(): string
     {

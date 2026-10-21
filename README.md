@@ -69,6 +69,9 @@ Google sign-up requires a verified Google email. A Google email only takes over 
 | `/dashboard` | Totals across all games, favourites, per-game stats, recent activity |
 | `/profile` | Name/email, password, and the list of games currently signed in (sign out of one or all) |
 | `/admin/games` | Admin CRUD for games and their SSO credentials (`users.is_admin`) |
+| `/sitemap.xml` | Generated sitemap: catalogue, sign-up, every enabled game and leaderboard, with tile images. Cached 30 minutes, dropped when a game changes |
+
+Unknown HTML pages (old nikniq.com URLs, typos, unknown game slugs) redirect to the catalogue with a note. API calls, paths that look like files, and non-GET requests still return 404.
 
 ## Integrating a game
 

@@ -1,2 +1,12 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /sso/
+Disallow: /api/
+Disallow: /register/verify/
+Disallow: /register/password
+Disallow: /auth/
+
+Sitemap: https://nikniq.com/sitemap.xml

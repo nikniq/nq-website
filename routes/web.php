@@ -8,11 +8,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\GamesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Sso\AuthorizeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GamesController::class, 'index'])->name('games.index');
 Route::get('/games', fn () => redirect()->route('games.index', request()->query()));
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/games/{game}', [GamesController::class, 'show'])->name('games.show');
 Route::get('/games/{game}/play', [GamesController::class, 'play'])->name('games.play');
 Route::get('/games/{game}/leaderboard', [GamesController::class, 'leaderboard'])->name('games.leaderboard');
