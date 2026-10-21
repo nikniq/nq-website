@@ -42,6 +42,76 @@ def card(x,y,w,h,face,back=False):
 def scanlines(): return '<rect width="640" height="360" fill="url(#scan)" opacity=".18"/>'
 def vignette(): return '<rect width="640" height="360" fill="url(#vig)"/>'
 
+
+# ---------- Backgrounds ----------
+# Each returns markup drawn between the base gradient and the motif.
+def nebula(seed, c1, c2, c3='#000'):
+    r=random.Random(seed); out=f'<rect width="{W}" height="{H}" fill="url(#neb)" opacity=".9"/>'
+    for _ in range(4):
+        out+=ell(r.randint(0,W),r.randint(0,H),r.randint(120,260),r.randint(60,140),r.choice([c1,c2]),r.choice([.14,.2,.26]),'filter="url(#blur30)"')
+    return out+rect(0,0,W,H,'url(#grain)',0,.25)
+def sky_bg(seed, horizon=240, sun=None, band='#ffd27a'):
+    out=f'<rect width="{W}" height="{H}" fill="url(#skyg)"/>'
+    out+=ell(W/2,horizon,W*.8,70,band,.18,'filter="url(#blur30)"')
+    r=random.Random(seed)
+    for _ in range(5):
+        x,y=r.randint(0,W),r.randint(30,horizon-80); w=r.randint(50,110)
+        out+="".join(ell(x+dx,y+dy,rx,ry,'#fff',.85,'filter="url(#blur2)"') for (dx,dy,rx,ry) in [(0,0,w,14),(w*.4,-8,w*.6,16),(-w*.4,-4,w*.5,12)])
+    return out
+def stone(seed, dark='#1a1326', light='#2a2040', size=40):
+    r=random.Random(seed); out=f'<rect width="{W}" height="{H}" fill="url(#stoneg)"/>'
+    for y in range(0,H,size):
+        for x in range(0,W,size):
+            out+=rect(x,y,size,size,r.choice([dark,light,light]),0,.9)+rect(x,y,size,size,'none',0,1,f'stroke="#0d0a14" stroke-width="2"')
+            if r.random()<.2: out+=rect(x+r.randint(4,20),y+r.randint(4,20),r.randint(4,10),r.randint(2,6),'#0d0a14',1,.7)
+    return out+rect(0,0,W,H,'url(#grain)',0,.35)
+def felt(c='#1b5e3a'):
+    return f'<rect width="{W}" height="{H}" fill="{c}"/>'+rect(0,0,W,H,'url(#grain)',0,.45)+ell(W/2,H/2,420,260,'#fff',.07,'filter="url(#blur30)"')
+def arcade_floor(c='#ff3b81', horizon=150):
+    out=f'<rect width="{W}" height="{H}" fill="url(#arcg)"/>'
+    out+=ell(W/2,horizon,420,120,c,.18,'filter="url(#blur30)"')
+    # perspective floor grid
+    for i in range(-8,9):
+        out+=line(W/2+i*20,horizon,W/2+i*160,H,c,1,.25)
+    y=horizon; step=6
+    while y<H:
+        out+=line(0,y,W,y,c,1,.25); y+=step; step*=1.28
+    return out
+def wood(seed='#5a3e2b'):
+    out=f'<rect width="{W}" height="{H}" fill="{seed}"/>'
+    r=random.Random(5)
+    for y in range(0,H,24): out+=rect(0,y,W,22,'#000',0,r.choice([.05,.1,.15]))+line(0,y+22,W,y+22,'#2e1d0f',2,.6)
+    return out+rect(0,0,W,H,'url(#grain)',0,.3)
+def water(c1='#163e5a', c2='#1b4b7a'):
+    out=f'<rect width="{W}" height="{H}" fill="{c1}"/>'
+    for y in range(20,H,34): out+=path(f"M 0 {y} Q 80 {y-8} 160 {y} T 320 {y} T 480 {y} T 640 {y}",'none',c2,3,.6)
+    return out
+
+BACKGROUNDS = {
+    'chopper': lambda: nebula(1,'#0e2a5a','#1b3a6b'),
+    'blockworld': lambda: sky_bg(2,250,band='#fff2b0'),
+    'towers': lambda: arcade_floor('#ff3b81',140),
+    'dungeon': lambda: stone(7),
+    'space-invaders': lambda: nebula(5,'#0b2a1a','#1a0b2e'),
+    'missile-command': lambda: nebula(3,'#2a0b2e','#0b1a3a'),
+    'asteroids': lambda: nebula(9,'#101030','#1a1a40'),
+    'pacman': lambda: arcade_floor('#2a2aff',120),
+    'tetris': lambda: arcade_floor('#00d1ff',130),
+    'snake': lambda: felt('#0f3d25'),
+    'pong': lambda: rect(0,0,W,H,'url(#grain)',0,.35)+ell(W/2,H/2,380,230,'#fff',.06,'filter="url(#blur30)"'),
+    'reversi': lambda: felt('#1b5e3a'),
+    'minesweeper': lambda: stone(4,'#2b2b3a','#343446',80),
+    'candy': lambda: ell(W/2,H/2,420,260,'#fff',.25,'filter="url(#blur30)"')+"".join(circ(x,y,r_,'#fff',.25) for (x,y,r_) in [(60,60,40),(600,80,30),(80,300,28),(580,300,46),(320,20,24)]),
+    'space-huggers': lambda: nebula(7,'#4a1a5e','#1a0b2e'),
+    'miniciv': lambda: water(),
+    'dwarfs': lambda: stone(15,'#3f2a18','#5a3e2b'),
+    'woolfie': lambda: stone(16,'#3a2d1e','#4a3a28',80),
+    'lawyer-memory': lambda: wood('#2d4a7a'),
+    'doctor-memory': lambda: rect(0,0,W,H,'url(#grain)',0,.3)+"".join(line(0,y,W,y,'#fff',1,.08) for y in range(0,H,20))+"".join(line(x,0,x,H,'#fff',1,.08) for x in range(0,W,20)),
+    'frogger': lambda: water('#0b1a2b','#163e5a'),
+    'bomberman': lambda: rect(0,0,W,H,'url(#grain)',0,.3)+"".join(line(x,0,x,H,'#000',1,.06) for x in range(0,W,8)),
+}
+
 games={}
 # ---------- Chopper ----------
 games['chopper']=('#071226','#153a6b','#00d1ff',
@@ -282,6 +352,14 @@ defs='''<defs>
 <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".85"/></linearGradient>
 <radialGradient id="vig" cx=".5" cy=".45" r=".75"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
 <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000"/></pattern>
+<radialGradient id="neb" cx=".3" cy=".3" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient>
+<linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7bd0"/><stop offset=".7" stop-color="#9fd8ff"/><stop offset="1" stop-color="#d9f0ff"/></linearGradient>
+<linearGradient id="stoneg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></linearGradient>
+<linearGradient id="arcg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".4" stop-color="#000" stop-opacity=".35"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></linearGradient>
+<filter id="grainf" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .5 0"/></filter>
+<pattern id="grain" width="160" height="160" patternUnits="userSpaceOnUse"><rect width="160" height="160" filter="url(#grainf)"/></pattern>
+<filter id="blur30" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30"/></filter>
+<filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
 <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".5"/></filter>
@@ -291,6 +369,7 @@ for slug,(c1,c2,acc,body) in games.items():
     svg=f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="{title}">
 {defs.format(c1=c1,c2=c2)}
 <rect width="{W}" height="{H}" fill="url(#bg)"/>
+{BACKGROUNDS[slug]() if slug in BACKGROUNDS else ""}
 {body}
 {scanlines()}
 {vignette()}
