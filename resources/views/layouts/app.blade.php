@@ -56,6 +56,21 @@
         .fav { font-size:1.1rem; } .fav.on { color:var(--gold); }
         .badge { display:inline-block; padding:.15rem .5rem; border-radius:4px; font-size:.75rem; font-weight:800; background:var(--accent); color:#fff; }
         .badge.muted { background:var(--panel-2); color:var(--muted); }
+        .badge.calm { background:#1f5a4a; color:#9ff0d4; }
+        .filters { display:flex; flex-direction:column; gap:.5rem; margin:0 0 1rem; }
+        .chips { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; }
+        .chip { display:inline-block; padding:.3rem .75rem; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--muted); font-size:.85rem; font-weight:700; text-decoration:none; transition:background .15s, color .15s, border-color .15s; }
+        .chip:hover { color:var(--text); border-color:rgba(0,209,255,.45); text-decoration:none; }
+        .chip.on { background:var(--accent-2); color:#021122; border-color:var(--accent-2); }
+        .chip.pink.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+        .chip.gold.on { background:var(--gold); color:#2a1d00; border-color:var(--gold); }
+        .chip.calm.on { background:#3ddc97; color:#032a1c; border-color:#3ddc97; }
+        .sort { margin-left:auto; display:flex; gap:.5rem; align-items:center; font-size:.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+        .sort a { color:var(--muted); font-weight:700; text-transform:none; letter-spacing:0; font-size:.85rem; }
+        .sort a.on { color:var(--text); text-decoration:underline; text-decoration-color:var(--accent-2); text-underline-offset:4px; }
+        .card .tag { position:absolute; left:12px; top:12px; padding:.25rem .6rem; border-radius:999px; background:rgba(3,42,28,.85); color:#9ff0d4; font-size:.7rem; font-weight:800; letter-spacing:.4px; backdrop-filter:blur(4px); }
+        .card.featured .tag { top:auto; bottom:58px; }
+        @media (max-width:700px){ .sort { margin-left:0; flex-wrap:wrap; } }
         .search { display:flex; gap:.5rem; margin:0 0 1.2rem; }
         .search input { flex:1; padding:.7rem .9rem; border-radius:10px; border:1px solid var(--line); background:#fff; color:#0b1220; font-size:1rem; }
         table { width:100%; border-collapse:collapse; background:var(--panel); border-radius:10px; overflow:hidden; }

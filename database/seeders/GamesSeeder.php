@@ -10,14 +10,15 @@ use Illuminate\Support\Facades\Schema;
 /**
  * The catalogue: the nq-* games on their nikniq.com subdomains.
  *
- * Catalogue fields (name, description, genre, URL, thumbnail, order) are
+ * Catalogue fields (name, description, genre, URL, thumbnail, order,
+ * dementia flag) are
  * owned by this seeder and refreshed on every run. Credentials and the
- * enabled/featured/public flags are set once on insert and never touched
- * again, so admin changes to them survive a re-seed.
+ * enabled/featured/public flags are set once on insert and never
+ * touched again, so admin changes to them survive a re-seed.
  */
 class GamesSeeder extends Seeder
 {
-    /** slug => [name, host (subdomain of nikniq.com), genre, description, featured?] */
+    /** slug => [name, host (subdomain of nikniq.com), genre, description, featured?, dementia?] */
     public const GAMES = [
         'chopper' => ['Chopper', 'chopper', 'Arcade', 'Pilot a rescue helicopter through tight caverns, dodge obstacles and bring everyone home.', true],
         'blockworld' => ['Blockworld', 'blockworld', 'Sandbox', 'Mine by day, survive the night: a voxel survival world built block by block.', true],
@@ -34,13 +35,13 @@ class GamesSeeder extends Seeder
         'bomberman' => ['Bomberman', 'bomberman', 'Arcade', 'Drop bombs, clear the maze and outlast your rivals.'],
         'minesweeper' => ['Minesweeper', 'minesweeper', 'Puzzle', 'Clear the field without setting off a mine.'],
         'reversi' => ['Reversi', 'reversi', 'Board', 'Flip discs and own the board in this Othello-style strategy game.'],
-        'candy' => ['Candy Rush', 'candyrush', 'Puzzle', 'Match three candies and clear the board in this sweet puzzle.'],
+        'candy' => ['Candy Rush', 'candyrush', 'Puzzle', 'Match three candies and clear the board in this sweet puzzle.', false, true],
         'space-huggers' => ['Space Huggers', 'spacehuggers', 'Platformer', 'A run-and-gun platformer against an empire spreading across the galaxy.'],
         'miniciv' => ['MiniCiv', 'miniciv', 'Strategy', 'A pocket-sized civilisation builder.'],
         'dwarfs' => ['Dwarfs', 'dwarfs', 'Adventure', 'Dwarfs: There and Back Again. Dig, gather and get the party home.'],
         'woolfie' => ['Castle Wolf', 'woolfie', 'Stealth', 'A tiny top-down stealth game: find the key, open the doors, reach the exit.'],
-        'lawyer-memory' => ['Legal Memory', 'lawyermemory', 'Puzzle', 'Flip the cards, find the pairs, close the case: a legal-themed memory game.'],
-        'doctor-memory' => ['Doctor Memory', 'doctormemory', 'Puzzle', 'A medical-themed memory matching game.'],
+        'lawyer-memory' => ['Legal Memory', 'lawyermemory', 'Puzzle', 'Flip the cards, find the pairs, close the case: a legal-themed memory game.', false, true],
+        'doctor-memory' => ['Doctor Memory', 'doctormemory', 'Puzzle', 'A medical-themed memory matching game.', false, true],
     ];
 
     /** Seeded in an earlier version but with no live site: disabled, not deleted, so any stats survive. */
@@ -53,6 +54,7 @@ class GamesSeeder extends Seeder
         $i = 0;
         foreach (self::GAMES as $slug => [$name, $host, $genre, $description]) {
             $featured = (bool) (self::GAMES[$slug][4] ?? false);
+            $dementia = (bool) (self::GAMES[$slug][5] ?? false);
             // A real screenshot (jpg/png) wins over the generated SVG tile.
             $thumb = collect(['jpg', 'png', 'svg'])
                 ->map(fn ($ext) => "/images/games/{$slug}.{$ext}")
@@ -66,6 +68,8 @@ class GamesSeeder extends Seeder
                 'url' => "https://{$host}.nikniq.com",
                 'thumbnail' => $thumb,
                 'sort_order' => $i++,
+                // Seeder-owned like the other catalogue fields: the list in GAMES is the source of truth.
+                'is_dementia' => $dementia,
             ];
 
             $game = Game::where('slug', $slug)->first();

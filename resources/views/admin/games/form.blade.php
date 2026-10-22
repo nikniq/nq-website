@@ -39,6 +39,7 @@
         <label class="inline"><input type="hidden" name="is_public" value="0"><input type="checkbox" name="is_public" value="1" @checked(old('is_public', $game->is_public))> Public client (browser-only game, PKCE instead of a secret)</label>
         <label class="inline"><input type="hidden" name="is_enabled" value="0"><input type="checkbox" name="is_enabled" value="1" @checked(old('is_enabled', $game->is_enabled ?? true))> Enabled</label>
         <label class="inline"><input type="hidden" name="is_featured" value="0"><input type="checkbox" name="is_featured" value="1" @checked(old('is_featured', $game->is_featured))> Featured</label>
+        <label class="inline"><input type="hidden" name="is_dementia" value="0"><input type="checkbox" name="is_dementia" value="1" @checked(old('is_dementia', $game->is_dementia))> Dementia-friendly (calm pace, simple rules, no time pressure; shown as a catalogue filter)</label>
         <label>Admin notes <textarea name="notes">{{ old('notes', $game->notes) }}</textarea></label>
         <div class="row"><button class="btn" type="submit">{{ $game->exists ? 'Save' : 'Create game' }}</button></div>
     </form>

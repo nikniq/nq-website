@@ -18,7 +18,7 @@ class Game extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'url', 'thumbnail', 'genre', 'tags',
         'client_id', 'client_secret', 'redirect_uris',
-        'is_public', 'is_enabled', 'is_featured', 'sort_order', 'notes',
+        'is_public', 'is_enabled', 'is_featured', 'is_dementia', 'sort_order', 'notes',
     ];
 
     protected $hidden = ['client_secret'];
@@ -29,6 +29,7 @@ class Game extends Model
         'is_public' => 'boolean',
         'is_enabled' => 'boolean',
         'is_featured' => 'boolean',
+        'is_dementia' => 'boolean',
     ];
 
     protected static function booted(): void
@@ -80,6 +81,37 @@ class Game extends Model
                 ->orWhere('description', 'like', "%{$term}%")
                 ->orWhere('genre', 'like', "%{$term}%");
         });
+    }
+
+    /**
+     * Catalogue filters shared by the web and API listings.
+     *
+     * @param  array{genre?:string|null, featured?:bool, dementia?:bool, sort?:string|null}  $filters
+     */
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        if (! empty($filters['genre'])) {
+            $query->where('genre', $filters['genre']);
+        }
+        if (! empty($filters['featured'])) {
+            $query->where('is_featured', true);
+        }
+        if (! empty($filters['dementia'])) {
+            $query->where('is_dementia', true);
+        }
+
+        return match ($filters['sort'] ?? null) {
+            'name' => $query->orderBy('name'),
+            'newest' => $query->orderByDesc('created_at')->orderBy('name'),
+            'popular' => $query->orderByDesc('favourited_by_count')->orderBy('name'),
+            default => $query->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('name'),
+        };
+    }
+
+    /** Distinct genres of enabled games, for the filter chips. */
+    public static function genres(): array
+    {
+        return static::enabled()->whereNotNull('genre')->distinct()->orderBy('genre')->pluck('genre')->all();
     }
 
     public static function generateClientId(): string

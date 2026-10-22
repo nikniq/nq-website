@@ -12,6 +12,7 @@
             @if($game->genre)<em>{{ $game->genre }}</em>@endif
         </span>
         @if($game->is_featured)<span class="ribbon">Featured</span>@endif
+        @if($game->is_dementia)<span class="tag calm" title="Calm pace, simple rules, no time pressure">☺ Dementia-friendly</span>@endif
     </a>
     @auth
         <form class="fav-form" method="post" action="{{ route('games.favourite', $game) }}">@csrf

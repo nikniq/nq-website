@@ -41,6 +41,10 @@ With `MAIL_MAILER=log` (the default) the link is written to `storage/logs/larave
 
 To test delivery, `./cx.sh` reports the mailer, sender and `APP_URL` problems, and `./cx.sh --mail you@example.com` sends a plain test message plus a rendered sign-up email through the configured mailer, printing the SMTP error if the server rejects it.
 
+### Dementia-friendly flag
+
+Games can be marked *Dementia-friendly* (calm pace, simple rules, no time pressure) in the admin form or in `GamesSeeder::GAMES` (sixth element). The flag shows as a badge on cards and game pages and as a catalogue filter (`?dementia=1`). The seeder owns the flag along with the other catalogue fields, so edit the seeder list for permanent changes.
+
 ### Google sign-in
 
 Create an OAuth client in Google Cloud with the authorised redirect URI `https://nikniq.com/auth/google/callback`, then set in `.env`:
@@ -62,7 +66,7 @@ Google sign-up requires a verified Google email. A Google email only takes over 
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Catalogue with search (`?q=`); returns JSON with `Accept: application/json` |
+| `/` | Catalogue with search and filters (`?q=`, `genre=`, `featured=1`, `dementia=1`, `favourites=1`, `sort=popular\|name\|newest`); returns JSON with `Accept: application/json` |
 | `/games/{slug}` | Game page: description, player's stats and rank, top 10 |
 | `/games/{slug}/play` | Logs a launch and redirects to the game's URL |
 | `/games/{slug}/leaderboard` | Full leaderboard |
@@ -118,7 +122,7 @@ Unknown HTML pages (old nikniq.com URLs, typos, unknown game slugs) redirect to 
    | `GET /api/sso/me` | Player, their stats and rank in this game, whether it is a favourite |
    | `POST` / `DELETE /api/sso/favourite` | Add or remove this game from the player's favourites |
    | `POST /api/sso/logout` | Revoke the token |
-   | `GET /api/games` | Public catalogue (`?q=` search) |
+   | `GET /api/games` | Public catalogue (`?q=`, `genre=`, `featured=1`, `dementia=1`, `sort=`); includes the list of genres |
    | `GET /api/games/{slug}/leaderboard?limit=25` | Public leaderboard |
 
    CORS allows any origin on `/api/*`, so browser-only games call these directly. All SSO endpoints are rate limited.

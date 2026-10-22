@@ -18,16 +18,24 @@ class GamesController extends Controller
         $user = $request->user();
         $favouriteIds = $user ? $user->favouriteGames()->pluck('games.id')->all() : [];
 
+        $filters = [
+            'q' => (string) $request->query('q', ''),
+            'genre' => (string) $request->query('genre', ''),
+            'featured' => $request->boolean('featured'),
+            'dementia' => $request->boolean('dementia'),
+            'favourites' => $user && $request->boolean('favourites'),
+            'sort' => in_array($request->query('sort'), ['name', 'newest', 'popular'], true) ? $request->query('sort') : '',
+        ];
+
         $games = Game::enabled()
-            ->search($request->query('q'))
+            ->search($filters['q'])
             ->withCount('favouritedBy')
-            ->orderByDesc('is_featured')
-            ->orderBy('sort_order')
-            ->orderBy('name')
+            ->filter($filters)
+            ->when($filters['favourites'], fn ($q) => $q->whereIn('id', $favouriteIds ?: [0]))
             ->get();
 
-        // Favourites float to the top for signed-in players.
-        if ($favouriteIds) {
+        // Favourites float to the top for signed-in players (default order only).
+        if ($favouriteIds && $filters['sort'] === '') {
             $games = $games->sortBy(fn (Game $g) => in_array($g->id, $favouriteIds, true) ? 0 : 1, SORT_NUMERIC, false)->values();
         }
 
@@ -35,7 +43,7 @@ class GamesController extends Controller
             return response()->json([
                 'games' => $games->map(fn (Game $g) => [
                     'slug' => $g->slug, 'name' => $g->name, 'url' => $g->url,
-                    'thumbnail' => $g->thumbnailUrl(), 'favourite' => in_array($g->id, $favouriteIds, true),
+                    'thumbnail' => $g->thumbnailUrl(), 'favourite' => in_array($g->id, $favouriteIds, true), 'dementia' => $g->is_dementia,
                 ]),
             ]);
         }
@@ -43,7 +51,10 @@ class GamesController extends Controller
         return view('games.index', [
             'games' => $games,
             'favouriteIds' => $favouriteIds,
-            'query' => (string) $request->query('q', ''),
+            'query' => $filters['q'],
+            'filters' => $filters,
+            'genres' => Game::genres(),
+            'activeFilters' => count(array_filter([$filters['genre'], $filters['featured'], $filters['dementia'], $filters['favourites']])),
         ]);
     }
 

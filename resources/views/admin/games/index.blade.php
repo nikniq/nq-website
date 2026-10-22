@@ -13,7 +13,7 @@
         <tbody>
         @foreach($games as $g)
             <tr>
-                <td><a href="{{ route('admin.games.edit', $g) }}">{{ $g->name }}</a> @if($g->is_featured)<span class="badge">Featured</span>@endif</td>
+                <td><a href="{{ route('admin.games.edit', $g) }}">{{ $g->name }}</a> @if($g->is_featured)<span class="badge">Featured</span>@endif @if($g->is_dementia)<span class="badge calm">Dementia</span>@endif</td>
                 <td><code>{{ $g->slug }}</code></td>
                 <td>{{ $g->is_public ? 'public (PKCE)' : 'confidential' }}</td>
                 <td class="num">{{ $g->favourited_by_count }}</td>

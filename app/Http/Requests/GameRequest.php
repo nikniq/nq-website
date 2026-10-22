@@ -28,6 +28,7 @@ class GameRequest extends FormRequest
             'is_public' => ['sometimes', 'boolean'],
             'is_enabled' => ['sometimes', 'boolean'],
             'is_featured' => ['sometimes', 'boolean'],
+            'is_dementia' => ['sometimes', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:65535'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ];
@@ -52,6 +53,7 @@ class GameRequest extends FormRequest
             'is_public' => $this->boolean('is_public'),
             'is_enabled' => $this->boolean('is_enabled'),
             'is_featured' => $this->boolean('is_featured'),
+            'is_dementia' => $this->boolean('is_dementia'),
             'sort_order' => (int) ($v['sort_order'] ?? 0),
             'notes' => $v['notes'] ?? null,
         ];

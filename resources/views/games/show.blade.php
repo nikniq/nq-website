@@ -7,7 +7,8 @@
             <h1>{{ $game->name }}</h1>
             <div class="row">
                 @if($game->is_featured)<span class="badge">Featured</span>@endif
-                @if($game->genre)<span class="badge muted">{{ $game->genre }}</span>@endif
+                @if($game->genre)<a class="badge muted" href="{{ route('games.index', ['genre' => $game->genre]) }}">{{ $game->genre }}</a>@endif
+                @if($game->is_dementia)<a class="badge calm" href="{{ route('games.index', ['dementia' => 1]) }}" title="Calm pace, simple rules, no time pressure">☺ Dementia-friendly</a>@endif
                 @foreach($game->tags ?? [] as $tag)<span class="badge muted">{{ $tag }}</span>@endforeach
             </div>
         </div>
