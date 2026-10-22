@@ -50,8 +50,8 @@ class GameFiltersTest extends TestCase
         $user = User::factory()->create();
         $user->favouriteGames()->attach(Game::where('slug', 'towers')->first());
 
+        $this->get('/?favourites=1')->assertSee('Legal Memory'); // guests: the filter is ignored
         $this->actingAs($user)->get('/?favourites=1')->assertSee('Towers')->assertDontSee('Legal Memory');
-        $this->get('/?favourites=1')->assertSee('Legal Memory'); // guests: ignored
     }
 
     public function test_api_catalogue_filters_and_genres(): void
