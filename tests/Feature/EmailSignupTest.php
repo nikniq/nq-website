@@ -61,8 +61,8 @@ class EmailSignupTest extends TestCase
     {
         $user = User::factory()->create(['password' => null, 'email_verified_at' => null]);
 
-        $this->get($this->verifyUrl($user, expired: true))->assertStatus(403);
-        $this->get(str_replace(sha1($user->email), sha1('other@example.com'), $this->verifyUrl($user)))->assertStatus(403);
+        $this->get($this->verifyUrl($user, expired: true))->assertRedirect('/register')->assertSessionHas('error');
+        $this->get(str_replace(sha1($user->email), sha1('other@example.com'), $this->verifyUrl($user)))->assertRedirect('/register');
         $this->assertGuest();
         $this->assertNull($user->fresh()->email_verified_at);
     }

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app = Application::configure(basePath: dirname(__DIR__))
@@ -27,6 +28,17 @@ $app = Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        // An expired or mangled sign-up link: explain and offer a new one
+        // instead of the framework's bare 403 page.
+        $exceptions->render(function (InvalidSignatureException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return null;
+            }
+
+            return redirect()->route('register')
+                ->with('error', 'That confirmation link has expired or is incomplete. Enter your email below and we will send a fresh one.');
+        });
 
         // A missing page (old nikniq.com URL, typo, stale link, unknown game
         // slug) sends the visitor to the catalogue instead of a 404 page.

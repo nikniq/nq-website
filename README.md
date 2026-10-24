@@ -41,6 +41,10 @@ With `MAIL_MAILER=log` (the default) the link is written to `storage/logs/larave
 
 To test delivery, `./cx.sh` reports the mailer, sender and `APP_URL` problems, and `./cx.sh --mail you@example.com` sends a plain test message plus a rendered sign-up email through the configured mailer, printing the SMTP error if the server rejects it.
 
+### Themes and accessibility
+
+The portal has dark and light themes. It follows the device's colour-scheme setting until the player uses the sun/moon toggle in the header, which is remembered in the browser. Colours are CSS variables at the top of `resources/views/layouts/app.blade.php`. The layout also provides a skip link, visible keyboard focus, reduced motion when the device asks for it, and in-place favourite toggles (no page reload).
+
 ### Dementia-friendly flag
 
 Games can be marked *Dementia-friendly* (calm pace, simple rules, no time pressure) in the admin form or in `GamesSeeder::GAMES` (sixth element). The flag shows as a badge on cards and game pages and as a catalogue filter (`?dementia=1`). The seeder owns the flag along with the other catalogue fields, so edit the seeder list for permanent changes.

@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Games')
 @section('content')
-    <span class="badge">ARCADE</span>
-    <h1>{{ config('portal.name') }}</h1>
+    <h1>Free browser games</h1>
     <p class="sub">{{ config('portal.tagline') }} @guest<a href="{{ route('register') }}">Sign up</a> to save favourites and keep your scores across every game.@endguest</p>
 
     @php
@@ -19,16 +18,16 @@
     </form>
 
     <nav class="filters" aria-label="Filter games">
-        <div class="chips">
-            <a class="chip {{ $filters['genre'] === '' ? 'on' : '' }}" href="{{ $link(['genre' => '']) }}">All genres</a>
+        <div class="chips genres">
+            <a class="chip {{ $filters['genre'] === '' ? 'on' : '' }}" @if($filters['genre'] === '') aria-current="true" @endif href="{{ $link(['genre' => '']) }}">All genres</a>
             @foreach($genres as $genre)
-                <a class="chip {{ $filters['genre'] === $genre ? 'on' : '' }}" href="{{ $link(['genre' => $filters['genre'] === $genre ? '' : $genre]) }}">{{ $genre }}</a>
+                <a class="chip {{ $filters['genre'] === $genre ? 'on' : '' }}" @if($filters['genre'] === $genre) aria-current="true" @endif href="{{ $link(['genre' => $filters['genre'] === $genre ? '' : $genre]) }}">{{ $genre }}</a>
             @endforeach
         </div>
         <div class="chips">
-            <a class="chip pink {{ $filters['featured'] ? 'on' : '' }}" href="{{ $link(['featured' => $filters['featured'] ? '' : 1]) }}">★ Featured</a>
-            <a class="chip calm {{ $filters['dementia'] ? 'on' : '' }}" href="{{ $link(['dementia' => $filters['dementia'] ? '' : 1]) }}" title="Calm pace, simple rules, no time pressure">☺ Dementia-friendly</a>
-            @auth<a class="chip gold {{ $filters['favourites'] ? 'on' : '' }}" href="{{ $link(['favourites' => $filters['favourites'] ? '' : 1]) }}">♥ My favourites</a>@endauth
+            <a class="chip pink {{ $filters['featured'] ? 'on' : '' }}" @if($filters['featured']) aria-current="true" @endif href="{{ $link(['featured' => $filters['featured'] ? '' : 1]) }}">★ Featured</a>
+            <a class="chip calm {{ $filters['dementia'] ? 'on' : '' }}" @if($filters['dementia']) aria-current="true" @endif href="{{ $link(['dementia' => $filters['dementia'] ? '' : 1]) }}" title="Calm pace, simple rules, no time pressure">☺ Dementia-friendly</a>
+            @auth<a class="chip gold {{ $filters['favourites'] ? 'on' : '' }}" @if($filters['favourites']) aria-current="true" @endif href="{{ $link(['favourites' => $filters['favourites'] ? '' : 1]) }}">♥ My favourites</a>@endauth
             <span class="sort">
                 Sort
                 @foreach(['' => 'Featured first', 'popular' => 'Most favourited', 'name' => 'A to Z', 'newest' => 'Newest'] as $key => $label)

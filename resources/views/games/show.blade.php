@@ -2,32 +2,32 @@
 @section('title', $game->name)
 @section('content')
     <p><a href="{{ route('games.index') }}">← All games</a></p>
-    <div class="row" style="justify-content:space-between;align-items:flex-start">
-        <div>
+    <div class="game-hero">
+        <a class="game-art" href="{{ $game->url ? route('games.play', $game) : '#' }}" aria-label="Play {{ $game->name }}">
+            @if($game->thumbnailUrl())<img src="{{ $game->thumbnailUrl() }}" alt="{{ $game->name }} screenshot" width="640" height="360">@else<span class="thumb-fallback">🎮</span>@endif
+        </a>
+        <div class="game-info">
             <h1>{{ $game->name }}</h1>
             <div class="row">
                 @if($game->is_featured)<span class="badge">Featured</span>@endif
                 @if($game->genre)<a class="badge muted" href="{{ route('games.index', ['genre' => $game->genre]) }}">{{ $game->genre }}</a>@endif
-                @if($game->is_dementia)<a class="badge calm" href="{{ route('games.index', ['dementia' => 1]) }}" title="Calm pace, simple rules, no time pressure">☺ Dementia-friendly</a>@endif
-                @foreach($game->tags ?? [] as $tag)<span class="badge muted">{{ $tag }}</span>@endforeach
+                @if($game->is_dementia)<a class="badge calm" href="{{ route('games.index', ['dementia' => 1]) }}">☺ Dementia-friendly</a>@endif
             </div>
-        </div>
-        <div class="row">
-            @auth
-                <form method="post" action="{{ route('games.favourite', $game) }}">@csrf
-                    <button class="btn ghost" type="submit">{{ $isFavourite ? '★ Favourited' : '☆ Favourite' }} ({{ $favouriteCount }})</button>
-                </form>
-            @else
-                <a class="btn ghost" href="{{ route('login') }}">☆ Favourite ({{ $favouriteCount }})</a>
-            @endauth
-            @if($game->url)<a class="btn" href="{{ route('games.play', $game) }}">Play now →</a>@endif
+            <p class="lead">{{ $game->description }}</p>
+            @if($game->is_dementia)<p class="muted" style="font-size:.9rem;margin:0">Dementia-friendly: calm pace, simple rules, no time pressure.</p>@endif
+            <div class="row">
+                @if($game->url)<a class="btn big" href="{{ route('games.play', $game) }}">▶ Play now</a>@endif
+                @auth
+                    <form method="post" action="{{ route('games.favourite', $game) }}" data-fav data-name="{{ $game->name }}">@csrf
+                        <button class="btn ghost big {{ $isFavourite ? 'on' : '' }}" type="submit" aria-pressed="{{ $isFavourite ? 'true' : 'false' }}"><span data-icon aria-hidden="true">{{ $isFavourite ? '★' : '☆' }}</span>&nbsp;<span data-label>{{ $isFavourite ? 'Favourited' : 'Favourite' }}</span></button>
+                    </form>
+                @else
+                    <a class="btn ghost big" href="{{ route('login') }}">☆ Log in to favourite</a>
+                @endauth
+            </div>
+            <p class="muted" style="font-size:.85rem;margin:0">Opens {{ parse_url($game->url ?? '', PHP_URL_HOST) ?: 'the game' }}. Your scores are saved when you sign in there with your NikniQ account.</p>
         </div>
     </div>
-
-    @if($game->thumbnailUrl())
-        <div class="card" style="margin:1rem 0;max-width:640px"><span class="thumb"><img src="{{ $game->thumbnailUrl() }}" alt="{{ $game->name }}"></span></div>
-    @endif
-    <p>{{ $game->description }}</p>
 
     <div class="stats">
         <div class="stat"><div class="v">{{ number_format($playerCount) }}</div><div class="l">Players</div></div>
