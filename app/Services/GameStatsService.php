@@ -115,6 +115,44 @@ class GameStatsService
             ->count();
     }
 
+    /**
+     * Ranks for every game a player has a best score in, in one query per
+     * call instead of one per game. Returns [game_id => rank].
+     */
+    public function ranksFor(User $player): array
+    {
+        $mine = PlayerGameStat::where('user_id', $player->id)->whereNotNull('best_score')->get(['game_id', 'best_score']);
+        if ($mine->isEmpty()) {
+            return [];
+        }
+
+        $better = PlayerGameStat::query()
+            ->selectRaw('player_game_stats.game_id, count(*) as better')
+            ->joinSub(
+                PlayerGameStat::where('user_id', $player->id)->whereNotNull('best_score')->select('game_id', 'best_score'),
+                'mine',
+                fn ($j) => $j->on('mine.game_id', '=', 'player_game_stats.game_id')->whereColumn('player_game_stats.best_score', '>', 'mine.best_score'),
+            )
+            ->groupBy('player_game_stats.game_id')
+            ->pluck('better', 'game_id');
+
+        return $mine->mapWithKeys(fn ($s) => [$s->game_id => 1 + (int) ($better[$s->game_id] ?? 0)])->all();
+    }
+
+    /** Games the player most recently played or launched, newest first. */
+    public function recentGamesFor(User $player, int $limit = 6): Collection
+    {
+        $ids = GameEvent::where('user_id', $player->id)
+            ->selectRaw('game_id, max(occurred_at) as last_at')
+            ->groupBy('game_id')
+            ->orderByDesc('last_at')
+            ->limit($limit)
+            ->pluck('game_id');
+
+        return Game::enabled()->whereIn('id', $ids)->withCount('favouritedBy')->get()
+            ->sortBy(fn (Game $g) => $ids->search($g->id))->values();
+    }
+
     /** Totals across every game for one player: the dashboard summary row. */
     public function summaryFor(User $player): array
     {

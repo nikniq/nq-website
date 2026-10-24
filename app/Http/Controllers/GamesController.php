@@ -27,6 +27,8 @@ class GamesController extends Controller
             'sort' => in_array($request->query('sort'), ['name', 'newest', 'popular'], true) ? $request->query('sort') : '',
         ];
 
+        $activeFiltersAny = (bool) ($filters['genre'] || $filters['featured'] || $filters['dementia'] || $filters['favourites'] || $filters['sort']);
+
         $games = Game::enabled()
             ->search($filters['q'])
             ->withCount('favouritedBy')
@@ -54,6 +56,7 @@ class GamesController extends Controller
             'query' => $filters['q'],
             'filters' => $filters,
             'genres' => Game::genres(),
+            'recent' => ($user && $filters['q'] === '' && ! $activeFiltersAny) ? $this->stats->recentGamesFor($user) : collect(),
             'activeFilters' => count(array_filter([$filters['genre'], $filters['featured'], $filters['dementia'], $filters['favourites']])),
         ]);
     }
@@ -68,6 +71,7 @@ class GamesController extends Controller
             'isFavourite' => $user ? $user->hasFavourited($game) : false,
             'favouriteCount' => $game->favouritedBy()->count(),
             'leaderboard' => $this->stats->leaderboard($game, 10),
+            'related' => $game->related(),
             'myStats' => $user ? $this->stats->statsFor($game, $user) : null,
             'myRank' => $user ? $this->stats->rankFor($game, $user) : null,
             'playerCount' => $game->stats()->count(),

@@ -74,13 +74,14 @@ Every page sets a title, meta description, canonical URL and Open Graph/Twitter 
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Catalogue with search and filters (`?q=`, `genre=`, `featured=1`, `dementia=1`, `favourites=1`, `sort=popular\|name\|newest`); returns JSON with `Accept: application/json` |
-| `/games/{slug}` | Game page: description, player's stats and rank, top 10 |
+| `/` | Catalogue with a Continue playing row for signed-in players, search and filters (`?q=`, `genre=`, `featured=1`, `dementia=1`, `favourites=1`, `sort=popular\|name\|newest`); returns JSON with `Accept: application/json` |
+| `/games/{slug}` | Game page: description, player's stats and rank, top 10, related games (same genre first) |
 | `/games/{slug}/play` | Logs a launch and redirects to the game's URL |
 | `/games/{slug}/leaderboard` | Full leaderboard |
 | `/dashboard` | Totals across all games, favourites, per-game stats, recent activity |
 | `/profile` | Name/email, password, and the list of games currently signed in (sign out of one or all) |
 | `/admin/games` | Admin CRUD for games and their SSO credentials (`users.is_admin`) |
+| `/admin/players`, `/admin/activity` | Admin: searchable player list (sign-in method, favourites, events, last active) and the live event feed |
 | `/sitemap.xml` | Generated sitemap: catalogue, sign-up, every enabled game and leaderboard, with tile images. Cached 30 minutes, dropped when a game changes |
 
 Unknown HTML pages (old nikniq.com URLs, typos, unknown game slugs) redirect to the catalogue with a note. API calls, paths that look like files, and non-GET requests still return 404.

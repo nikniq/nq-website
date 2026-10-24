@@ -22,7 +22,7 @@ class DashboardController extends Controller
             ->get()
             ->filter(fn (PlayerGameStat $s) => $s->game !== null);
 
-        $ranks = $gameStats->mapWithKeys(fn (PlayerGameStat $s) => [$s->game_id => $this->stats->rankFor($s->game, $user)]);
+        $ranks = $this->stats->ranksFor($user);
 
         $activity = GameEvent::with('game:id,name,slug')
             ->where('user_id', $user->id)
@@ -33,7 +33,7 @@ class DashboardController extends Controller
         return view('dashboard.index', [
             'summary' => $this->stats->summaryFor($user),
             'gameStats' => $gameStats,
-            'ranks' => $ranks,
+            'ranks' => $ranks + $gameStats->mapWithKeys(fn ($s) => [$s->game_id => null])->all(),
             'favourites' => $user->favouriteGames()->enabled()->orderBy('name')->get(),
             'activity' => $activity,
         ]);

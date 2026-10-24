@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Admin · Games')
 @section('content')
+    @include('admin._nav')
     <div class="row" style="justify-content:space-between"><h1>Games</h1><a class="btn" href="{{ route('admin.games.create') }}">+ New game</a></div>
     <div class="stats">
         <div class="stat"><div class="v">{{ $games->count() }}</div><div class="l">Games</div></div>

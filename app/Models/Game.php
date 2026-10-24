@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -106,6 +107,15 @@ class Game extends Model
             'popular' => $query->orderByDesc('favourited_by_count')->orderBy('name'),
             default => $query->orderByDesc('is_featured')->orderBy('sort_order')->orderBy('name'),
         };
+    }
+
+    /** Other enabled games a player of this one might like: same genre first, then featured. */
+    public function related(int $limit = 4): Collection
+    {
+        return static::enabled()->whereKeyNot($this->id)->withCount('favouritedBy')
+            ->orderByRaw('case when genre = ? then 0 else 1 end', [$this->genre ?? ''])
+            ->orderByDesc('is_featured')->orderByDesc('favourited_by_count')->orderBy('sort_order')
+            ->limit($limit)->get();
     }
 
     /** Distinct genres of enabled games, for the filter chips. */

@@ -47,6 +47,18 @@
         </div>
     </nav>
 
+    @if($recent->isNotEmpty())
+        <section aria-labelledby="recent-h" style="margin:0 0 1.4rem">
+            <h2 id="recent-h" style="margin:.2rem 0 .6rem">Continue playing</h2>
+            <div class="grid">
+                @foreach($recent as $game)
+                    @include('games._card', ['game' => $game])
+                @endforeach
+            </div>
+        </section>
+        <h2 style="margin:0 0 .6rem">All games</h2>
+    @endif
+
     @if($games->isEmpty())
         <p class="muted">No games match {{ $query !== '' ? '“'.$query.'”' : 'these filters' }}. <a href="{{ route('games.index') }}">Show everything</a>.</p>
     @else

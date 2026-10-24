@@ -30,7 +30,7 @@ class GameFiltersTest extends TestCase
         $this->get('/')->assertSee('Dementia-friendly');
         $this->get('/?dementia=1')->assertOk()->assertSee('Legal Memory')->assertDontSee('Space Invaders')->assertSee('suitable for players living with dementia');
         $this->get('/games/legal-memory')->assertSee('Dementia-friendly');
-        $this->get('/games/towers')->assertDontSee('Dementia-friendly');
+        $this->get('/games/towers')->assertDontSee('class="badge calm"', false);
     }
 
     public function test_featured_filter_sort_and_filters_combine(): void

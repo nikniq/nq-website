@@ -56,4 +56,13 @@
 
     <h2>Top players <a class="muted" style="font-size:.85rem;font-weight:400" href="{{ route('games.leaderboard', $game) }}">full leaderboard →</a></h2>
     @include('games._leaderboard', ['rows' => $leaderboard])
+
+    @if($related->isNotEmpty())
+        <h2>You might also like</h2>
+        <div class="grid">
+            @foreach($related as $other)
+                @include('games._card', ['game' => $other, 'favouriteIds' => auth()->check() ? auth()->user()->favouriteGames()->pluck('games.id')->all() : []])
+            @endforeach
+        </div>
+    @endif
 @endsection
