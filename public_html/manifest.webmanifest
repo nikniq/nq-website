@@ -1,7 +1,7 @@
 {
   "name": "NikniQ Games",
   "short_name": "NikniQ",
-  "description": "Free browser games. One account keeps your favourites and scores across every game.",
+  "description": "Retro & Arcade games. One account keeps your favourites and scores across every game.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b1020",

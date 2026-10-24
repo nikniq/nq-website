@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php($metaTitle = trim($__env->yieldContent('title', config('portal.name'))).' · '.config('portal.name'))
-    @php($metaDescription = trim($__env->yieldContent('description', config('portal.tagline').' Free browser games on nikniq.com, one account for every game.')))
+    @php($metaDescription = trim($__env->yieldContent('description', config('portal.tagline').' Retro & Arcade games on nikniq.com, one account for every game.')))
     @php($metaImage = trim($__env->yieldContent('image', url('/images/og-default.png'))))
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
