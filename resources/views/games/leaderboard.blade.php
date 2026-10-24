@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', $game->name.' leaderboard')
+@section('description', 'Top players and best scores in '.$game->name.' on '.config('portal.name').'.')
+@if($game->thumbnailUrl())@section('image', url($game->thumbnailUrl()))@endif
 @section('content')
     <p><a href="{{ route('games.show', $game) }}">← {{ $game->name }}</a></p>
     <h1>{{ $game->name }} leaderboard</h1>

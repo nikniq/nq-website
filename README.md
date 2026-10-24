@@ -25,7 +25,7 @@ Thumbnails live in `public_html/images/games/{slug}.svg` (one tile per seeded ga
 
 ### Sign-up and email
 
-Sign-up asks for an email only. The portal creates a password-less account, emails a signed link (valid for `VERIFY_TTL_MINUTES`, default 60), and the link confirms the address, logs the player in and asks them to choose a display name and password. Unfinished accounts cannot log in with the form; the login page offers to resend the link. Set a real mailer in `.env` for production:
+Sign-up asks for an email only. The portal creates a password-less account, emails a signed link (valid for `VERIFY_TTL_MINUTES`, default 60), and the link confirms the address, logs the player in and asks them to choose a display name and password. Unfinished accounts cannot log in with the form; the login page offers to resend the link. `/forgot-password` emails a reset link (standard Laravel password broker, 60 minutes); for an unfinished account it re-sends the confirmation link instead, and the response never reveals whether an address exists. Set a real mailer in `.env` for production:
 
 ```
 MAIL_MAILER=smtp
@@ -61,6 +61,10 @@ GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
 ```
 
 Google sign-up requires a verified Google email. A Google email only takes over an existing password account when Google reports it verified; otherwise the player logs in with their password and links Google from `/profile`. Accounts created through Google have no password until they set one on `/profile`, and unlinking requires a password so nobody gets locked out.
+
+### SEO and sharing
+
+Every page sets a title, meta description, canonical URL and Open Graph/Twitter tags (game pages use the game's thumbnail; other pages use `public_html/images/og-default.png`). Game pages carry VideoGame and BreadcrumbList JSON-LD; the catalogue carries WebSite (with SearchAction) and ItemList. `public_html/manifest.webmanifest` makes the portal installable.
 
 ### Google Analytics
 

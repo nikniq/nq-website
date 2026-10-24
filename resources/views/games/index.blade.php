@@ -1,5 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Games')
+@section('title', $query !== '' ? 'Search: '.$query : ($filters['genre'] !== '' ? $filters['genre'].' games' : ($filters['dementia'] ? 'Dementia-friendly games' : 'Free browser games')))
+@section('description', 'Play '.$games->count().' free browser games on '.config('portal.name').': arcade classics, puzzles, strategy and dementia-friendly picks. One account keeps your favourites and scores across every game.')
+@section('jsonld')
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        ['@type' => 'WebSite', 'name' => config('portal.name'), 'url' => url('/'), 'potentialAction' => ['@type' => 'SearchAction', 'target' => url('/').'?q={search_term_string}', 'query-input' => 'required name=search_term_string']],
+        ['@type' => 'ItemList', 'itemListElement' => $games->values()->map(fn ($g, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'name' => $g->name, 'url' => route('games.show', $g)])->all()],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endsection
 @section('content')
     <h1>Free browser games</h1>
     <p class="sub">{{ config('portal.tagline') }} @guest<a href="{{ route('register') }}">Sign up</a> to save favourites and keep your scores across every game.@endguest</p>

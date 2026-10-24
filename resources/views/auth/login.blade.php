@@ -10,6 +10,7 @@
             <div class="row"><button class="btn sm ghost" type="submit" formaction="{{ route('register.resend') }}" formnovalidate>Resend confirmation link</button></div>
         @endif
         <label>Password <input type="password" name="password" required autocomplete="current-password"></label>
+        <a href="{{ route('password.request') }}" style="font-size:.9rem;align-self:flex-start">Forgot your password?</a>
         <label class="inline"><input type="checkbox" name="remember" value="1"> Remember me</label>
         <div class="row"><button class="btn" type="submit">Log in</button> <span class="muted">New here? <a href="{{ route('register') }}">Create an account</a></span></div>
     </form>

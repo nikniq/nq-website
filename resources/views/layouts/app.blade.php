@@ -4,8 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', config('portal.name')) · {{ config('portal.name') }}</title>
+    @php($metaTitle = trim($__env->yieldContent('title', config('portal.name'))).' · '.config('portal.name'))
+    @php($metaDescription = trim($__env->yieldContent('description', config('portal.tagline').' Free browser games on nikniq.com, one account for every game.')))
+    @php($metaImage = trim($__env->yieldContent('image', url('/images/og-default.png'))))
+    <title>{{ $metaTitle }}</title>
+    <meta name="description" content="{{ $metaDescription }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:site_name" content="{{ config('portal.name') }}">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ $metaImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="/manifest.webmanifest">
     <style>
         :root { color-scheme:dark; --bg:#0b1020; --panel:#121a30; --panel-2:#182340; --line:rgba(255,255,255,.1); --text:#e6ecff; --muted:#a8b3d1; --strong:#fff; --accent:#d61f66; --accent-2:#00d1ff; --link:#00d1ff; --btn-text:#021122; --gold:#ffc857; --ok:#3ddc97; --danger:#ff6b6b; --header:linear-gradient(90deg,#0f172a,#1b1033); --input:#fff; --input-text:#0b1220; --code:#0a0f1e; --shadow:rgba(0,0,0,.6); --focus:#ffc857; }
         :root[data-theme="light"] { color-scheme:light; --bg:#f5f7fb; --panel:#ffffff; --panel-2:#eef1f7; --line:rgba(15,23,42,.12); --text:#111827; --muted:#4b5563; --strong:#0b1020; --accent:#c2185b; --accent-2:#0077b6; --link:#005f92; --btn-text:#ffffff; --gold:#9a6700; --ok:#047857; --danger:#b91c1c; --header:linear-gradient(90deg,#ffffff,#f3eefc); --input:#fff; --input-text:#111827; --code:#eef1f7; --shadow:rgba(15,23,42,.18); --focus:#7c3aed; }
@@ -127,6 +142,15 @@
             .chips.genres { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:0 -16px; padding:0 16px 4px; }
             .chip { white-space:nowrap; }
             .hide-sm { display:none !important; }
+            .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem; }
+            .card .body { padding:.6rem .7rem .7rem; gap:.5rem; }
+            .card p { display:none; }
+            .card .thumb-title strong { font-size:.95rem; }
+            .card .thumb-title em { display:none; }
+            .card .actions .ghost, .card .fav-count { display:none; }
+            .card .btn.sm { width:100%; justify-content:center; }
+            .card .ribbon { font-size:.55rem; padding:.2rem 2.2rem; left:-30px; top:8px; }
+            .card .tag { font-size:.6rem; }
             .brand { font-size:1.05rem; }
             nav.main { margin-left:0; width:100%; justify-content:space-between; gap:.4rem; }
             .nav-name { max-width:7.5em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:inline-block !important; line-height:40px; }
@@ -150,6 +174,7 @@
     </script>
     @endif
     @stack('head')
+    @yield('jsonld')
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>

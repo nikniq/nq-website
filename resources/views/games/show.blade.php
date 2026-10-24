@@ -1,5 +1,20 @@
 @extends('layouts.app')
 @section('title', $game->name)
+@section('description', \Illuminate\Support\Str::limit($game->description ?: 'Play '.$game->name.' free in your browser on '.config('portal.name').'.', 155))
+@section('og_type', 'video.other')
+@if($game->thumbnailUrl())@section('image', url($game->thumbnailUrl()))@endif
+@section('jsonld')
+<script type="application/ld+json">{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        ['@type' => 'VideoGame', 'name' => $game->name, 'description' => $game->description, 'url' => route('games.show', $game), 'image' => $game->thumbnailUrl() ? url($game->thumbnailUrl()) : null, 'genre' => $game->genre, 'gamePlatform' => 'Web browser', 'applicationCategory' => 'Game', 'operatingSystem' => 'Any', 'offers' => ['@type' => 'Offer', 'price' => '0', 'priceCurrency' => 'USD'], 'publisher' => ['@type' => 'Organization', 'name' => config('portal.name'), 'url' => url('/')]],
+        ['@type' => 'BreadcrumbList', 'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Games', 'item' => route('games.index')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => $game->name, 'item' => route('games.show', $game)],
+        ]],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endsection
 @section('content')
     <p><a href="{{ route('games.index') }}">← All games</a></p>
     <div class="game-hero">
