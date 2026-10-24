@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\GamesController;
+use App\Http\Controllers\HallOfFameController;
+use App\Http\Controllers\PlayerProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Sso\AuthorizeController;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [GamesController::class, 'index'])->name('games.index');
 Route::get('/games', fn () => redirect()->route('games.index', request()->query()));
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/hall-of-fame', HallOfFameController::class)->name('hall');
+Route::get('/players/{player}', [PlayerProfileController::class, 'show'])->name('players.show');
 Route::get('/games/{game}', [GamesController::class, 'show'])->name('games.show');
 Route::get('/games/{game}/play', [GamesController::class, 'play'])->name('games.play');
 Route::get('/games/{game}/leaderboard', [GamesController::class, 'leaderboard'])->name('games.leaderboard');
@@ -53,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
+    Route::put('/profile/visibility', [PlayerProfileController::class, 'visibility'])->name('profile.visibility');
     Route::post('/profile/disconnect', [ProfileController::class, 'disconnect'])->name('profile.disconnect');
 
     // Game sign-in: must be authenticated, so guests get bounced to /login and back.

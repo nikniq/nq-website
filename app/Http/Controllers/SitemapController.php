@@ -15,6 +15,7 @@ class SitemapController extends Controller
         $xml = Cache::remember('sitemap.xml', now()->addMinutes(30), function () {
             $urls = [
                 ['loc' => route('games.index'), 'changefreq' => 'daily', 'priority' => '1.0', 'lastmod' => Game::enabled()->max('updated_at')],
+                ['loc' => route('hall'), 'changefreq' => 'daily', 'priority' => '0.7'],
                 ['loc' => route('register'), 'changefreq' => 'monthly', 'priority' => '0.3'],
                 ['loc' => route('login'), 'changefreq' => 'monthly', 'priority' => '0.2'],
             ];

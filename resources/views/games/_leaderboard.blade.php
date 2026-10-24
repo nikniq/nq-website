@@ -7,7 +7,7 @@
         @foreach($rows as $row)
             <tr @if(auth()->id() === $row['player']['id']) style="background:rgba(255,200,87,.08)" @endif>
                 <td class="num">{{ $row['rank'] }}</td>
-                <td>@if($row['player']['avatar'])<img class="avatar" src="{{ $row['player']['avatar'] }}" alt=""> @endif{{ $row['player']['name'] }}</td>
+                <td><a href="{{ route('players.show', $row['player']['id']) }}">@if($row['player']['avatar'])<img class="avatar" src="{{ $row['player']['avatar'] }}" alt=""> @endif{{ $row['player']['name'] }}</a></td>
                 <td class="num">{{ number_format($row['best_score']) }}</td>
                 <td class="num hide-sm">{{ $row['plays'] }}</td>
                 <td class="num hide-sm">{{ $row['wins'] }}</td>

@@ -111,6 +111,20 @@
         .avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; vertical-align:middle; }
         .muted { color:var(--muted); }
         @media (max-width:600px){ h1 { font-size:1.5rem; } }
+        /* calm mode: larger text, more space, no motion, plain backgrounds */
+        :root[data-calm="1"] { font-size:19px; }
+        :root[data-calm="1"] body { line-height:1.65; }
+        :root[data-calm="1"] .card:hover, :root[data-calm="1"] .card:hover .thumb img { transform:none; }
+        :root[data-calm="1"] *, :root[data-calm="1"] *::before, :root[data-calm="1"] *::after { transition:none !important; animation:none !important; }
+        :root[data-calm="1"] .btn, :root[data-calm="1"] .chip { min-height:48px; padding-left:1rem; padding-right:1rem; font-size:1rem; }
+        :root[data-calm="1"] .btn.sm { min-height:44px; }
+        :root[data-calm="1"] .card .thumb-shade { background:linear-gradient(180deg, rgba(0,0,0,0) 20%, rgba(5,7,15,.96) 100%); }
+        :root[data-calm="1"] .card .ribbon { display:none; }
+        :root[data-calm="1"] .grid { grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.4rem; }
+        :root[data-calm="1"] header.site { background:var(--panel); }
+        :root[data-calm="1"] .sort { display:none; }
+        .theme-toggle[aria-pressed="true"] { background:var(--accent-2); color:var(--btn-text); }
+        .share { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
         /* usability */
         .game-hero { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:1.5rem; align-items:start; margin:.5rem 0 1.5rem; }
         .game-art { display:block; aspect-ratio:16/9; border-radius:14px; overflow:hidden; background:#05070f; border:1px solid var(--line); position:relative; }
@@ -161,7 +175,7 @@
     </style>
     <script>
         // Apply the saved theme before first paint to avoid a flash.
-        try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+        try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); if (localStorage.getItem('calm') === '1') document.documentElement.setAttribute('data-calm', '1'); } catch (e) {}
     </script>
     @if(($gaId = config('portal.ga_measurement_id')) && (app()->environment('production') || config('portal.ga_always')))
     <!-- Google tag (gtag.js) -->
@@ -183,6 +197,7 @@
         <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
         <nav class="main">
             <a href="{{ route('games.index') }}" @if(request()->routeIs('games.index')) aria-current="page" @endif>Games</a>
+            <a href="{{ route('hall') }}" @if(request()->routeIs('hall')) aria-current="page" @endif>Hall of fame</a>
             @auth
                 <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="hide-sm">My&nbsp;</span>dashboard</a>
                 <a href="{{ route('profile') }}" class="nav-name" @if(request()->routeIs('profile')) aria-current="page" @endif>{{ auth()->user()->name }}</a>
@@ -193,6 +208,7 @@
                 <a class="pill" href="{{ route('register') }}">Sign up</a>
             @endauth
             <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" title="Switch theme">☀</button>
+            <button type="button" class="theme-toggle" id="calm-toggle" aria-pressed="false" aria-label="Calm mode: larger text, less motion" title="Calm mode">Aa</button>
         </nav>
     </div>
 </header>
@@ -216,6 +232,19 @@
     function sync() { var light = current() === 'light'; btn.textContent = light ? '☾' : '☀'; btn.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode'); }
     btn.addEventListener('click', function () { var next = current() === 'light' ? 'dark' : 'light'; root.setAttribute('data-theme', next); try { localStorage.setItem('theme', next); } catch (e) {} sync(); });
     sync();
+
+    var calm = document.getElementById('calm-toggle');
+    function syncCalm() { calm.setAttribute('aria-pressed', root.getAttribute('data-calm') === '1' ? 'true' : 'false'); }
+    calm.addEventListener('click', function () { var on = root.getAttribute('data-calm') !== '1'; if (on) root.setAttribute('data-calm', '1'); else root.removeAttribute('data-calm'); try { localStorage.setItem('calm', on ? '1' : '0'); } catch (e) {} syncCalm(); });
+    syncCalm();
+
+    // Share buttons: native share sheet where available, else copy the link.
+    document.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-share]'); if (!b) return;
+        var data = { title: b.dataset.title, text: b.dataset.text, url: b.dataset.url };
+        if (navigator.share) { navigator.share(data).catch(function () {}); return; }
+        if (navigator.clipboard) navigator.clipboard.writeText(data.url).then(function () { var old = b.textContent; b.textContent = 'Link copied'; setTimeout(function () { b.textContent = old; }, 1600); });
+    });
 
     // Favourite stars: toggle in place instead of reloading the page.
     document.addEventListener('submit', function (e) {

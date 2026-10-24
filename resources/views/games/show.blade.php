@@ -40,6 +40,13 @@
                     <a class="btn ghost big" href="{{ route('login') }}">☆ Log in to favourite</a>
                 @endauth
             </div>
+            @php($shareText = 'Play '.$game->name.' free on '.config('portal.name'))
+            <div class="share">
+                <button type="button" class="btn sm ghost" data-share data-title="{{ $game->name }}" data-text="{{ $shareText }}" data-url="{{ route('games.show', $game) }}">Share</button>
+                <a class="btn sm ghost" href="https://wa.me/?text={{ urlencode($shareText.' '.route('games.show', $game)) }}" target="_blank" rel="noopener">WhatsApp</a>
+                <a class="btn sm ghost" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('games.show', $game)) }}" target="_blank" rel="noopener">Facebook</a>
+                <a class="btn sm ghost" href="mailto:?subject={{ rawurlencode($game->name.' on '.config('portal.name')) }}&body={{ rawurlencode($shareText.': '.route('games.show', $game)) }}">Email</a>
+            </div>
             <p class="muted" style="font-size:.85rem;margin:0">Opens {{ parse_url($game->url ?? '', PHP_URL_HOST) ?: 'the game' }}. Your scores are saved when you sign in there with your NikniQ account.</p>
         </div>
     </div>

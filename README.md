@@ -43,7 +43,7 @@ To test delivery, `./cx.sh` reports the mailer, sender and `APP_URL` problems, a
 
 ### Themes and accessibility
 
-The portal has dark and light themes. It follows the device's colour-scheme setting until the player uses the sun/moon toggle in the header, which is remembered in the browser. Colours are CSS variables at the top of `resources/views/layouts/app.blade.php`. The layout also provides a skip link, visible keyboard focus, reduced motion when the device asks for it, and in-place favourite toggles (no page reload).
+The portal has dark and light themes, plus a Calm mode toggle (Aa) in the header: larger text, wider spacing, no motion, bigger buttons, suited to the dementia-friendly audience. Game pages have Share buttons (native share sheet or copy link, WhatsApp, Facebook, email). It follows the device's colour-scheme setting until the player uses the sun/moon toggle in the header, which is remembered in the browser. Colours are CSS variables at the top of `resources/views/layouts/app.blade.php`. The layout also provides a skip link, visible keyboard focus, reduced motion when the device asks for it, and in-place favourite toggles (no page reload).
 
 ### Dementia-friendly flag
 
@@ -78,6 +78,8 @@ Every page sets a title, meta description, canonical URL and Open Graph/Twitter 
 | `/games/{slug}` | Game page: description, player's stats and rank, top 10, related games (same genre first) |
 | `/games/{slug}/play` | Logs a launch and redirects to the game's URL |
 | `/games/{slug}/leaderboard` | Full leaderboard |
+| `/hall-of-fame` | Overall standings (3/2/1 points for top-three finishes per game, all time / month / week) and each game's champion |
+| `/players/{id}` | Public player page: best scores with ranks, favourites. Players can hide theirs from `/profile` (hidden players are left out of the hall of fame) |
 | `/dashboard` | Totals across all games, favourites, per-game stats, recent activity |
 | `/profile` | Name/email, password, and the list of games currently signed in (sign out of one or all) |
 | `/admin/games` | Admin CRUD for games and their SSO credentials (`users.is_admin`) |

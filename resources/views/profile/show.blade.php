@@ -15,6 +15,15 @@
     </div>
 
     <div class="panel" style="margin-bottom:1rem">
+        <h2 style="margin-top:0">Public player page</h2>
+        <p class="muted">Your name, best scores and favourites at <a href="{{ route('players.show', $user) }}">{{ route('players.show', $user) }}</a>. Hidden pages are also left out of the hall of fame.</p>
+        <form method="post" action="{{ route('profile.visibility') }}">@csrf @method('PUT')
+            <input type="hidden" name="is_public" value="{{ $user->is_public ? 0 : 1 }}">
+            <button class="btn sm ghost" type="submit">{{ $user->is_public ? 'Hide my player page' : 'Make my player page public' }}</button>
+        </form>
+    </div>
+
+    <div class="panel" style="margin-bottom:1rem">
         <h2 style="margin-top:0">{{ $user->hasPassword() ? 'Change password' : 'Set a password' }}</h2>
         @unless($user->hasPassword())<p class="muted">{{ $user->hasLinkedProvider() ? 'You signed up with '.$user->providerLabel().'. Setting a password lets you log in without it too.' : 'Set a password so you can log in with your email.' }}</p>@endunless
         <form class="stack" method="post" action="{{ route('profile.password') }}">@csrf @method('PUT')
