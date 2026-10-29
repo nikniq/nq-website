@@ -52,8 +52,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
                 return null;
             }
 
-            return redirect()->route('games.index')
-                ->with('status', 'That page does not exist here, so here is the games catalogue.');
+            // Unmatched routes never start a session, so a flashed message would be
+            // lost; the catalogue reads this query flag instead.
+            return redirect()->route('games.index', ['missing' => 1]);
         });
     })->create();
 

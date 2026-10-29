@@ -125,6 +125,24 @@
         :root[data-calm="1"] .sort { display:none; }
         .theme-toggle[aria-pressed="true"] { background:var(--accent-2); color:var(--btn-text); }
         .share { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+        /* header menu (phones) */
+        .menu { display:none; position:relative; }
+        .menu summary { list-style:none; cursor:pointer; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:10px; font-size:1.2rem; }
+        .menu summary::-webkit-details-marker { display:none; }
+        .menu[open] summary { background:var(--panel-2); }
+        .menu-panel { position:absolute; right:0; top:48px; z-index:20; min-width:220px; background:var(--panel); border:1px solid var(--line); border-radius:12px; box-shadow:0 16px 40px var(--shadow); padding:.6rem; display:flex; flex-direction:column; }
+        .menu-panel a, .menu-panel button { display:flex; align-items:center; min-height:44px; padding:0 .7rem; border-radius:8px; color:var(--text); background:none; border:0; font:inherit; text-align:left; cursor:pointer; width:100%; }
+        .menu-panel a:hover, .menu-panel button:hover { background:var(--panel-2); text-decoration:none; }
+        .menu-panel a[aria-current] { color:var(--link); font-weight:700; }
+        .flash { display:flex; gap:.6rem; align-items:flex-start; justify-content:space-between; }
+        .flash-close { background:none; border:0; color:inherit; font-size:1.2rem; line-height:1; cursor:pointer; padding:0 .2rem; opacity:.7; }
+        .flash-close:hover { opacity:1; }
+        .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.8rem; margin:0 0 1.2rem; padding:0; list-style:none; counter-reset:step; }
+        .steps li { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1rem 1rem 1rem 3.2rem; position:relative; }
+        .steps li::before { counter-increment:step; content:counter(step); position:absolute; left:1rem; top:1rem; width:1.6rem; height:1.6rem; border-radius:50%; background:var(--accent-2); color:var(--btn-text); font-weight:900; display:flex; align-items:center; justify-content:center; font-size:.9rem; }
+        .steps strong { display:block; margin-bottom:.2rem; }
+        .to-top { position:fixed; right:16px; bottom:16px; z-index:15; width:48px; height:48px; border-radius:50%; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:1.3rem; cursor:pointer; box-shadow:0 8px 24px var(--shadow); display:none; }
+        .to-top.show { display:block; }
         /* usability */
         .game-hero { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:1.5rem; align-items:start; margin:.5rem 0 1.5rem; }
         .game-art { display:block; aspect-ratio:16/9; border-radius:14px; overflow:hidden; background:#05070f; border:1px solid var(--line); position:relative; }
@@ -151,8 +169,11 @@
         .theme-toggle { width:40px; height:40px; justify-content:center; border-radius:50% !important; border:1px solid var(--line) !important; font-size:1.1rem; }
         .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:10px; }
         @media (max-width:640px) {
-            header.site .wrap { gap:.5rem; padding-top:.4rem; padding-bottom:.4rem; }
-            nav.main { gap:.6rem; font-size:.95rem; }
+            header.site .wrap { gap:.5rem; padding-top:.4rem; padding-bottom:.4rem; flex-wrap:nowrap; }
+            nav.main { gap:.5rem; font-size:.95rem; }
+            nav.main .nav-link { display:none !important; }
+            .menu { display:block; }
+            nav.main .pill { padding:.3rem .7rem; }
             .chips.genres { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; margin:0 -16px; padding:0 16px 4px; }
             .chip { white-space:nowrap; }
             .hide-sm { display:none !important; }
@@ -166,8 +187,6 @@
             .card .ribbon { font-size:.55rem; padding:.2rem 2.2rem; left:-30px; top:8px; }
             .card .tag { font-size:.6rem; }
             .brand { font-size:1.05rem; }
-            nav.main { margin-left:0; width:100%; justify-content:space-between; gap:.4rem; }
-            .nav-name { max-width:7.5em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:inline-block !important; line-height:40px; }
             th, td { padding:.55rem .6rem; }
             h1 { font-size:1.55rem; }
         }
@@ -195,20 +214,33 @@
 <header class="site">
     <div class="wrap">
         <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
-        <nav class="main">
-            <a href="{{ route('games.index') }}" @if(request()->routeIs('games.index')) aria-current="page" @endif>Games</a>
-            <a href="{{ route('hall') }}" @if(request()->routeIs('hall')) aria-current="page" @endif>Hall of fame</a>
+        @php($navLinks = array_values(array_filter([['games.index', 'Games'], ['hall', 'Hall of fame'], auth()->check() ? ['dashboard', 'My dashboard'] : null, auth()->check() ? ['profile', 'Profile'] : null, auth()->user()?->is_admin ? ['admin.games.index', 'Admin'] : null])))
+        <nav class="main" aria-label="Main">
+            @foreach($navLinks as [$route, $label])
+                <a class="nav-link" href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : $route)) aria-current="page" @endif>{{ $label }}</a>
+            @endforeach
             @auth
-                <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><span class="hide-sm">My&nbsp;</span>dashboard</a>
-                <a href="{{ route('profile') }}" class="nav-name" @if(request()->routeIs('profile')) aria-current="page" @endif>{{ auth()->user()->name }}</a>
-                @if(auth()->user()->is_admin)<a href="{{ route('admin.games.index') }}" class="hide-sm">Admin</a>@endif
-                <form method="post" action="{{ route('logout') }}">@csrf<button type="submit">Log out</button></form>
+                <form class="nav-link" method="post" action="{{ route('logout') }}">@csrf<button type="submit">Log out</button></form>
             @else
-                <a href="{{ route('login') }}">Log in</a>
+                <a class="nav-link" href="{{ route('login') }}">Log in</a>
                 <a class="pill" href="{{ route('register') }}">Sign up</a>
             @endauth
             <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" title="Switch theme">☀</button>
             <button type="button" class="theme-toggle" id="calm-toggle" aria-pressed="false" aria-label="Calm mode: larger text, less motion" title="Calm mode">Aa</button>
+            <details class="menu">
+                <summary aria-label="Menu"><span aria-hidden="true">☰</span></summary>
+                <div class="menu-panel">
+                    @auth<p class="muted" style="margin:0 0 .4rem;font-size:.85rem">Signed in as {{ auth()->user()->name }}</p>@endauth
+                    @foreach($navLinks as [$route, $label])
+                        <a href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : $route)) aria-current="page" @endif>{{ $label }}</a>
+                    @endforeach
+                    @auth
+                        <form method="post" action="{{ route('logout') }}">@csrf<button type="submit">Log out</button></form>
+                    @else
+                        <a href="{{ route('login') }}">Log in</a>
+                    @endauth
+                </div>
+            </details>
         </nav>
     </div>
 </header>
@@ -219,12 +251,14 @@
                 <div class="flash error">Your account has no password yet. <a href="{{ route('register.password') }}">Choose one now</a> so you can log in next time.</div>
             @endif
         @endauth
-        @if(session('status'))<div class="flash">{{ session('status') }}</div>@endif
-        @if(session('error'))<div class="flash error">{{ session('error') }}</div>@endif
+        @if(request()->query('missing') && request()->routeIs('games.index'))<div class="flash" role="status"><span>We couldn't find that page, so here is the games catalogue.</span><button type="button" class="flash-close" aria-label="Dismiss">×</button></div>@endif
+        @if(session('status'))<div class="flash" role="status"><span>{{ session('status') }}</span><button type="button" class="flash-close" aria-label="Dismiss">×</button></div>@endif
+        @if(session('error'))<div class="flash error" role="alert"><span>{{ session('error') }}</span><button type="button" class="flash-close" aria-label="Dismiss">×</button></div>@endif
         @yield('content')
     </div>
 </main>
 <footer class="site"><div class="wrap">&copy; {{ date('Y') }} {{ config('portal.name') }} · {{ config('portal.tagline') }}</div></footer>
+<button type="button" class="to-top" id="to-top" aria-label="Back to top">↑</button>
 <script>
 (function () {
     var root = document.documentElement, btn = document.getElementById('theme-toggle');
@@ -237,6 +271,21 @@
     function syncCalm() { calm.setAttribute('aria-pressed', root.getAttribute('data-calm') === '1' ? 'true' : 'false'); }
     calm.addEventListener('click', function () { var on = root.getAttribute('data-calm') !== '1'; if (on) root.setAttribute('data-calm', '1'); else root.removeAttribute('data-calm'); try { localStorage.setItem('calm', on ? '1' : '0'); } catch (e) {} syncCalm(); });
     syncCalm();
+
+    // Dismissible messages, Escape closes the phone menu, back-to-top button,
+    // and "/" focuses the catalogue search.
+    document.addEventListener('click', function (e) {
+        var c = e.target.closest('.flash-close'); if (c) c.closest('.flash').remove();
+        var m = document.querySelector('.menu[open]'); if (m && !m.contains(e.target)) m.removeAttribute('open');
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { var m = document.querySelector('.menu[open]'); if (m) { m.removeAttribute('open'); m.querySelector('summary').focus(); } }
+        var tag = (document.activeElement && document.activeElement.tagName) || '';
+        if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(tag)) { var q = document.querySelector('input[name=q]'); if (q) { e.preventDefault(); q.focus(); } }
+    });
+    var top = document.getElementById('to-top');
+    window.addEventListener('scroll', function () { top.classList.toggle('show', window.scrollY > 1200); }, { passive: true });
+    top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches || root.dataset.calm ? 'auto' : 'smooth' }); document.getElementById('content').focus({ preventScroll: true }); });
 
     // Share buttons: native share sheet where available, else copy the link.
     document.addEventListener('click', function (e) {

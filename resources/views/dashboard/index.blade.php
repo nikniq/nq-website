@@ -4,6 +4,20 @@
     <h1>Hi, {{ auth()->user()->name }}</h1>
     <p class="sub">Your scores and activity from every game on the portal, in one place.</p>
 
+    @if($summary['games'] === 0)
+        <h2 style="margin-top:.4rem">Get started</h2>
+        <ol class="steps">
+            <li><strong>Pick a game</strong>Browse the <a href="{{ route('games.index') }}">catalogue</a> or try one of the picks below.</li>
+            <li><strong>Sign in inside the game</strong>Choose “Sign in with NikniQ” in the game so your scores come back here.</li>
+            <li><strong>Star your favourites</strong>Tap ☆ on any game to keep it at the top of your list.</li>
+        </ol>
+        <h2>Popular right now</h2>
+        <div class="grid" style="margin-bottom:1.2rem">
+            @foreach($suggested as $game)
+                @include('games._card', ['game' => $game, 'favouriteIds' => $favourites->pluck('id')->all()])
+            @endforeach
+        </div>
+    @else
     <div class="stats">
         <div class="stat"><div class="v">{{ $summary['games'] }}</div><div class="l">Games played</div></div>
         <div class="stat"><div class="v">{{ number_format($summary['plays']) }}</div><div class="l">Plays</div></div>
@@ -11,6 +25,7 @@
         <div class="stat"><div class="v">{{ number_format($summary['total_score']) }}</div><div class="l">Total score</div></div>
         <div class="stat"><div class="v">{{ \Carbon\CarbonInterval::seconds($summary['total_duration_seconds'])->cascade()->forHumans(['short' => true, 'parts' => 2]) ?: '0s' }}</div><div class="l">Time played</div></div>
     </div>
+    @endif
 
     <h2>Favourites</h2>
     @if($favourites->isEmpty())
@@ -23,6 +38,7 @@
         </div>
     @endif
 
+    @if($summary['games'] > 0 || $activity->isNotEmpty())
     <h2>Your games</h2>
     @if($gameStats->isEmpty())
         <p class="muted">Play a game that is signed in with your NikniQ account and its scores will show up here.</p>
@@ -64,5 +80,6 @@
             @endforeach
             </tbody>
         </table>
+    @endif
     @endif
 @endsection

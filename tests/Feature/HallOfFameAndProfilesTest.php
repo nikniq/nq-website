@@ -47,7 +47,7 @@ class HallOfFameAndProfilesTest extends TestCase
 
         $this->post('/logout');
         $this->get('/hall-of-fame')->assertDontSee($u1->name);
-        $this->get("/players/{$u1->id}")->assertRedirect('/'); // hidden: treated as missing page
+        $this->get("/players/{$u1->id}")->assertRedirect('/?missing=1'); // hidden: treated as missing page
     }
 
     public function test_leaderboard_links_to_player_pages_and_game_page_has_share_buttons(): void

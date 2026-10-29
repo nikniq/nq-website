@@ -29,9 +29,11 @@ class SitemapAndNotFoundTest extends TestCase
 
     public function test_missing_pages_redirect_to_the_catalogue(): void
     {
-        $this->get('/shop')->assertRedirect('/');
-        $this->get('/games/does-not-exist')->assertRedirect('/')->assertSessionHas('status');
-        $this->get('/license/ABCD-EFGH-IJKL')->assertRedirect('/');
+        $this->get('/shop')->assertRedirect('/?missing=1');
+        $this->get('/games/does-not-exist')->assertRedirect('/?missing=1');
+        $this->get('/license/ABCD-EFGH-IJKL')->assertRedirect('/?missing=1');
+        $this->get('/?missing=1')->assertSee("We couldn't find that page", false);
+        $this->get('/')->assertDontSee("We couldn't find that page", false);
     }
 
     public function test_api_assets_and_non_get_requests_still_get_404(): void

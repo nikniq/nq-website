@@ -19,7 +19,7 @@
         $link = fn (array $changes) => route('games.index', array_filter(array_merge(request()->query(), $changes), fn ($v) => $v !== '' && $v !== null && $v !== false && $v !== 0));
     @endphp
     <form class="search" method="get" action="{{ route('games.index') }}">
-        <input type="search" name="q" value="{{ $query }}" placeholder="Search games…" aria-label="Search games">
+        <input type="search" name="q" value="{{ $query }}" placeholder="Search games… (press / )" aria-label="Search games">
         @foreach(['genre', 'featured', 'dementia', 'favourites', 'sort'] as $keep)
             @if(!empty($filters[$keep]))<input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] === true ? 1 : $filters[$keep] }}">@endif
         @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
 use App\Models\GameEvent;
 use App\Models\PlayerGameStat;
 use App\Services\GameStatsService;
@@ -32,6 +33,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', [
             'summary' => $this->stats->summaryFor($user),
+            'suggested' => Game::enabled()->withCount('favouritedBy')->orderByDesc('is_featured')->orderByDesc('favourited_by_count')->orderBy('sort_order')->limit(4)->get(),
             'gameStats' => $gameStats,
             'ranks' => $ranks + $gameStats->mapWithKeys(fn ($s) => [$s->game_id => null])->all(),
             'favourites' => $user->favouriteGames()->enabled()->orderBy('name')->get(),

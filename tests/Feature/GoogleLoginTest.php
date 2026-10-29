@@ -36,7 +36,7 @@ class GoogleLoginTest extends TestCase
         $this->get('/login')->assertSee('Continue with Google');
         config(['social.providers.google.enabled' => false]);
         $this->get('/login')->assertDontSee('Continue with Google');
-        $this->get('/auth/google/redirect')->assertRedirect('/'); // disabled feature: missing-page redirect
+        $this->get('/auth/google/redirect')->assertRedirect('/?missing=1'); // disabled feature: missing-page redirect
     }
 
     public function test_new_google_user_gets_an_account_without_a_password(): void
