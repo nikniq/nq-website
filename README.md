@@ -84,6 +84,7 @@ Every page sets a title, meta description, canonical URL and Open Graph/Twitter 
 | `/profile` | Name/email, password, and the list of games currently signed in (sign out of one or all) |
 | `/admin/games` | Admin CRUD for games and their SSO credentials (`users.is_admin`) |
 | `/admin/players`, `/admin/activity` | Admin: searchable player list (sign-in method, favourites, events, last active) and the live event feed |
+| `/privacy`, `/terms` | Privacy policy and terms of use (linked from the footer and sign-up). Review the wording before launch; the contact address is `MAIL_FROM_ADDRESS` |
 | `/sitemap.xml` | Generated sitemap: catalogue, sign-up, every enabled game and leaderboard, with tile images. Cached 30 minutes, dropped when a game changes |
 
 Unknown HTML pages (old nikniq.com URLs, typos, unknown game slugs) redirect to the catalogue with a note. API calls, paths that look like files, and non-GET requests still return 404.

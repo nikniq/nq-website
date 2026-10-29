@@ -19,7 +19,7 @@
     <p><a href="{{ route('games.index') }}">← All games</a></p>
     <div class="game-hero">
         <a class="game-art" href="{{ $game->url ? route('games.play', $game) : '#' }}" aria-label="Play {{ $game->name }}">
-            @if($game->thumbnailUrl())<img src="{{ $game->thumbnailUrl() }}" alt="{{ $game->name }} screenshot" width="640" height="360">@else<span class="thumb-fallback">🎮</span>@endif
+            @if($game->thumbnailUrl())@include('games._picture', ['game' => $game, 'alt' => $game->name.' screenshot', 'eager' => true])@else<span class="thumb-fallback">🎮</span>@endif
         </a>
         <div class="game-info">
             <h1>{{ $game->name }}</h1>
@@ -52,8 +52,8 @@
     </div>
 
     <div class="stats">
-        <div class="stat"><div class="v">{{ number_format($playerCount) }}</div><div class="l">Players</div></div>
-        <div class="stat"><div class="v">{{ number_format($favouriteCount) }}</div><div class="l">Favourites</div></div>
+        @if($playerCount > 0)<div class="stat"><div class="v">{{ number_format($playerCount) }}</div><div class="l">{{ \Illuminate\Support\Str::plural('Player', $playerCount) }}</div></div>@endif
+        @if($favouriteCount > 0)<div class="stat"><div class="v">{{ number_format($favouriteCount) }}</div><div class="l">{{ \Illuminate\Support\Str::plural('Favourite', $favouriteCount) }}</div></div>@endif
         @if($myStats)
             <div class="stat"><div class="v">{{ number_format($myStats->best_score ?? 0) }}</div><div class="l">Your best</div></div>
             <div class="stat"><div class="v">{{ $myRank ? '#'.$myRank : '—' }}</div><div class="l">Your rank</div></div>

@@ -1,5 +1,8 @@
 @if($rows->isEmpty())
-    <p class="muted">No scores yet. Be the first!</p>
+    <div class="panel" style="display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <p style="margin:0">No scores yet. Play signed in with your NikniQ account and your name goes to the top.</p>
+        @isset($game)@if($game->url)<a class="btn sm" href="{{ route('games.play', $game) }}">▶ Be the first</a>@endif @endisset
+    </div>
 @else
     <div class="table-scroll"><table>
         <thead><tr><th class="num">#</th><th>Player</th><th class="num">Best score</th><th class="num hide-sm">Plays</th><th class="num hide-sm">Wins</th><th class="hide-sm">Last played</th></tr></thead>

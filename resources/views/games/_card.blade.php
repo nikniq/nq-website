@@ -2,7 +2,7 @@
 <article class="card {{ $game->is_featured ? 'featured' : '' }}">
     <a class="thumb" href="{{ route('games.show', $game) }}" aria-label="{{ $game->name }}">
         @if($game->thumbnailUrl())
-            <img src="{{ $game->thumbnailUrl() }}" alt="" width="640" height="360" loading="lazy" decoding="async">
+            @include('games._picture', ['game' => $game, 'eager' => $eager ?? false])
         @else
             <span class="thumb-fallback">🎮</span>
         @endif

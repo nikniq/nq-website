@@ -143,6 +143,13 @@
         .steps strong { display:block; margin-bottom:.2rem; }
         .to-top { position:fixed; right:16px; bottom:16px; z-index:15; width:48px; height:48px; border-radius:50%; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:1.3rem; cursor:pointer; box-shadow:0 8px 24px var(--shadow); display:none; }
         .to-top.show { display:block; }
+        footer.site { padding:1.6rem 0; }
+        .footer-grid { display:grid; grid-template-columns:1fr auto; gap:1rem 2rem; align-items:start; }
+        .footer-links { display:grid; grid-template-columns:repeat(2, auto); gap:.4rem 1.6rem; }
+        .footer-links a { color:var(--muted); min-height:32px; display:inline-flex; align-items:center; }
+        .footer-links a:hover { color:var(--text); }
+        @media (max-width:640px) { .footer-grid { grid-template-columns:1fr; } }
+        .prose { max-width:760px; } .prose h2 { margin-top:1.8rem; } .prose li { margin:.3rem 0; }
         /* usability */
         .game-hero { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:1.5rem; align-items:start; margin:.5rem 0 1.5rem; }
         .game-art { display:block; aspect-ratio:16/9; border-radius:14px; overflow:hidden; background:#05070f; border:1px solid var(--line); position:relative; }
@@ -257,7 +264,23 @@
         @yield('content')
     </div>
 </main>
-<footer class="site"><div class="wrap">&copy; {{ date('Y') }} {{ config('portal.name') }} · {{ config('portal.tagline') }}</div></footer>
+<footer class="site">
+    <div class="wrap footer-grid">
+        <div>
+            <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
+            <p class="muted" style="margin:.4rem 0 0">{{ config('portal.tagline') }}</p>
+        </div>
+        <nav aria-label="Footer" class="footer-links">
+            <a href="{{ route('games.index') }}">All games</a>
+            <a href="{{ route('games.index', ['dementia' => 1]) }}">Dementia-friendly games</a>
+            <a href="{{ route('hall') }}">Hall of fame</a>
+            @guest<a href="{{ route('register') }}">Create an account</a>@endguest
+            <a href="{{ route('privacy') }}">Privacy</a>
+            <a href="{{ route('terms') }}">Terms</a>
+        </nav>
+        <p class="muted" style="margin:0;grid-column:1/-1">&copy; {{ date('Y') }} {{ config('portal.name') }}</p>
+    </div>
+</footer>
 <button type="button" class="to-top" id="to-top" aria-label="Back to top">↑</button>
 <script>
 (function () {

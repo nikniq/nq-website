@@ -150,6 +150,18 @@ class Game extends Model
         return in_array($uri, $this->redirect_uris ?? [], true);
     }
 
+    /** A .webp next to a local .jpg/.png thumbnail, when one exists (smaller, same picture). */
+    public function webpUrl(): ?string
+    {
+        $url = $this->thumbnailUrl();
+        if (! $url || ! str_starts_with($url, '/') || ! preg_match('/\.(jpe?g|png)$/i', $url)) {
+            return null;
+        }
+        $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $url);
+
+        return file_exists(public_path(ltrim($webp, '/'))) ? $webp : null;
+    }
+
     public function thumbnailUrl(): ?string
     {
         if (! $this->thumbnail) {

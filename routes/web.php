@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [GamesController::class, 'index'])->name('games.index');
 Route::get('/games', fn () => redirect()->route('games.index', request()->query()));
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::view('/privacy', 'pages.privacy')->name('privacy');
+Route::view('/terms', 'pages.terms')->name('terms');
 Route::get('/hall-of-fame', HallOfFameController::class)->name('hall');
 Route::get('/players/{player}', [PlayerProfileController::class, 'show'])->name('players.show');
 Route::get('/games/{game}', [GamesController::class, 'show'])->name('games.show');

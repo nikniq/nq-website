@@ -65,7 +65,7 @@
         <p class="muted" style="margin:.2rem 0 .8rem;font-size:.85rem">{{ $games->count() }} {{ \Illuminate\Support\Str::plural('game', $games->count()) }}@if($filters['dementia']) suitable for players living with dementia @endif</p>
         <div class="grid">
             @foreach($games as $game)
-                @include('games._card', ['game' => $game])
+                @include('games._card', ['game' => $game, 'eager' => $loop->index < 4 && $recent->isEmpty()])
             @endforeach
         </div>
     @endif
