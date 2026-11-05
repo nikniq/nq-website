@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Game;
 use App\Support\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -37,6 +38,9 @@ class NewsTest extends TestCase
 
     public function test_catalogue_shows_latest_news(): void
     {
-        $this->get('/')->assertSee(News::all()->first()->title);
+        Game::factory()->create(['is_enabled' => true, 'is_featured' => true]);
+
+        $this->get('/')->assertSee(News::all()->first()->title)
+            ->assertSee('<title>Retro &amp; Arcade games', false);
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $query !== '' ? 'Search: '.$query : ($filters['genre'] !== '' ? $filters['genre'].' games' : ($filters['dementia'] ? 'Dementia-friendly games' : 'Retro &amp; Arcade games')))
+@section('title', $query !== '' ? 'Search: '.$query : ($filters['genre'] !== '' ? $filters['genre'].' games' : ($filters['dementia'] ? 'Dementia-friendly games' : 'Retro & Arcade games')))
 @section('description', 'Play '.$games->count().' free browser games on '.config('portal.name').': arcade classics, puzzles, strategy and dementia-friendly picks. One account keeps your favourites and scores across every game.')
 @section('jsonld')
 <script type="application/ld+json">{!! json_encode([
