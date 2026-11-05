@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Support\News;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,11 @@ class SitemapController extends Controller
                 ['loc' => route('terms'), 'changefreq' => 'yearly', 'priority' => '0.1'],
                 ['loc' => route('login'), 'changefreq' => 'monthly', 'priority' => '0.2'],
             ];
+
+            $urls[] = ['loc' => route('news.index'), 'changefreq' => 'weekly', 'priority' => '0.6', 'lastmod' => News::all()->first()?->date];
+            foreach (News::all() as $article) {
+                $urls[] = ['loc' => route('news.show', $article->slug), 'changefreq' => 'monthly', 'priority' => '0.5', 'lastmod' => $article->date, 'image' => url($article->image), 'title' => $article->title];
+            }
 
             foreach (Game::enabled()->orderBy('sort_order')->orderBy('name')->get() as $game) {
                 $urls[] = ['loc' => route('games.show', $game), 'changefreq' => 'weekly', 'priority' => $game->is_featured ? '0.9' : '0.8', 'lastmod' => $game->updated_at, 'image' => $game->thumbnailUrl() ? url($game->thumbnailUrl()) : null, 'title' => $game->name];

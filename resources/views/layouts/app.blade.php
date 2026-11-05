@@ -152,7 +152,18 @@
         .footer-links a { color:var(--muted); min-height:32px; display:inline-flex; align-items:center; }
         .footer-links a:hover { color:var(--text); }
         @media (max-width:640px) { .footer-grid { grid-template-columns:1fr; } }
-        .prose { max-width:760px; } .prose h2 { margin-top:1.8rem; } .prose li { margin:.3rem 0; }
+        .prose { max-width:760px; }
+        .news-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.25rem; }
+        .news-card { background:var(--panel); border:1px solid var(--line); border-radius:18px; overflow:hidden; position:relative; display:flex; flex-direction:column; transition:transform .2s, box-shadow .2s; }
+        .news-card:hover { transform:translateY(-3px); box-shadow:0 14px 30px -14px var(--shadow); }
+        .news-card img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block; }
+        .news-card .body { padding:1rem 1.15rem 1.25rem; display:flex; flex-direction:column; gap:.4rem; }
+        .news-card h2 { font-size:1.15rem; margin:0; line-height:1.3; } .news-card h2 a { color:var(--strong); }
+        .news-card h2 a::after { content:""; position:absolute; inset:0; }
+        .news-card p { margin:0; color:var(--muted); }
+        .news-date { font-size:.85rem; color:var(--muted); font-weight:600; }
+        .news-lead img { width:100%; height:auto; aspect-ratio:16/7; object-fit:cover; border-radius:18px; margin:.5rem 0 1.25rem; }
+        .news-lead .lede { font-size:1.15rem; color:var(--text); } .prose h2 { margin-top:1.8rem; } .prose li { margin:.3rem 0; }
         /* usability */
         .game-hero { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:1.5rem; align-items:start; margin:.5rem 0 1.5rem; }
         .game-art { display:block; aspect-ratio:16/9; border-radius:14px; overflow:hidden; background:#05070f; border:1px solid var(--line); position:relative; }
@@ -325,10 +336,10 @@
 <header class="site">
     <div class="wrap">
         <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
-        @php($navLinks = array_values(array_filter([['games.index', 'Games'], ['hall', 'Hall of fame'], auth()->check() ? ['dashboard', 'My dashboard'] : null, auth()->check() ? ['profile', 'Profile'] : null, auth()->user()?->is_admin ? ['admin.games.index', 'Admin'] : null])))
+        @php($navLinks = array_values(array_filter([['games.index', 'Games'], ['hall', 'Hall of fame'], ['news.index', 'News'], auth()->check() ? ['dashboard', 'My dashboard'] : null, auth()->check() ? ['profile', 'Profile'] : null, auth()->user()?->is_admin ? ['admin.games.index', 'Admin'] : null])))
         <nav class="main" aria-label="Main">
             @foreach($navLinks as [$route, $label])
-                <a class="nav-link" href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : $route)) aria-current="page" @endif>{{ $label }}</a>
+                <a class="nav-link" href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : ($route === 'news.index' ? 'news.*' : $route))) aria-current="page" @endif>{{ $label }}</a>
             @endforeach
             @auth
                 <form class="nav-link" method="post" action="{{ route('logout') }}">@csrf<button type="submit">Log out</button></form>
@@ -343,7 +354,7 @@
                 <div class="menu-panel">
                     @auth<p class="muted" style="margin:0 0 .4rem;font-size:.85rem">Signed in as {{ auth()->user()->name }}</p>@endauth
                     @foreach($navLinks as [$route, $label])
-                        <a href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : $route)) aria-current="page" @endif>{{ $label }}</a>
+                        <a href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : ($route === 'news.index' ? 'news.*' : $route))) aria-current="page" @endif>{{ $label }}</a>
                     @endforeach
                     <button type="button" onclick="document.getElementById('theme-toggle').click()">◐&nbsp; Light / dark mode</button>
                     <button type="button" onclick="document.getElementById('calm-toggle').click()">Aa&nbsp; Calm mode (larger text)</button>
@@ -381,6 +392,7 @@
             <a href="{{ route('games.index', ['dementia' => 1]) }}">Dementia-friendly games</a>
             <a href="{{ route('hall') }}">Hall of fame</a>
             @guest<a href="{{ route('register') }}">Create an account</a>@endguest
+            <a href="{{ route('news.index') }}">News</a>
             <a href="{{ route('developers') }}">For game developers</a>
             <a href="{{ route('privacy') }}">Privacy</a>
             <a href="{{ route('terms') }}">Terms</a>
