@@ -19,6 +19,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)">
+    <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="/manifest.webmanifest">
     <style>
@@ -198,6 +199,106 @@
             h1 { font-size:1.55rem; }
         }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition:none !important; animation:none !important; } .card:hover, .card:hover .thumb img { transform:none; } }
+
+        /* ===== Design ===== */
+        @font-face { font-family:'Plus Jakarta Sans'; font-style:normal; font-weight:400 800; font-display:swap; src:url('/fonts/plus-jakarta-sans-latin.woff2') format('woff2'); }
+        :root { --radius:16px; --glass:rgba(11,16,32,.72); --glow-a:rgba(214,31,102,.16); --glow-b:rgba(0,209,255,.12); --card-shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25); --chip-bg:rgba(255,255,255,.04); }
+        :root[data-theme="light"] { --glass:rgba(255,255,255,.78); --glow-a:rgba(194,24,91,.07); --glow-b:rgba(0,119,182,.07); --card-shadow:0 1px 2px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.07); --chip-bg:#fff; }
+        @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --glass:rgba(255,255,255,.78); --glow-a:rgba(194,24,91,.07); --glow-b:rgba(0,119,182,.07); --card-shadow:0 1px 2px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.07); --chip-bg:#fff; } }
+        body { font-family:'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:radial-gradient(900px 500px at 0% -10%, var(--glow-a), transparent 70%), radial-gradient(900px 500px at 100% -5%, var(--glow-b), transparent 70%), var(--bg); background-attachment:fixed; -webkit-font-smoothing:antialiased; }
+        h1 { font-size:clamp(1.7rem, 1.2rem + 2vw, 2.5rem); font-weight:800; letter-spacing:-.02em; line-height:1.15; }
+        h2 { letter-spacing:-.01em; }
+        main { padding:2rem 0 4rem; }
+        header.site { position:sticky; top:0; z-index:30; background:var(--glass); backdrop-filter:saturate(160%) blur(14px); -webkit-backdrop-filter:saturate(160%) blur(14px); }
+        .brand { letter-spacing:.06em; }
+        nav.main a.nav-link { padding:0 .55rem; border-radius:10px; }
+        nav.main a.nav-link:hover { background:var(--chip-bg); text-decoration:none; }
+        .btn { border-radius:12px; font-weight:800; padding:.55rem 1rem; transition:transform .12s ease, filter .12s ease, box-shadow .12s ease; }
+        .btn:hover { box-shadow:0 6px 18px var(--shadow); }
+        .btn.ghost { background:var(--chip-bg); }
+
+        .page-head { margin-bottom:1.4rem; }
+        .page-head .sub { font-size:1.05rem; max-width:60ch; }
+
+        .hero { position:relative; display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:0; margin:0 0 2rem; background:var(--panel); border:1px solid var(--line); border-radius:22px; overflow:hidden; box-shadow:var(--card-shadow); }
+        .hero-art { display:block; aspect-ratio:16/9; background:#05070f; overflow:hidden; }
+        .hero-art img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+        .hero:hover .hero-art img { transform:scale(1.03); }
+        .hero-copy { padding:2rem 2.2rem; display:flex; flex-direction:column; justify-content:center; gap:.8rem; }
+        .hero-copy h2 { font-size:clamp(1.6rem, 1.1rem + 1.6vw, 2.3rem); margin:0; font-weight:800; }
+        .hero-copy h2 a { color:var(--strong); }
+        .hero-copy p { margin:0; color:var(--muted); font-size:1.08rem; line-height:1.55; }
+        .eyebrow { align-self:flex-start; font-size:.75rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); background:color-mix(in srgb, var(--accent) 12%, transparent); padding:.3rem .7rem; border-radius:999px; }
+
+        .finder { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:1rem; margin:0 0 2rem; box-shadow:var(--card-shadow); }
+        .searchbar { position:relative; display:flex; align-items:center; gap:.5rem; margin:0 0 .9rem; }
+        .searchbar svg { position:absolute; left:1rem; color:var(--muted); pointer-events:none; }
+        .searchbar input { flex:1; min-width:0; height:52px; padding:0 3.2rem 0 2.9rem; border-radius:14px; border:1px solid var(--line); background:var(--bg); color:var(--text); font:inherit; font-size:1.05rem; }
+        .searchbar input::placeholder { color:var(--muted); }
+        .searchbar input:focus { outline:none; border-color:var(--accent-2); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent-2) 22%, transparent); }
+        .searchbar kbd { position:absolute; right:7.4rem; font:inherit; font-size:.75rem; color:var(--muted); border:1px solid var(--line); border-radius:6px; padding:.05rem .45rem; }
+        .searchbar .btn { height:52px; padding:0 1.3rem; }
+        .filters { margin:0; gap:.7rem; }
+        .filter-row { display:flex; gap:.8rem; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+        .chip { background:var(--chip-bg); min-height:38px; padding:0 .95rem; font-size:.9rem; }
+        .sort { margin-left:auto; display:flex; align-items:center; gap:.5rem; text-transform:none; letter-spacing:0; font-size:.9rem; }
+        .sort select { height:38px; border-radius:10px; border:1px solid var(--line); background:var(--chip-bg); color:var(--text); padding:0 2rem 0 .8rem; font:inherit; font-size:.9rem; font-weight:700; cursor:pointer; appearance:none; background-image:linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%); background-position:calc(100% - 15px) 16px, calc(100% - 10px) 16px; background-size:5px 5px; background-repeat:no-repeat; }
+
+        .section-head { display:flex; align-items:baseline; gap:.8rem; margin:0 0 1rem; flex-wrap:wrap; }
+        .section-title { margin:0; font-size:1.35rem; font-weight:800; }
+        .section-head .count { color:var(--muted); font-size:.9rem; }
+        .section-head .clear { margin-left:auto; font-size:.9rem; font-weight:700; }
+        .shelf { margin:0 0 2.2rem; } .shelf .section-title { margin-bottom:1rem; }
+
+        .grid { grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:1.4rem; }
+        .card { border-radius:var(--radius); box-shadow:var(--card-shadow); border-color:var(--line); }
+        .card:hover { transform:translateY(-4px); border-color:color-mix(in srgb, var(--accent-2) 45%, var(--line)); box-shadow:0 18px 40px var(--shadow); }
+        .card .thumb { border-radius:0; }
+        .card:hover .thumb img { transform:scale(1.05); }
+        .card .pills { position:absolute; left:10px; top:10px; display:flex; gap:.35rem; flex-wrap:wrap; }
+        .pill-tag { font-size:.7rem; font-weight:800; letter-spacing:.02em; padding:.25rem .55rem; border-radius:999px; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+        .pill-tag.hot { background:rgba(214,31,102,.92); color:#fff; }
+        .pill-tag.calm { background:rgba(3,42,28,.85); color:#9ff0d4; }
+        .card .body { padding:1rem 1.1rem 1.15rem; gap:.35rem; }
+        .card-title { margin:0; font-size:1.08rem; font-weight:800; line-height:1.25; }
+        .card-title a { color:var(--strong); }
+        .card-title a::after { content:''; position:absolute; inset:0; z-index:1; }
+        .card-meta { margin:0 !important; flex:0 0 auto !important; display:flex; gap:.6rem; color:var(--muted); font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+        .card-desc { margin:.2rem 0 .8rem !important; color:var(--muted); font-size:.92rem; line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; flex:0 0 auto !important; max-height:calc(2 * 1.45em); }
+        .card .btn.play { margin-top:auto; position:relative; z-index:2; width:100%; justify-content:center; min-height:44px; font-size:.98rem; }
+        .card .fav-form { z-index:3; }
+
+        .empty { text-align:center; padding:3rem 1rem; background:var(--panel); border:1px dashed var(--line); border-radius:var(--radius); }
+        .empty-icon { font-size:2.4rem; margin:0; }
+
+        :root[data-theme="light"] .pill-tag.calm { background:#d1fae5; color:#065f46; }
+        :root[data-theme="light"] .card .fav { background:rgba(255,255,255,.9); }
+
+        .game-art { border:0; border-radius:20px; box-shadow:var(--card-shadow); }
+        .game-info h1 { font-size:clamp(1.8rem, 1.3rem + 1.8vw, 2.6rem); }
+        .game-hero { gap:2rem; margin-bottom:2.4rem; }
+        main h2 { font-weight:800; }
+        @media (max-width:800px) {
+            .hero { grid-template-columns:1fr; }
+            .hero-copy { padding:1.3rem 1.3rem 1.5rem; }
+        }
+        @media (max-width:640px) {
+            .brand { white-space:nowrap; }
+            nav.main .theme-toggle { display:none !important; }
+            nav.main { margin-left:auto; flex-wrap:nowrap; }
+            main { padding-top:1.2rem; }
+            .finder { padding:.75rem; border-radius:14px; }
+            .searchbar input, .searchbar .btn { height:48px; }
+            .searchbar .btn { padding:0 1rem; }
+            .sort { margin-left:0; width:100%; } .sort select { flex:1; }
+            .grid { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:.75rem; }
+            .card .body { padding:.7rem .75rem .8rem; }
+            .card-title { font-size:.95rem; }
+            .card-desc, .card-meta span + span { display:none !important; }
+            .card-meta { font-size:.7rem; }
+            .card .btn.play { min-height:40px; font-size:.9rem; margin-top:.35rem; }
+            .pill-tag { font-size:.6rem; }
+        }
     </style>
     <script>
         // Apply the saved theme before first paint to avoid a flash.
@@ -241,6 +342,8 @@
                     @foreach($navLinks as [$route, $label])
                         <a href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : $route)) aria-current="page" @endif>{{ $label }}</a>
                     @endforeach
+                    <button type="button" onclick="document.getElementById('theme-toggle').click()">◐&nbsp; Light / dark mode</button>
+                    <button type="button" onclick="document.getElementById('calm-toggle').click()">Aa&nbsp; Calm mode (larger text)</button>
                     @auth
                         <form method="post" action="{{ route('logout') }}">@csrf<button type="submit">Log out</button></form>
                     @else

@@ -1,18 +1,15 @@
 @php($fav = in_array($game->id, $favouriteIds ?? [], true))
-<article class="card {{ $game->is_featured ? 'featured' : '' }}">
-    <a class="thumb" href="{{ route('games.show', $game) }}" aria-label="{{ $game->name }}">
+<article class="card">
+    <a class="thumb" href="{{ route('games.show', $game) }}" tabindex="-1" aria-hidden="true">
         @if($game->thumbnailUrl())
             @include('games._picture', ['game' => $game, 'eager' => $eager ?? false])
         @else
             <span class="thumb-fallback">🎮</span>
         @endif
-        <span class="thumb-shade"></span>
-        <span class="thumb-title">
-            <strong>{{ $game->name }}</strong>
-            @if($game->genre)<em>{{ $game->genre }}</em>@endif
+        <span class="pills">
+            @if($game->is_featured)<span class="pill-tag hot">★ Featured</span>@endif
+            @if($game->is_dementia)<span class="pill-tag calm" title="Calm pace, simple rules, no time pressure">☺ Calm</span>@endif
         </span>
-        @if($game->is_featured)<span class="ribbon">Featured</span>@endif
-        @if($game->is_dementia)<span class="tag calm" title="Calm pace, simple rules, no time pressure">☺ Dementia-friendly</span>@endif
     </a>
     @auth
         <form class="fav-form" method="post" action="{{ route('games.favourite', $game) }}" data-fav data-name="{{ $game->name }}">@csrf
@@ -20,11 +17,12 @@
         </form>
     @endauth
     <div class="body">
-        <p>{{ \Illuminate\Support\Str::limit($game->description, 110) }}</p>
-        <div class="row actions">
-            @if($game->url)<a class="btn sm" href="{{ route('games.play', $game) }}" aria-label="Play {{ $game->name }}">▶ Play</a>@endif
-            <a class="btn sm ghost" href="{{ route('games.leaderboard', $game) }}" aria-label="{{ $game->name }} leaderboard">Leaderboard</a>
-            @if(isset($game->favourited_by_count) && $game->favourited_by_count)<span class="muted fav-count" title="Favourited by {{ $game->favourited_by_count }} players">★ {{ $game->favourited_by_count }}</span>@endif
-        </div>
+        <h3 class="card-title"><a href="{{ route('games.show', $game) }}">{{ $game->name }}</a></h3>
+        <p class="card-meta">
+            @if($game->genre)<span>{{ $game->genre }}</span>@endif
+            @if(isset($game->favourited_by_count) && $game->favourited_by_count)<span title="Favourited by {{ $game->favourited_by_count }} players">★ {{ $game->favourited_by_count }}</span>@endif
+        </p>
+        <p class="card-desc">{{ $game->description }}</p>
+        @if($game->url)<a class="btn play" href="{{ route('games.play', $game) }}" aria-label="Play {{ $game->name }}">▶&nbsp; Play</a>@endif
     </div>
 </article>
