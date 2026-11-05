@@ -34,6 +34,14 @@
                 </div>
             </div>
         </section>
+        @php($latestNews = \App\Support\News::all()->first())
+        @if($latestNews)
+            <a class="news-strip" href="{{ route('news.show', $latestNews->slug) }}">
+                <span class="tag">New</span>
+                <span class="news-strip-title">{{ $latestNews->title }}</span>
+                <span class="news-strip-more" aria-hidden="true">Read →</span>
+            </a>
+        @endif
     @endif
 
     <div class="finder">
