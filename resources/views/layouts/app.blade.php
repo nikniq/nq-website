@@ -153,6 +153,8 @@
         .footer-links a:hover { color:var(--text); }
         @media (max-width:640px) { .footer-grid { grid-template-columns:1fr; } }
         .prose { max-width:760px; }
+        .howto { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.4rem; margin:1.5rem 0; }
+        .howto h2 { margin:0 0 .5rem; } .howto p { margin:.35rem 0; } .howto ul { margin:.4rem 0 .5rem; padding-left:1.2rem; } .howto li { margin:.25rem 0; }
         .news-strip { display:flex; align-items:center; gap:.75rem; margin:-.25rem 0 1.25rem; padding:.7rem 1rem; border:1px solid var(--line); border-radius:14px; background:var(--panel); color:var(--text); }
         .news-strip:hover { text-decoration:none; border-color:var(--accent); }
         .news-strip .tag { background:var(--accent); color:#fff; font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:.15rem .55rem; border-radius:999px; flex:none; }

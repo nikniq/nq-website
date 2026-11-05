@@ -61,6 +61,15 @@
         @endif
     </div>
 
+    @php($howTo = \App\Support\HowToPlay::for($game->slug))
+    @if($howTo)
+        <section class="howto" aria-labelledby="howto-h">
+            <h2 id="howto-h">How to play</h2>
+            <p><strong>Goal:</strong> {{ $howTo[0] }}</p>
+            <ul>@foreach($howTo[1] as $tip)<li>{{ $tip }}</li>@endforeach</ul>
+        </section>
+    @endif
+
     <h2>Top players <a class="muted" style="font-size:.85rem;font-weight:400" href="{{ route('games.leaderboard', $game) }}">full leaderboard →</a></h2>
     @include('games._leaderboard', ['rows' => $leaderboard])
 
