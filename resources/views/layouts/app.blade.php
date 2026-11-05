@@ -20,7 +20,9 @@
     <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)">
     <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.webmanifest">
     <style>
         :root { color-scheme:dark; --bg:#0b1020; --panel:#121a30; --panel-2:#182340; --line:rgba(255,255,255,.1); --text:#e6ecff; --muted:#a8b3d1; --strong:#fff; --accent:#d61f66; --accent-2:#00d1ff; --link:#00d1ff; --btn-text:#021122; --gold:#ffc857; --ok:#3ddc97; --danger:#ff6b6b; --header:linear-gradient(90deg,#0f172a,#1b1033); --input:#fff; --input-text:#0b1220; --code:#0a0f1e; --shadow:rgba(0,0,0,.6); --focus:#ffc857; }
@@ -168,6 +170,7 @@
         .skip { position:absolute; left:-9999px; top:8px; background:var(--panel); color:var(--text); padding:.6rem 1rem; border-radius:8px; z-index:10; }
         .skip:focus { left:16px; }
         :focus-visible { outline:3px solid var(--focus); outline-offset:3px; border-radius:6px; }
+        .card[hidden] { display:none !important; }
         .card .thumb:focus-visible { outline-offset:-4px; }
         .card:focus-within { border-color:var(--focus); }
         .btn, .chip, nav.main a, nav.main button { min-height:40px; display:inline-flex; align-items:center; }
@@ -441,6 +444,18 @@
             .catch(function () { form.submit(); });
     });
 })();
+
+        (function () {
+            var q = document.querySelector('.searchbar input[name=q]'), grid = document.querySelector('[data-live]');
+            if (!q || !grid) return;
+            var empty = document.querySelector('.live-empty'), count = document.querySelector('.section-head .count');
+            q.addEventListener('input', function () {
+                var term = q.value.trim().toLowerCase(), shown = 0;
+                grid.querySelectorAll('.card').forEach(function (c) { var hit = !term || c.dataset.search.indexOf(term) !== -1; c.hidden = !hit; if (hit) shown++; });
+                if (empty) empty.hidden = shown > 0;
+                if (count) count.textContent = shown + (shown === 1 ? ' game' : ' games');
+            });
+        })();
 </script>
 </body>
 </html>

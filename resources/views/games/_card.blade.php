@@ -1,5 +1,5 @@
 @php($fav = in_array($game->id, $favouriteIds ?? [], true))
-<article class="card">
+<article class="card" data-search="{{ \Illuminate\Support\Str::lower($game->name.' '.$game->genre) }}">
     <a class="thumb" href="{{ route('games.show', $game) }}" tabindex="-1" aria-hidden="true">
         @if($game->thumbnailUrl())
             @include('games._picture', ['game' => $game, 'eager' => $eager ?? false])

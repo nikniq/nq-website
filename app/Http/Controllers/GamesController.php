@@ -79,6 +79,15 @@ class GamesController extends Controller
     }
 
     /** Send the player to the game. Records a `launch` activity for signed-in players. */
+    public function random(Request $request): RedirectResponse
+    {
+        $game = Game::enabled()->whereNotNull('url')
+            ->when($request->boolean('dementia'), fn ($q) => $q->where('is_dementia', true))
+            ->inRandomOrder()->first();
+
+        return $game ? redirect()->route('games.show', $game) : redirect()->route('games.index');
+    }
+
     public function play(Request $request, Game $game): RedirectResponse
     {
         abort_unless($game->is_enabled && $game->url, 404);

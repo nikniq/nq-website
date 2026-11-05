@@ -97,10 +97,12 @@
         <div class="section-head">
             <h2 class="section-title">{{ $query !== '' ? 'Results' : ($filters['genre'] !== '' ? $filters['genre'].' games' : ($filters['dementia'] ? 'Dementia-friendly games' : 'All games')) }}</h2>
             <span class="count">{{ $games->count() }} {{ \Illuminate\Support\Str::plural('game', $games->count()) }}</span>
+            <a class="clear" href="{{ route('games.random', $filters['dementia'] ? ['dementia' => 1] : []) }}" title="Open a random game">🎲 Surprise me</a>
             @if($query !== '' || $activeFilters)<a class="clear" href="{{ route('games.index') }}">Clear filters ✕</a>@endif
         </div>
         @if($filters['dementia'])<p class="muted" style="margin:-.4rem 0 1rem">Calm pace, simple rules and no time pressure, suitable for players living with dementia.</p>@endif
-        <div class="grid">
+        <p class="muted live-empty" hidden>No games match that search. Press Enter to search descriptions too.</p>
+        <div class="grid" data-live>
             @foreach($games as $game)
                 @include('games._card', ['game' => $game, 'eager' => $loop->index < 4 && $recent->isEmpty()])
             @endforeach
