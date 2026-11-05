@@ -14,7 +14,7 @@
     @if($game->exists)
         <div class="panel" style="margin-bottom:1rem">
             <h2 style="margin-top:0">SSO credentials</h2>
-            <p>Client ID: <code>{{ $game->client_id }}</code></p>
+            <p>Client ID: <code>{{ $game->client_id }}</code> · <a href="{{ route('developers', ['game' => $game->slug]) }}">integration snippet</a></p>
             <p class="muted">Authorize URL: <code>{{ route('sso.authorize') }}</code> · Token URL: <code>{{ route('api.sso.token') }}</code> · Events URL: <code>{{ route('api.games.events.store', $game) }}</code></p>
             @unless($game->is_public)
                 <form method="post" action="{{ route('admin.games.rotate-secret', $game) }}" onsubmit="return confirm('Rotate the secret? The game will stop authenticating until it is updated.')">@csrf

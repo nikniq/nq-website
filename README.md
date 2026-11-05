@@ -81,7 +81,7 @@ Every page sets a title, meta description, canonical URL and Open Graph/Twitter 
 | `/hall-of-fame` | Overall standings (3/2/1 points for top-three finishes per game, all time / month / week) and each game's champion |
 | `/players/{id}` | Public player page: best scores with ranks, favourites. Players can hide theirs from `/profile` (hidden players are left out of the hall of fame) |
 | `/dashboard` | Totals across all games, favourites, per-game stats, recent activity |
-| `/profile` | Name/email, password, and the list of games currently signed in (sign out of one or all) |
+| `/profile` | Name/email, password, public page visibility, games currently signed in (sign out of one or all), data download (JSON) and account deletion |
 | `/admin/games` | Admin CRUD for games and their SSO credentials (`users.is_admin`) |
 | `/admin/players`, `/admin/activity` | Admin: searchable player list (sign-in method, favourites, events, last active) and the live event feed |
 | `/privacy`, `/terms` | Privacy policy and terms of use (linked from the footer and sign-up). Review the wording before launch; the contact address is `MAIL_FROM_ADDRESS` |
@@ -90,6 +90,22 @@ Every page sets a title, meta description, canonical URL and Open Graph/Twitter 
 Unknown HTML pages (old nikniq.com URLs, typos, unknown game slugs) redirect to the catalogue with a note. API calls, paths that look like files, and non-GET requests still return 404.
 
 ## Integrating a game
+
+**Browser games: use the SDK.** `/developers` shows a ready-to-paste snippet (admins see the real client ID per game). In short:
+
+```html
+<script src="https://nikniq.com/js/nikniq.js"></script>
+<script>
+  const nq = NikniQ.init({ clientId: 'CLIENT_ID', game: 'chopper' });
+  nq.onChange(player => { /* draw signed-in or guest UI */ });
+  signInButton.onclick = () => nq.signIn();
+  nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 });
+</script>
+```
+
+The SDK (`public_html/js/nikniq.js`, no dependencies) runs the PKCE sign-in, finishes the redirect, keeps the token in localStorage, batches events and flushes them when the page closes. Register the game as a *public client* whose redirect URI is the exact page the SDK runs on. The raw API below is for games with their own server.
+
+### Raw API
 
 1. **Register the game** at `/admin/games`. Add the exact callback URL the game will use as a redirect URI. Tick *Public client* for a static JS game with no server (it then uses PKCE instead of a secret). For a server-side game, copy the secret when it is shown; it can only be rotated afterwards.
 

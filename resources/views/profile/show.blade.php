@@ -75,4 +75,23 @@
             <form method="post" action="{{ route('profile.disconnect') }}" style="margin-top:.8rem">@csrf<button class="btn sm danger" type="submit">Sign out of all games</button></form>
         @endif
     </div>
+
+    <div class="panel" style="margin-top:1rem">
+        <h2 style="margin-top:0">Your data</h2>
+        <p class="muted">Download a copy of everything we hold about you: account details, favourites, stats and every game event.</p>
+        <a class="btn sm ghost" href="{{ route('profile.export') }}">Download my data (JSON)</a>
+    </div>
+
+    <div class="panel" style="margin-top:1rem;border-color:rgba(255,107,107,.45)">
+        <h2 style="margin-top:0">Delete account</h2>
+        <p class="muted">This permanently deletes your account, favourites, scores and history, and signs you out of every game. It cannot be undone.</p>
+        <details>
+            <summary class="btn sm danger" style="list-style:none;cursor:pointer;display:inline-flex">Delete my account…</summary>
+            <form class="stack" method="post" action="{{ route('profile.destroy') }}" style="margin-top:.8rem">@csrf @method('DELETE')
+                <label>Type <strong>{{ $user->email }}</strong> to confirm <input type="text" name="confirm_email" autocomplete="off" required></label>
+                @error('confirm_email')<div class="err">{{ $message }}</div>@enderror
+                <div><button class="btn danger" type="submit">Permanently delete my account</button></div>
+            </form>
+        </details>
+    </div>
 @endsection

@@ -275,6 +275,7 @@
             <a href="{{ route('games.index', ['dementia' => 1]) }}">Dementia-friendly games</a>
             <a href="{{ route('hall') }}">Hall of fame</a>
             @guest<a href="{{ route('register') }}">Create an account</a>@endguest
+            <a href="{{ route('developers') }}">For game developers</a>
             <a href="{{ route('privacy') }}">Privacy</a>
             <a href="{{ route('terms') }}">Terms</a>
         </nav>

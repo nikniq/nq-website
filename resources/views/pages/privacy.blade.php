@@ -32,7 +32,7 @@
     <h2>Your choices</h2>
     <ul>
         <li>Change your name, email or password, hide your player page, and sign out of individual games from your <a href="{{ route('profile') }}">profile</a>.</li>
-        <li>To delete your account and its scores, email us at <a href="mailto:{{ config('mail.from.address') }}">{{ config('mail.from.address') }}</a>.</li>
+        <li>Download a copy of all your data, or permanently delete your account and everything attached to it, from your <a href="{{ route('profile') }}">profile</a>. You can also email us at <a href="mailto:{{ config('mail.from.address') }}">{{ config('mail.from.address') }}</a>.</li>
     </ul>
 
     <h2>Contact</h2>

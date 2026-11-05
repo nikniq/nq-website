@@ -14,11 +14,13 @@ use App\Http\Controllers\PlayerProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Sso\AuthorizeController;
+use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GamesController::class, 'index'])->name('games.index');
 Route::get('/games', fn () => redirect()->route('games.index', request()->query()));
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/developers', fn () => view('pages.developers', ['games' => Game::enabled()->orderBy('name')->get(['slug', 'name'])]))->name('developers');
 Route::view('/privacy', 'pages.privacy')->name('privacy');
 Route::view('/terms', 'pages.terms')->name('terms');
 Route::get('/hall-of-fame', HallOfFameController::class)->name('hall');
@@ -60,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::put('/profile/visibility', [PlayerProfileController::class, 'visibility'])->name('profile.visibility');
+    Route::get('/profile/export', [ProfileController::class, 'export'])->name('profile.export');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('throttle:6,1')->name('profile.destroy');
     Route::post('/profile/disconnect', [ProfileController::class, 'disconnect'])->name('profile.disconnect');
 
     // Game sign-in: must be authenticated, so guests get bounced to /login and back.
