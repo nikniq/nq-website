@@ -177,7 +177,7 @@ Two scripts, both run on the server from the project root:
 | Script | Purpose |
 | --- | --- |
 | `deploy.sh` | pull, `composer install` if the lockfile moved, migrate, rebuild caches (optionally run a seeder: `./deploy.sh GamesSeeder` or `--seed`) |
-| `cx.sh` | setup checker: PHP and extensions, Composer and vendor/, `.env` and `APP_KEY`, `APP_DEBUG`, database connection, pending migrations, empty catalogue, admin user, mail configuration, storage permissions and link, stale config cache. `./cx.sh --fix` applies the corrections (migrate, seed, key, chmod, caches); `./cx.sh --mail you@example.com` sends a test email. |
+| `cx.sh` | setup checker: PHP and extensions, Composer and vendor/, `.env` and `APP_KEY`, `APP_DEBUG`, database connection, pending migrations, empty or out-of-date catalogue, admin user, mail configuration, storage permissions and link, stale config cache. `./cx.sh --fix` applies the corrections (migrate, seed, key, chmod, caches); `./cx.sh --mail you@example.com` sends a test email; `./cx.sh --seed-games` refreshes the catalogue from `GamesSeeder::GAMES` (names, URLs, genres, art; credentials and flags are kept), and a plain run warns when the two differ. |
 
 `cx.sh` needs no settings file: it reads the database and app settings from the app's own config through `php artisan tinker`.
 
@@ -185,6 +185,7 @@ Two scripts, both run on the server from the project root:
 git push             # the server deploys by pulling, so unpushed commits never deploy
 ./deploy.sh          # on the server
 ./cx.sh --fix        # on the server, when something looks wrong
+./cx.sh --seed-games # after editing GamesSeeder::GAMES (renamed game, new subdomain)
 ```
 
 Point the web server (or the hosting account's document root) at `public_html/`. The app has no front-end build step; views use inline CSS.

@@ -10,11 +10,13 @@
 #   ./cx.sh                        report problems only
 #   ./cx.sh --fix                  report and apply corrections
 #   ./cx.sh --mail you@example.com send a test email through the configured mailer
+#   ./cx.sh --seed-games           run GamesSeeder: refresh names, URLs, genres and art from
+#                                  GamesSeeder::GAMES (credentials and flags are kept)
 #
 # Checks: PHP binary, version and extensions, Composer, vendor/ and its
 # platform check, .env and APP_KEY (generated if missing), APP_DEBUG in
 # production, database connection, pending migrations, games catalogue
-# (seeded if empty), admin user, storage link, storage permissions,
+# (seeded if empty, warns when it differs from GamesSeeder), admin user, storage link, storage permissions,
 # config cache freshness.
 
 set -u
@@ -23,8 +25,10 @@ cd "$(dirname "$0")"
 
 FIX=0
 MAIL_TO=""
+SEED_GAMES=0
 case "${1:-}" in
     --fix) FIX=1 ;;
+    --seed-games) SEED_GAMES=1 ;;
     --mail)
         MAIL_TO="${2:-}"
         if [ -z "$MAIL_TO" ]; then echo "Usage: ./cx.sh --mail you@example.com"; exit 1; fi ;;
@@ -206,10 +210,21 @@ if [ "$db_ping" = "up" ]; then
         if [ "${games_total:-0}" -eq 0 ]; then
             fail "no games in the catalogue (the homepage will be empty)"
             [ "$FIX" -eq 1 ] && "$PHP_BIN" artisan db:seed --class=GamesSeeder --force --no-interaction >/dev/null && fixed "seeded GamesSeeder ($(tinker 'echo App\Models\Game::count();') games)"
+        elif [ "$SEED_GAMES" -eq 1 ]; then
+            if "$PHP_BIN" artisan db:seed --class=GamesSeeder --force --no-interaction >/dev/null; then
+                fixed "seeded GamesSeeder ($(tinker 'echo App\Models\Game::where("is_enabled", true)->count()."/".App\Models\Game::count();') games enabled)"
+            else
+                fail "GamesSeeder failed; run: php artisan db:seed --class=GamesSeeder --force"
+            fi
         elif [ "${games_enabled:-0}" -eq 0 ]; then
             fail "$games_total games exist but none is enabled"
         else
             ok "$games_enabled of $games_total games enabled"
+            # Seeded fields that no longer match the code (renamed game, new subdomain, ...).
+            stale=$(tinker 'echo collect(Database\Seeders\GamesSeeder::GAMES)->filter(fn ($g, $slug) => ! App\Models\Game::where("slug", $slug)->where("name", $g[0])->where("url", "https://".$g[1].".nikniq.com")->exists())->keys()->implode(" ");')
+            if [ -n "$stale" ]; then
+                warn "catalogue differs from GamesSeeder for: $stale (run ./cx.sh --seed-games)"
+            fi
         fi
 
         admins=$(tinker 'echo App\Models\User::where("is_admin", true)->count();')
