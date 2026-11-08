@@ -27,7 +27,7 @@ class GamesSeeder extends Seeder
         'space-invaders' => ['Space Invaders', 'spaceinvaders', 'Arcade', 'The classic alien shooter, rebuilt in HTML5 canvas with crisp SVG sprites.'],
         'missile-command' => ['Missile Command', 'missilecommand', 'Arcade', 'Defend your cities from incoming missiles.'],
         'asteroids' => ['Asteroids', 'asteroids', 'Arcade', 'Spin, thrust and blast your way through an asteroid field.'],
-        'pacman' => ['Pac-Man', 'pacman', 'Arcade', 'Eat the dots, dodge the ghosts, clear the maze.'],
+        'pacman' => ['Packman', 'packman', 'Arcade', 'Eat the dots, dodge the ghosts, clear the maze.'],
         'tetris' => ['Tetris', 'tetris', 'Puzzle', 'Stack falling blocks, clear lines, chase a high score.'],
         'snake' => ['Snake', 'snake', 'Arcade', 'Grow the snake, avoid the walls and your own tail.'],
         'pong' => ['Pong', 'pong', 'Arcade', 'The original paddle game, with a leaderboard.'],
@@ -74,6 +74,15 @@ class GamesSeeder extends Seeder
 
             $game = Game::where('slug', $slug)->first();
             if ($game) {
+                // Subdomain changed in GAMES: move the SSO callbacks with it, or sign-in breaks.
+                $oldHost = parse_url((string) $game->url, PHP_URL_HOST);
+                $newHost = "{$host}.nikniq.com";
+                if ($oldHost && $oldHost !== $newHost) {
+                    $catalogue['redirect_uris'] = array_map(
+                        fn ($uri) => str_replace("//{$oldHost}", "//{$newHost}", $uri),
+                        $game->redirect_uris ?? [],
+                    );
+                }
                 $game->fill($catalogue)->save();
 
                 continue;

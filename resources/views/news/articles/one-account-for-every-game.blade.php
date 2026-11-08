@@ -1,4 +1,4 @@
-<p>nikniq.com has a new home for its games. The portal lists every NikniQ game in one place, from arcade classics like Space Invaders, Pac-Man and Missile Command to puzzles, memory games and the Blockworld sandbox, each one a click away.</p>
+<p>nikniq.com has a new home for its games. The portal lists every NikniQ game in one place, from arcade classics like Space Invaders, Packman and Missile Command to puzzles, memory games and the Blockworld sandbox, each one a click away.</p>
 
 <h2>Sign in once, play everywhere</h2>
 <p>Each game lives on its own subdomain, but you no longer need a separate account for each. One NikniQ account, made with your email address or Google, signs you in to every game that supports it. Signing up asks only for your email; you set a password after you confirm the address.</p>
