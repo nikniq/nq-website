@@ -27,7 +27,7 @@
             <div class="hero-copy">
                 <span class="eyebrow">★ {{ __('Featured game') }}</span>
                 <h2><a href="{{ route('games.show', $spotlight) }}">{{ $spotlight->name }}</a></h2>
-                <p>{{ $spotlight->description }}</p>
+                <p>{{ $spotlight->localDescription() }}</p>
                 <div class="row">
                     @if($spotlight->url)<a class="btn big" href="{{ route('games.play', $spotlight) }}">▶&nbsp; {{ __('Play now') }}</a>@endif
                     <a class="btn big ghost" href="{{ route('games.show', $spotlight) }}">{{ __('About the game') }}</a>
@@ -59,7 +59,7 @@
             <div class="chips genres">
                 <a class="chip {{ $filters['genre'] === '' ? 'on' : '' }}" @if($filters['genre'] === '') aria-current="true" @endif href="{{ $link(['genre' => '']) }}">{{ __('All') }}</a>
                 @foreach($genres as $genre)
-                    <a class="chip {{ $filters['genre'] === $genre ? 'on' : '' }}" @if($filters['genre'] === $genre) aria-current="true" @endif href="{{ $link(['genre' => $filters['genre'] === $genre ? '' : $genre]) }}">{{ $genre }}</a>
+                    <a class="chip {{ $filters['genre'] === $genre ? 'on' : '' }}" @if($filters['genre'] === $genre) aria-current="true" @endif href="{{ $link(['genre' => $filters['genre'] === $genre ? '' : $genre]) }}">{{ \App\Models\Game::genreLabel($genre) }}</a>
                 @endforeach
             </div>
             <div class="filter-row">

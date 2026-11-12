@@ -20,8 +20,11 @@ class News
     /** @return Collection<int, object{slug:string,title:string,date:Carbon,summary:string,image:string}> */
     public static function all(): Collection
     {
+        // Translated title/summary live in lang/{locale}/news.php keyed by slug.
+        $tr = fn ($slug, $field, $english) => ! app()->isLocale('en') && \Illuminate\Support\Facades\Lang::hasForLocale("news.{$slug}.{$field}") ? __("news.{$slug}.{$field}") : $english;
+
         return collect(self::ARTICLES)->map(fn ($a) => (object) [
-            'slug' => $a[0], 'title' => $a[1], 'date' => Carbon::parse($a[2]), 'summary' => $a[3], 'image' => $a[4],
+            'slug' => $a[0], 'title' => $tr($a[0], 'title', $a[1]), 'date' => Carbon::parse($a[2]), 'summary' => $tr($a[0], 'summary', $a[3]), 'image' => $a[4],
         ]);
     }
 

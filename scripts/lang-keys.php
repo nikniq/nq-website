@@ -20,7 +20,7 @@ foreach ($files as $p) {
 }
 $keys = array_keys($keys);
 // Skip framework group keys like 'validation.required'.
-$keys = array_values(array_filter($keys, fn ($k) => ! preg_match('/^[a-z_]+\.[a-z_.]+$/', $k)));
+$keys = array_values(array_filter($keys, fn ($k) => ! preg_match('/^[a-z_]+\.[a-z_.]+$/', $k) && ! str_contains($k, '$')));
 sort($keys);
 if (in_array('--missing', $argv)) {
     foreach (glob("$root/lang/*.json") as $j) {

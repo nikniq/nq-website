@@ -19,10 +19,10 @@
     <div class="body">
         <h3 class="card-title"><a href="{{ route('games.show', $game) }}">{{ $game->name }}</a></h3>
         <p class="card-meta">
-            @if($game->genre)<span>{{ $game->genre }}</span>@endif
+            @if($game->genre)<span>{{ \App\Models\Game::genreLabel($game->genre) }}</span>@endif
             @if(isset($game->favourited_by_count) && $game->favourited_by_count)<span title="{{ __('Favourited by :count players', ['count' => $game->favourited_by_count]) }}">★ {{ $game->favourited_by_count }}</span>@endif
         </p>
-        <p class="card-desc">{{ $game->description }}</p>
+        <p class="card-desc">{{ $game->localDescription() }}</p>
         @if($game->url)<a class="btn play" href="{{ route('games.play', $game) }}" aria-label="{{ __('Play :name', ['name' => $game->name]) }}">▶&nbsp; {{ __('Play') }}</a>@endif
     </div>
 </article>

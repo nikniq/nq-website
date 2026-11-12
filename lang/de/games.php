@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'chopper' => 'Steuere einen Rettungshubschrauber durch enge Höhlen, weiche Hindernissen aus und bring alle sicher nach Hause.',
+    'blockworld' => 'Tagsüber abbauen, nachts überleben: eine Voxel-Überlebenswelt, Block für Block gebaut.',
+    'towers' => 'Stell Türme auf, halte die Stellung und überstehe jede Welle in diesem Tower-Defense-Spiel.',
+    'dungeon' => 'Ein kostenloses Roguelike im Browser: Steig hinab, bekämpfe Monster und finde den Schatz.',
+    'space-invaders' => 'Der Klassiker unter den Alien-Shootern, neu gebaut in HTML5 Canvas mit gestochen scharfen SVG-Grafiken.',
+    'missile-command' => 'Verteidige deine Städte gegen anfliegende Raketen.',
+    'asteroids' => 'Drehen, Schub geben und ballern: Kämpf dich durch ein Asteroidenfeld.',
+    'pacman' => 'Friss die Punkte, weich den Geistern aus, räum das Labyrinth leer.',
+    'tetris' => 'Staple fallende Blöcke, räum Reihen ab und jag den Highscore.',
+    'snake' => 'Lass die Schlange wachsen und meide die Wände und deinen eigenen Schwanz.',
+    'pong' => 'Das Original unter den Schlägerspielen, mit Bestenliste.',
+    'frogger' => 'Hüpf über Straßen und Flüsse und bring den Frosch nach Hause.',
+    'bomberman' => 'Leg Bomben, räum das Labyrinth frei und überdaure deine Gegner.',
+    'minesweeper' => 'Räum das Feld, ohne eine Mine auszulösen.',
+    'reversi' => 'Dreh Steine um und erobere das Brett in diesem Strategiespiel im Stil von Othello.',
+    'candy' => 'Bilde Dreierreihen aus Bonbons und räum das Brett in diesem süßen Rätselspiel.',
+    'space-huggers' => 'Ein Run-and-Gun-Plattformspiel gegen ein Imperium, das sich über die Galaxis ausbreitet.',
+    'miniciv' => 'Ein Zivilisationsaufbau im Taschenformat.',
+    'dwarfs' => 'Dwarfs: Hin und wieder zurück. Grab, sammle und bring die Gruppe nach Hause.',
+    'woolfie' => 'Ein kleines Schleichspiel von oben: Finde den Schlüssel, öffne die Türen, erreiche den Ausgang.',
+    'lawyer-memory' => 'Deck die Karten auf, finde die Paare, schließ den Fall ab: ein Memory-Spiel rund ums Recht.',
+    'doctor-memory' => 'Ein Memory-Spiel rund um die Medizin.',
+];

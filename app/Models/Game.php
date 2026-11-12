@@ -172,4 +172,27 @@ class Game extends Model
             ? $this->thumbnail
             : '/'.ltrim($this->thumbnail, '/');
     }
+
+    /**
+     * Description in the current language: lang/{locale}/games.php keyed by slug,
+     * used only while the stored text is still the seeded English (an admin
+     * edit wins until the translation is updated).
+     */
+    public function localDescription(): ?string
+    {
+        $key = "games.{$this->slug}";
+        $seeded = \Database\Seeders\GamesSeeder::GAMES[$this->slug][3] ?? null;
+
+        if (! app()->isLocale('en') && \Illuminate\Support\Facades\Lang::hasForLocale($key) && $this->description === $seeded) {
+            return __($key);
+        }
+
+        return $this->description;
+    }
+
+    /** Genre name in the current language (lang/{locale}/genres.php), or as stored. */
+    public static function genreLabel(?string $genre): ?string
+    {
+        return $genre && \Illuminate\Support\Facades\Lang::hasForLocale("genres.{$genre}") ? __("genres.{$genre}") : $genre;
+    }
 }

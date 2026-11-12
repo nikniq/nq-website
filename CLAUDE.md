@@ -60,5 +60,6 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 
 - Site languages are `portal.locales` (en, ja, fr, de, es). `SetLocale` (web group) picks `?lang=xx` (remembered in a `lang` cookie), then the cookie, then Accept-Language, then English. The layout emits hreflang alternates and a footer/menu switcher.
 - UI strings use `__('English text')`; translations are `lang/{code}.json` keyed by the English text, plus `lang/{code}/validation.php` etc. After adding or changing a string run `php scripts/lang-keys.php --missing` and add it to every language file; `LocaleTest` fails if any key is missing.
-- Not translated: admin pages, API messages, game names/descriptions (DB), HowToPlay tips, news articles, privacy/terms/developers pages.
+- Translated content: `lang/{code}/games.php` (slug => description, used only while the DB text equals the seeded English, so admin edits win), `genres.php`, `howto.php` (same shape as `HowToPlay::TIPS`), `news.php` (slug => title/summary); article bodies in `news/articles/{code}/{slug}`, pages in `pages/{code}/{privacy,terms,developers}` (English fallback). `LocalizedContentTest` requires full coverage: add a translation when adding a game, tip or article.
+- Not translated: admin pages, API messages, game names.
 - JSON-LD in Blade must write `'@@context'`: Laravel 13 compiles `@context` as a directive (`JsonLdTest` guards this).

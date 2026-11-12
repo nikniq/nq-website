@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('title', $game->name)
-@section('description', \Illuminate\Support\Str::limit($game->description ?: __('Play :name free in your browser on :site.', ['name' => $game->name, 'site' => config('portal.name')]), 155))
+@section('description', \Illuminate\Support\Str::limit($game->localDescription() ?: __('Play :name free in your browser on :site.', ['name' => $game->name, 'site' => config('portal.name')]), 155))
 @section('og_type', 'video.other')
 @if($game->thumbnailUrl())@section('image', url($game->thumbnailUrl()))@endif
 @section('jsonld')
 <script type="application/ld+json">{!! json_encode([
     '@@context' => 'https://schema.org',
     '@graph' => [
-        ['@type' => 'VideoGame', 'name' => $game->name, 'description' => $game->description, 'url' => route('games.show', $game), 'image' => $game->thumbnailUrl() ? url($game->thumbnailUrl()) : null, 'genre' => $game->genre, 'gamePlatform' => 'Web browser', 'applicationCategory' => 'Game', 'operatingSystem' => 'Any', 'offers' => ['@type' => 'Offer', 'price' => '0', 'priceCurrency' => 'USD'], 'publisher' => ['@type' => 'Organization', 'name' => config('portal.name'), 'url' => url('/')]],
+        ['@type' => 'VideoGame', 'name' => $game->name, 'description' => $game->localDescription(), 'url' => route('games.show', $game), 'image' => $game->thumbnailUrl() ? url($game->thumbnailUrl()) : null, 'genre' => $game->genre, 'gamePlatform' => 'Web browser', 'applicationCategory' => 'Game', 'operatingSystem' => 'Any', 'offers' => ['@type' => 'Offer', 'price' => '0', 'priceCurrency' => 'USD'], 'publisher' => ['@type' => 'Organization', 'name' => config('portal.name'), 'url' => url('/')]],
         ['@type' => 'BreadcrumbList', 'itemListElement' => [
             ['@type' => 'ListItem', 'position' => 1, 'name' => __('Games'), 'item' => route('games.index')],
             ['@type' => 'ListItem', 'position' => 2, 'name' => $game->name, 'item' => route('games.show', $game)],
@@ -27,10 +27,10 @@
             <h1>{{ $game->name }}</h1>
             <div class="row">
                 @if($game->is_featured)<span class="badge">{{ __('Featured') }}</span>@endif
-                @if($game->genre)<a class="badge muted" href="{{ route('games.index', ['genre' => $game->genre]) }}">{{ $game->genre }}</a>@endif
+                @if($game->genre)<a class="badge muted" href="{{ route('games.index', ['genre' => $game->genre]) }}">{{ \App\Models\Game::genreLabel($game->genre) }}</a>@endif
                 @if($game->is_dementia)<a class="badge calm" href="{{ route('games.index', ['dementia' => 1]) }}">☺ {{ __('Dementia-friendly') }}</a>@endif
             </div>
-            <p class="lead">{{ $game->description }}</p>
+            <p class="lead">{{ $game->localDescription() }}</p>
             @if($game->is_dementia)<p class="muted" style="font-size:.9rem;margin:0">{{ __('Dementia-friendly: calm pace, simple rules, no time pressure.') }}</p>@endif
             <div class="row">
                 @if($game->url)<a class="btn big" href="{{ route('games.play', $game) }}">▶ {{ __('Play now') }}</a>@endif

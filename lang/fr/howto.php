@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'chopper' => ['Volez à travers les grottes et secourez toutes les personnes qui attendent en bas.', ['Dans les passages étroits, de petites corrections douces valent mieux que de grands écarts.', 'Regardez devant vous : le prochain obstacle compte plus que celui que vous passez.']],
+    'blockworld' => ['Récoltez des blocs et des ressources le jour, construisez un abri et survivez à la nuit.', ['Construisez un abri simple avant la première tombée de la nuit.', 'La lumière tient l’obscurité à distance : n’hésitez pas à en placer beaucoup.']],
+    'towers' => ['Arrêtez chaque vague d’ennemis avant qu’elle n’atteigne le bout du chemin.', ['Placez vos tours dans les virages pour qu’elles tirent plus longtemps.', 'Améliorez quelques tours puissantes plutôt que de vous disperser.']],
+    'dungeon' => ['Explorez le donjon, battez les monstres et trouvez le trésor.', ['Ramassez les objets en chemin : certains combats en ont besoin.', 'Reculez pour vous soigner avant un combat difficile, pas pendant.']],
+    'space-invaders' => ['Abattez les extraterrestres qui avancent avant qu’ils n’atteignent le sol.', ['Abritez-vous derrière les boucliers et éliminez d’abord les rangées du bas.', 'Les envahisseurs accélèrent à mesure que leur nombre diminue.']],
+    'missile-command' => ['Protégez vos villes en détruisant les missiles en plein vol.', ['Visez un peu devant le missile pour que votre explosion le rencontre.', 'Une explosion bien placée peut arrêter plusieurs missiles.']],
+    'asteroids' => ['Détruisez tous les astéroïdes sans percuter les débris.', ['Les gros rochers se brisent en petits plus rapides : nettoyez-les avec prudence.', 'Gardez une vitesse faible : il est difficile d’arrêter une glissade.']],
+    'pacman' => ['Mangez toutes les pastilles du labyrinthe en évitant les fantômes.', ['Gardez les grosses pastilles d’énergie pour quand les fantômes sont proches.', 'Utilisez les tunnels sur les côtés pour échapper à une poursuite.']],
+    'tetris' => ['Emboîtez les blocs qui tombent pour compléter des lignes.', ['Gardez une pile bien plate et laissez une colonne libre pour les pièces longues.', 'Compléter plusieurs lignes d’un coup rapporte plus de points.']],
+    'snake' => ['Mangez pour grandir, sans toucher un mur ni votre propre queue.', ['Faites de larges boucles pour garder de l’espace en grandissant.', 'Préparez votre trajet vers la nourriture avant de tourner.']],
+    'pong' => ['Renvoyez la balle au-delà de la raquette adverse pour marquer.', ['Frapper avec le bord de la raquette envoie la balle avec un angle plus marqué.', 'Revenez au centre après chaque frappe.']],
+    'frogger' => ['Guidez la grenouille à travers la route et la rivière jusqu’à un abri sûr.', ['Attendez un espace libre plutôt que de foncer dans la circulation.', 'Montez sur les rondins et les tortues, mais méfiez-vous des tortues qui plongent.']],
+    'bomberman' => ['Posez des bombes pour détruire les murs et vaincre les ennemis du labyrinthe.', ['Sachez toujours par où fuir avant de poser une bombe.', 'Les bonus cachés dans les murs donnent des explosions plus grandes et plus de bombes.']],
+    'minesweeper' => ['Découvrez toutes les cases sûres sans tomber sur une mine.', ['Un chiffre indique combien de mines touchent cette case.', 'Marquez d’un drapeau les mines dont vous êtes sûr pour en déduire le reste.']],
+    'reversi' => ['Terminez avec le plus de pions de votre couleur sur le plateau.', ['Les coins ne peuvent jamais être repris : ils valent beaucoup.', 'En début de partie, évitez les cases voisines des coins.']],
+    'candy' => ['Échangez des bonbons voisins pour en aligner au moins trois identiques.', ['Rien ne presse : prenez votre temps pour repérer le meilleur échange.', 'Les alignements en bas du plateau peuvent déclencher des réactions en chaîne.']],
+    'space-huggers' => ['Courez, sautez et tirez pour traverser chaque niveau.', ['Restez en mouvement : immobile, vous êtes une cible facile.', 'Explorez pour trouver des armes et des bonus en chemin.']],
+    'miniciv' => ['Faites grandir une petite civilisation en récoltant des ressources et en vous étendant.', ['Équilibrez nourriture et production pour que la croissance ne s’arrête pas.', 'Étendez-vous tôt, tant que les terres sont libres.']],
+    'dwarfs' => ['Guidez les nains pendant qu’ils creusent, récoltent et rentrent chez eux.', ['Rassemblez des provisions avant de partir vers l’inconnu.', 'Gardez l’équipe groupée.']],
+    'woolfie' => ['Faufilez-vous dans le château, trouvez la clé et atteignez la sortie sans être vu.', ['Observez les rondes des gardes avant de bouger.', 'La patience paie : attendez l’ouverture, puis foncez.']],
+    'lawyer-memory' => ['Retournez deux cartes à la fois et trouvez toutes les paires.', ['Retenez l’emplacement de chaque carte, même quand elle ne forme pas de paire.', 'Il n’y a pas de limite de temps : jouez à votre rythme.']],
+    'doctor-memory' => ['Retournez deux cartes à la fois et trouvez toutes les paires.', ['Parcourez le plateau dans l’ordre pour mieux retenir les positions.', 'Il n’y a pas de limite de temps : jouez à votre rythme.']],
+];

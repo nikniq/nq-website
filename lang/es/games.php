@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'chopper' => 'Pilota un helicóptero de rescate por cuevas estrechas, esquiva los obstáculos y lleva a todos a casa.',
+    'blockworld' => 'Mina de día, sobrevive de noche: un mundo de supervivencia hecho de vóxeles, bloque a bloque.',
+    'towers' => 'Coloca torres, aguanta la línea y sobrevive a cada oleada en este juego de defensa de torres.',
+    'dungeon' => 'Un roguelike gratis en el navegador: baja a la mazmorra, lucha contra monstruos y encuentra el tesoro.',
+    'space-invaders' => 'El clásico de disparar a los alienígenas, rehecho en HTML5 con nítidos gráficos SVG.',
+    'missile-command' => 'Defiende tus ciudades de los misiles que se acercan.',
+    'asteroids' => 'Gira, acelera y dispara para abrirte paso entre los asteroides.',
+    'pacman' => 'Come los puntos, esquiva a los fantasmas y limpia el laberinto.',
+    'tetris' => 'Apila los bloques que caen, completa líneas y busca la puntuación más alta.',
+    'snake' => 'Haz crecer la serpiente sin chocar con las paredes ni con tu propia cola.',
+    'pong' => 'El juego de palas original, con clasificación.',
+    'frogger' => 'Salta entre el tráfico y cruza el río para llevar a la rana a casa.',
+    'bomberman' => 'Pon bombas, despeja el laberinto y aguanta más que tus rivales.',
+    'minesweeper' => 'Despeja el campo sin hacer estallar ninguna mina.',
+    'reversi' => 'Da la vuelta a las fichas y domina el tablero en este juego de estrategia al estilo Othello.',
+    'candy' => 'Junta tres caramelos iguales y limpia el tablero en este dulce puzle.',
+    'space-huggers' => 'Un juego de plataformas y disparos contra un imperio que se extiende por la galaxia.',
+    'miniciv' => 'Un constructor de civilizaciones de bolsillo.',
+    'dwarfs' => 'Dwarfs: ida y vuelta. Excava, recoge recursos y lleva al grupo a casa.',
+    'woolfie' => 'Un pequeño juego de sigilo visto desde arriba: encuentra la llave, abre las puertas y llega a la salida.',
+    'lawyer-memory' => 'Da la vuelta a las cartas, encuentra las parejas y cierra el caso: un juego de memoria con temática legal.',
+    'doctor-memory' => 'Un juego de memoria de parejas con temática médica.',
+];

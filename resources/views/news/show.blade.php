@@ -11,7 +11,7 @@
     <h1>{{ $article->title }}</h1>
     <p class="lede">{{ $article->summary }}</p>
     <img src="{{ $article->image }}" alt="" width="760" height="333">
-    @include('news.articles.'.$article->slug)
+    @includeFirst(['news.articles.'.app()->getLocale().'.'.$article->slug, 'news.articles.'.$article->slug])
 </article>
 @if($more->isNotEmpty())
     <h2 class="section-title" style="margin-top:2.5rem">{{ __('More news') }}</h2>

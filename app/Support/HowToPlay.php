@@ -37,6 +37,11 @@ class HowToPlay
     /** @return array{0:string,1:array<int,string>}|null */
     public static function for(string $slug): ?array
     {
-        return self::TIPS[$slug] ?? null;
+        if (! isset(self::TIPS[$slug])) {
+            return null;
+        }
+        $key = "howto.{$slug}";
+
+        return ! app()->isLocale('en') && \Illuminate\Support\Facades\Lang::hasForLocale($key) ? __($key) : self::TIPS[$slug];
     }
 }

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'chopper' => ['Flieg durch die Höhlen und rette alle, die unten warten.', ['Kleine, sanfte Korrekturen sind in engen Lücken besser als große Ausweichmanöver.', 'Schau voraus: Das nächste Hindernis ist wichtiger als das, an dem du gerade vorbeifliegst.']],
+    'blockworld' => ['Sammle tagsüber Blöcke und Rohstoffe, bau einen Unterschlupf und überstehe die Nacht.', ['Bau dir einen einfachen Unterschlupf, bevor die erste Nacht kommt.', 'Licht hält die Dunkelheit fern, also sei großzügig damit.']],
+    'towers' => ['Halte jede Gegnerwelle auf, bevor sie das Ende des Weges erreicht.', ['Stell Türme dort auf, wo der Weg eine Kurve macht, dann schießen sie länger.', 'Rüste lieber ein paar starke Türme auf, statt dich zu verzetteln.']],
+    'dungeon' => ['Erkunde den Dungeon, besiege Monster und finde den Schatz.', ['Heb unterwegs Gegenstände auf; für manche Kämpfe brauchst du sie.', 'Zieh dich vor einem harten Kampf zum Heilen zurück, nicht mittendrin.']],
+    'space-invaders' => ['Schieß die anrückenden Aliens ab, bevor sie den Boden erreichen.', ['Versteck dich hinter den Schutzschilden und nimm zuerst die unterste Reihe ins Visier.', 'Je weniger Invasoren übrig sind, desto schneller werden sie.']],
+    'missile-command' => ['Schütze deine Städte, indem du anfliegende Raketen in der Luft zerstörst.', ['Ziel etwas vor die Rakete, damit deine Explosion sie trifft.', 'Eine gut platzierte Explosion kann mehrere Raketen aufhalten.']],
+    'asteroids' => ['Zerstöre alle Asteroiden, ohne mit den Trümmern zusammenzustoßen.', ['Große Brocken zerfallen in schnellere kleine, also räum sie vorsichtig ab.', 'Bleib langsam; wer ins Treiben kommt, hält schwer an.']],
+    'pacman' => ['Friss alle Punkte im Labyrinth und weich dabei den Geistern aus.', ['Heb dir die großen Kraftpillen auf, bis die Geister nah sind.', 'Nutz die Seitentunnel, um einer Verfolgung zu entkommen.']],
+    'tetris' => ['Füg die fallenden Blöcke so zusammen, dass volle Reihen verschwinden.', ['Halte den Stapel flach und lass eine Spalte für lange Teile frei.', 'Mehrere Reihen auf einmal bringen mehr Punkte.']],
+    'snake' => ['Friss Futter, um zu wachsen, ohne gegen eine Wand oder deinen eigenen Schwanz zu stoßen.', ['Zieh weite Bahnen, damit dir beim Wachsen Platz bleibt.', 'Plane deinen Weg zum Futter, bevor du abbiegst.']],
+    'pong' => ['Spiel den Ball am Schläger deines Gegners vorbei, um zu punkten.', ['Triffst du mit der Schlägerkante, fliegt der Ball in einem steileren Winkel.', 'Geh nach jedem Schlag zurück in die Mitte.']],
+    'frogger' => ['Führ den Frosch über Straße und Fluss in ein sicheres Zuhause.', ['Warte auf eine Lücke, statt durch den Verkehr zu hetzen.', 'Reite auf Baumstämmen und Schildkröten, aber pass auf Schildkröten auf, die abtauchen.']],
+    'bomberman' => ['Leg Bomben, um Wände wegzusprengen und Gegner im Labyrinth zu besiegen.', ['Kenne immer deinen Fluchtweg, bevor du eine Bombe legst.', 'In Wänden versteckte Extras geben dir größere Explosionen und mehr Bomben.']],
+    'minesweeper' => ['Deck alle sicheren Felder auf, ohne eine Mine zu erwischen.', ['Eine Zahl zeigt, wie viele Minen an dieses Feld grenzen.', 'Markier die Minen, bei denen du dir sicher bist, um den Rest herauszufinden.']],
+    'reversi' => ['Hab am Ende mehr Steine deiner Farbe auf dem Brett.', ['Ecken können nie zurückgedreht werden, darum sind sie viel wert.', 'Meide am Anfang die Felder neben den Ecken.']],
+    'candy' => ['Tausche benachbarte Bonbons, um drei oder mehr gleiche in eine Reihe zu bringen.', ['Keine Eile: Lass dir Zeit, den besten Tausch zu finden.', 'Treffer weiter unten können Bonus-Ketten auslösen.']],
+    'space-huggers' => ['Lauf, spring und schieß dich durch jedes Level.', ['Bleib in Bewegung; wer stillsteht, ist ein leichtes Ziel.', 'Halte unterwegs Ausschau nach Waffen und Extras.']],
+    'miniciv' => ['Lass eine kleine Zivilisation wachsen, indem du Rohstoffe sammelst und dich ausbreitest.', ['Halte Nahrung und Produktion im Gleichgewicht, damit das Wachstum nicht stockt.', 'Breite dich früh aus, solange noch Land frei ist.']],
+    'dwarfs' => ['Führ die Zwerge, während sie graben, sammeln und sich auf den Heimweg machen.', ['Sammle Vorräte, bevor du ins Unbekannte aufbrichst.', 'Halte die Gruppe zusammen.']],
+    'woolfie' => ['Schleich durch die Burg, finde den Schlüssel und erreiche ungesehen den Ausgang.', ['Beobachte die Wege der Wachen, bevor du dich bewegst.', 'Geduld zahlt sich aus: Warte auf die Lücke, dann los.']],
+    'lawyer-memory' => ['Deck jeweils zwei Karten auf und finde alle passenden Paare.', ['Merk dir, wo jede Karte lag, auch wenn sie nicht gepasst hat.', 'Es gibt kein Zeitlimit, also spiel in deinem eigenen Tempo.']],
+    'doctor-memory' => ['Deck jeweils zwei Karten auf und finde alle passenden Paare.', ['Geh das Brett der Reihe nach durch, um dir die Positionen zu merken.', 'Es gibt kein Zeitlimit, also spiel in deinem eigenen Tempo.']],
+];

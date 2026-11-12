@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'chopper' => ['Vuela por las cuevas y rescata a todos los que esperan abajo.', ['En los huecos estrechos, mejor pequeñas correcciones suaves que grandes volantazos.', 'Mira hacia delante: el próximo obstáculo importa más que el que estás pasando.']],
+    'blockworld' => ['Recoge bloques y recursos de día, construye un refugio y sobrevive a la noche.', ['Construye un refugio sencillo antes de tu primera noche.', 'La luz mantiene a raya la oscuridad, así que pon mucha.']],
+    'towers' => ['Detén cada oleada de enemigos antes de que lleguen al final del camino.', ['Pon las torres donde el camino gira para que disparen durante más tiempo.', 'Mejor mejorar unas pocas torres fuertes que repartirte demasiado.']],
+    'dungeon' => ['Explora la mazmorra, derrota a los monstruos y encuentra el tesoro.', ['Recoge objetos por el camino; algunas peleas los necesitan.', 'Retírate a curarte antes de una batalla difícil, no durante.']],
+    'space-invaders' => ['Derriba a los alienígenas que avanzan antes de que lleguen al suelo.', ['Escóndete tras los escudos y elimina primero las filas más bajas.', 'Los invasores van más rápido cuantos menos quedan.']],
+    'missile-command' => ['Protege tus ciudades destruyendo los misiles en el aire.', ['Apunta un poco por delante del misil para que la explosión lo alcance.', 'Una explosión bien colocada puede detener varios misiles.']],
+    'asteroids' => ['Destruye todos los asteroides sin chocar con los fragmentos.', ['Las rocas grandes se parten en otras pequeñas y más rápidas, así que ve con cuidado.', 'Mantén poca velocidad; cuesta frenar cuando vas a la deriva.']],
+    'pacman' => ['Cómete todos los puntos del laberinto sin que te pillen los fantasmas.', ['Guarda las píldoras grandes para cuando los fantasmas estén cerca.', 'Usa los túneles laterales para escapar de una persecución.']],
+    'tetris' => ['Encaja los bloques que caen para completar líneas.', ['Mantén la pila plana y deja una columna libre para las piezas largas.', 'Completar varias líneas a la vez da más puntos.']],
+    'snake' => ['Come para crecer, sin chocar con una pared ni con tu propia cola.', ['Muévete en bucles amplios para dejar espacio libre mientras creces.', 'Planea el camino hasta la comida antes de girar.']],
+    'pong' => ['Haz que la pelota pase la pala de tu rival para marcar.', ['Si golpeas con el borde de la pala, la pelota sale con más ángulo.', 'Vuelve al centro después de cada golpe.']],
+    'frogger' => ['Lleva a la rana a través de la carretera y el río hasta un lugar seguro.', ['Espera un hueco en lugar de cruzar el tráfico con prisas.', 'Súbete a los troncos y a las tortugas, pero ojo con las que se sumergen.']],
+    'bomberman' => ['Pon bombas para derribar muros y vencer a los enemigos del laberinto.', ['Antes de poner una bomba, ten clara tu ruta de escape.', 'Los potenciadores escondidos en los muros te dan explosiones más grandes y más bombas.']],
+    'minesweeper' => ['Descubre todas las casillas seguras sin pisar una mina.', ['Un número indica cuántas minas tocan esa casilla.', 'Marca con bandera las minas que tengas claras para deducir el resto.']],
+    'reversi' => ['Termina con más fichas de tu color en el tablero.', ['Las esquinas nunca se pueden volver a girar, así que valen mucho.', 'Al principio, evita las casillas junto a las esquinas.']],
+    'candy' => ['Intercambia caramelos vecinos para alinear tres o más del mismo tipo.', ['No hay prisa: tómate tu tiempo para encontrar el mejor movimiento.', 'Las combinaciones cerca de la parte de abajo pueden provocar cadenas extra.']],
+    'space-huggers' => ['Corre, salta y dispara para superar cada nivel.', ['No te quedes quieto; si te paras, eres un blanco fácil.', 'Explora para encontrar armas y potenciadores por el camino.']],
+    'miniciv' => ['Haz crecer una pequeña civilización recogiendo recursos y expandiéndote.', ['Equilibra comida y producción para que el crecimiento no se frene.', 'Expándete pronto, mientras haya tierra libre.']],
+    'dwarfs' => ['Guía a los enanos mientras excavan, recogen recursos y vuelven a casa.', ['Reúne provisiones antes de adentrarte en lo desconocido.', 'Mantén unido al grupo.']],
+    'woolfie' => ['Cuélate por el castillo, encuentra la llave y llega a la salida sin que te vean.', ['Observa los movimientos de los guardias antes de moverte.', 'La paciencia gana: espera el hueco y luego ve.']],
+    'lawyer-memory' => ['Da la vuelta a dos cartas cada vez y encuentra todas las parejas.', ['Recuerda dónde estaba cada carta, aunque no forme pareja.', 'No hay límite de tiempo, así que juega a tu ritmo.']],
+    'doctor-memory' => ['Da la vuelta a dos cartas cada vez y encuentra todas las parejas.', ['Recorre el tablero en orden para recordar las posiciones.', 'No hay límite de tiempo, así que juega a tu ritmo.']],
+];

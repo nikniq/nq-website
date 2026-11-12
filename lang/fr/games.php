@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'chopper' => 'Pilotez un hélicoptère de secours dans des grottes étroites, évitez les obstacles et ramenez tout le monde sain et sauf.',
+    'blockworld' => 'Minez le jour, survivez la nuit : un monde de survie en voxels, construit bloc par bloc.',
+    'towers' => 'Placez vos tours, tenez la ligne et résistez à chaque vague dans ce jeu de défense de tours.',
+    'dungeon' => 'Un roguelike gratuit dans votre navigateur : explorez, combattez des monstres, trouvez le trésor.',
+    'space-invaders' => 'Le grand classique du tir contre les extraterrestres, recréé en HTML5 avec des graphismes nets.',
+    'missile-command' => 'Défendez vos villes contre les missiles qui arrivent.',
+    'asteroids' => 'Pivotez, accélérez et frayez-vous un chemin à coups de tirs à travers un champ d’astéroïdes.',
+    'pacman' => 'Mangez les pastilles, échappez aux fantômes, videz le labyrinthe.',
+    'tetris' => 'Empilez les blocs qui tombent, complétez des lignes, visez le meilleur score.',
+    'snake' => 'Faites grandir le serpent en évitant les murs et votre propre queue.',
+    'pong' => 'Le tout premier jeu de raquettes, avec un classement.',
+    'frogger' => 'Traversez la route et la rivière pour ramener la grenouille chez elle.',
+    'bomberman' => 'Posez des bombes, dégagez le labyrinthe et survivez plus longtemps que vos rivaux.',
+    'minesweeper' => 'Déminez le terrain sans faire exploser une seule mine.',
+    'reversi' => 'Retournez les pions et prenez le contrôle du plateau dans ce jeu de stratégie façon Othello.',
+    'candy' => 'Alignez trois bonbons et videz le plateau dans ce casse-tête tout en douceur.',
+    'space-huggers' => 'Un jeu de plateforme et de tir contre un empire qui s’étend à travers la galaxie.',
+    'miniciv' => 'Bâtissez une civilisation en format de poche.',
+    'dwarfs' => 'Dwarfs : aller et retour. Creusez, récoltez et ramenez l’équipe à la maison.',
+    'woolfie' => 'Un petit jeu d’infiltration vu de dessus : trouvez la clé, ouvrez les portes, atteignez la sortie.',
+    'lawyer-memory' => 'Retournez les cartes, trouvez les paires, classez l’affaire : un jeu de mémoire sur le thème du droit.',
+    'doctor-memory' => 'Un jeu de mémoire et de paires sur le thème de la médecine.',
+];
