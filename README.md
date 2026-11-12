@@ -188,7 +188,7 @@ git push             # the server deploys by pulling, so unpushed commits never 
 ./cx.sh --seed-games # after editing GamesSeeder::GAMES (renamed game, new subdomain)
 ```
 
-Point the web server (or the hosting account's document root) at `public_html/`. The app has no front-end build step; views use inline CSS.
+Point the web server (or the hosting account's document root) at `public_html/`. The app has no front-end build step; styles are the plain file `public_html/css/site.css`.
 
 ## Layout
 

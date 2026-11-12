@@ -17,7 +17,7 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 
 ## Layout
 
-- Web root is `public_html/` (`bootstrap/app.php` calls `usePublicPath`; Vite's `publicDirectory` is set too, but views use inline CSS and need no build).
+- Web root is `public_html/` (`bootstrap/app.php` calls `usePublicPath`; Vite's `publicDirectory` is set too, but views need no build: CSS is plain `public_html/css/site.css`, linked with a `?v=filemtime` cache-buster).
 - `routes/web.php`: catalogue, auth, dashboard, profile, `/sso/authorize` (needs `auth`), admin under `/admin` with `admin.` names.
 - `routes/api.php`: `/api/sso/token` (client-authenticated), then `player`-middleware routes (`/api/sso/me|logout|favourite`, `/api/games/{slug}/events`), plus public `/api/games` and `/api/games/{slug}/leaderboard`.
 - `app/Services/GameStatsService.php` is the only writer of `game_events` and `player_game_stats`; call `record()` rather than touching those tables.
@@ -38,7 +38,7 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - Password reset is `Auth\PasswordResetController` on Laravel's password broker (`password.*` routes); unfinished sign-ups get `VerifyEmail` again instead.
 - Header links come from `$navLinks` in the layout (inline `@php(...)` only: a multi-line `@php ... @endphp` block in that file gets swallowed by the earlier inline ones). On phones they move into the `<details class="menu">` panel. Missing pages redirect to `/?missing=1` because unmatched routes have no session for a flash.
 - Thumbnails render through `games/_picture.blade.php`: `Game::webpUrl()` finds a `.webp` sibling of a local jpg/png; pass `eager => true` for above-the-fold images.
-- Visual design lives in the `/* ===== Design ===== */` block at the end of the layout `<style>` (it overrides earlier rules). Font: self-hosted Plus Jakarta Sans variable (`public_html/fonts`, OFL). The catalogue shows a hero for the first featured game when no search/filter/sort is active; cards put the title under the art with one Play button.
+- Visual design lives in the `/* ===== Design ===== */` block in `public_html/css/site.css` (it overrides earlier rules); the layout keeps only inline JS. Font: self-hosted Plus Jakarta Sans variable (`public_html/fonts`, OFL). The catalogue shows a hero for the first featured game when no search/filter/sort is active; cards put the title under the art with one Play button.
 - SEO: the layout reads `title`, `description`, `image`, `og_type` and `jsonld` sections; set them per view. Mobile (≤640px) uses a compact two-column card grid defined in the layout CSS.
 - Google sign-in lives in `Auth\SocialLoginController` (Socialite), enabled by `GOOGLE_OAUTH_ENABLED`. OAuth-only users have `password = null`; `User::hasPassword()` gates the login form, unlinking, and the current-password check. Tests mock `Socialite::shouldReceive('driver')` (see `tests/Feature/GoogleLoginTest.php`).
 - Google Analytics: `portal.ga_measurement_id`, rendered by the layout in production only (`portal.ga_always` forces it).
@@ -46,7 +46,7 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - `/sitemap.xml` is `SitemapController`, cached under `sitemap.xml`; the `Game` model forgets it on save/delete. `bootstrap/app.php` turns `NotFoundHttpException` on HTML GETs without a file extension into a redirect to `games.index`; API, assets and non-GET keep a 404.
 - News articles live in the repo, not the database: metadata in `App\Support\News::ARTICLES` (newest first), body in `resources/views/news/articles/{slug}.blade.php`. `/news` and `/news/{slug}` are `NewsController`; the sitemap lists them.
 - Game-page how-to-play notes are `App\Support\HowToPlay::TIPS`, keyed by slug; a test requires an entry for every game in `GamesSeeder::GAMES`.
-- `/admin/reports` (`Admin\ReportController`, `App\Services\ReportService`): KPIs vs the previous period, daily column charts (`admin/reports/_bars.blade.php`, HTML bars coloured by `--chart`, hover tooltip, table fallback), per-game and top-player tables, CSV via `/admin/reports/export?report=games|daily&days=7|30|90`. Read-only queries; it never writes stats.
+- `/admin/reports` (`Admin\ReportController`, `App\Services\ReportService`): KPIs vs the previous period, daily column charts (`admin/reports/_bars.blade.php`, HTML bars coloured by `--chart` in site.css, hover tooltip, table fallback), per-game and top-player tables, CSV via `/admin/reports/export?report=games|daily&days=7|30|90`. Read-only queries; it never writes stats.
 - Admin is the `users.is_admin` flag (`EnsureUserIsAdmin`, alias `admin`). The client secret is shown once after create/rotate via the `client_secret` flash.
 
 ## Conventions
