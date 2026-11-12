@@ -386,7 +386,7 @@
                 <form class="nav-link" method="post" action="{{ route('logout') }}">@csrf<button type="submit">Log out</button></form>
             @else
                 <a class="nav-link" href="{{ route('login') }}">Log in</a>
-                <a class="pill" href="{{ route('register') }}">Sign up</a>
+                @unless(request()->routeIs('register*'))<a class="pill" href="{{ route('register') }}">Sign up</a>@endunless
             @endauth
             <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode" title="Switch theme">☀</button>
             <button type="button" class="theme-toggle" id="calm-toggle" aria-pressed="false" aria-label="Calm mode: larger text, less motion" title="Calm mode">Aa</button>

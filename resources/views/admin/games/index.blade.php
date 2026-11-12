@@ -9,14 +9,14 @@
         <div class="stat"><div class="v">{{ number_format($totals['events']) }}</div><div class="l">Events</div></div>
         <div class="stat"><div class="v">{{ number_format($totals['events_today']) }}</div><div class="l">Events today</div></div>
     </div>
-    <table>
-        <thead><tr><th>Game</th><th>Slug</th><th>Client</th><th class="num">★</th><th class="num">Players</th><th class="num">Events</th><th>Status</th><th></th></tr></thead>
+    <div class="table-scroll"><table class="admin-games">
+        <thead><tr><th>Game</th><th class="hide-sm">Slug</th><th class="hide-sm">Client</th><th class="num">★</th><th class="num">Players</th><th class="num">Events</th><th>Status</th><th></th></tr></thead>
         <tbody>
         @foreach($games as $g)
             <tr>
                 <td><a href="{{ route('admin.games.edit', $g) }}">{{ $g->name }}</a> @if($g->is_featured)<span class="badge">Featured</span>@endif @if($g->is_dementia)<span class="badge calm">Dementia</span>@endif</td>
-                <td><code>{{ $g->slug }}</code></td>
-                <td>{{ $g->is_public ? 'public (PKCE)' : 'confidential' }}</td>
+                <td class="hide-sm"><code style="white-space:nowrap">{{ $g->slug }}</code></td>
+                <td class="hide-sm">{{ $g->is_public ? 'public (PKCE)' : 'confidential' }}</td>
                 <td class="num">{{ $g->favourited_by_count }}</td>
                 <td class="num">{{ $g->stats_count }}</td>
                 <td class="num">{{ $g->events_count }}</td>
@@ -25,5 +25,5 @@
             </tr>
         @endforeach
         </tbody>
-    </table>
+    </table></div>
 @endsection

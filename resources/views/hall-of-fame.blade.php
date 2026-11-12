@@ -12,7 +12,12 @@
 
     <h2>Overall standings</h2>
     @if($overall->isEmpty())
-        <p class="muted">No ranked players yet. Scores arrive once games are played signed in.</p>
+        <div class="empty">
+            <p class="empty-icon" aria-hidden="true">🏆</p>
+            <p><strong>No ranked players yet.</strong><br>Play a game signed in and your best scores can put you here.</p>
+            <a class="btn" href="{{ route('games.index') }}">Find a game</a>
+            @guest <a class="btn ghost" href="{{ route('register') }}">Create a free account</a>@endguest
+        </div>
     @else
         <div class="table-scroll"><table>
             <thead><tr><th class="num">#</th><th>Player</th><th class="num">Points</th><th class="num hide-sm">Games</th><th class="num">Wins</th><th class="num hide-sm">Plays</th></tr></thead>
