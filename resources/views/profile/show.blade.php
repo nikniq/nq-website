@@ -2,8 +2,11 @@
 @section('title', 'Profile')
 @section('content')
     <h1>Profile</h1>
+    <nav class="jump" aria-label="Profile sections">
+        <a href="#details">Details</a><a href="#visibility">Player page</a><a href="#password">Password</a>@if(config('social.providers.google.enabled'))<a href="#google">Google</a>@endif<a href="#games">Connected games</a><a href="#data">Your data</a><a href="#delete">Delete account</a>
+    </nav>
 
-    <div class="panel" style="margin-bottom:1rem">
+    <div class="panel" id="details" style="margin-bottom:1rem">
         <h2 style="margin-top:0">Details</h2>
         <form class="stack" method="post" action="{{ route('profile.update') }}">@csrf @method('PUT')
             <label>Name <input type="text" name="name" value="{{ old('name', $user->name) }}" required></label>
@@ -14,7 +17,7 @@
         </form>
     </div>
 
-    <div class="panel" style="margin-bottom:1rem">
+    <div class="panel" id="visibility" style="margin-bottom:1rem">
         <h2 style="margin-top:0">Public player page</h2>
         <p class="muted">Your name, best scores and favourites at <a href="{{ route('players.show', $user) }}">{{ route('players.show', $user) }}</a>. Hidden pages are also left out of the hall of fame.</p>
         <form method="post" action="{{ route('profile.visibility') }}">@csrf @method('PUT')
@@ -23,7 +26,7 @@
         </form>
     </div>
 
-    <div class="panel" style="margin-bottom:1rem">
+    <div class="panel" id="password" style="margin-bottom:1rem">
         <h2 style="margin-top:0">{{ $user->hasPassword() ? 'Change password' : 'Set a password' }}</h2>
         @unless($user->hasPassword())<p class="muted">{{ $user->hasLinkedProvider() ? 'You signed up with '.$user->providerLabel().'. Setting a password lets you log in without it too.' : 'Set a password so you can log in with your email.' }}</p>@endunless
         <form class="stack" method="post" action="{{ route('profile.password') }}">@csrf @method('PUT')
@@ -39,7 +42,7 @@
     </div>
 
     @if(config('social.providers.google.enabled'))
-    <div class="panel" style="margin-bottom:1rem">
+    <div class="panel" id="google" style="margin-bottom:1rem">
         <h2 style="margin-top:0">Google sign-in</h2>
         @error('provider')<div class="flash error">{{ $message }}</div>@enderror
         @if($user->hasLinkedProvider())
@@ -53,7 +56,7 @@
     </div>
     @endif
 
-    <div class="panel">
+    <div class="panel" id="games">
         <h2 style="margin-top:0">Connected games</h2>
         <p class="muted">Games currently signed in with your account. Signing out revokes the game's access immediately.</p>
         @if($connected->isEmpty())
@@ -76,13 +79,13 @@
         @endif
     </div>
 
-    <div class="panel" style="margin-top:1rem">
+    <div class="panel" id="data" style="margin-top:1rem">
         <h2 style="margin-top:0">Your data</h2>
         <p class="muted">Download a copy of everything we hold about you: account details, favourites, stats and every game event.</p>
         <a class="btn sm ghost" href="{{ route('profile.export') }}">Download my data (JSON)</a>
     </div>
 
-    <div class="panel" style="margin-top:1rem;border-color:rgba(255,107,107,.45)">
+    <div class="panel" id="delete" style="margin-top:1rem;border-color:rgba(255,107,107,.45)">
         <h2 style="margin-top:0">Delete account</h2>
         <p class="muted">This permanently deletes your account, favourites, scores and history, and signs you out of every game. It cannot be undone.</p>
         <details>

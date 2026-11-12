@@ -153,6 +153,13 @@
         .footer-links a:hover { color:var(--text); }
         @media (max-width:640px) { .footer-grid { grid-template-columns:1fr; } }
         .prose { max-width:760px; }
+        .jump { display:flex; gap:.5rem; flex-wrap:wrap; margin:0 0 1.25rem; }
+        .jump a { padding:.35rem .8rem; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--text); font-size:.9rem; font-weight:600; }
+        .jump a:hover { text-decoration:none; border-color:var(--accent); }
+        [id] { scroll-margin-top:80px; }
+        .pw-wrap { position:relative; display:block; }
+        .pw-wrap input { padding-right:4.5rem; width:100%; }
+        .pw-toggle { position:absolute; right:.4rem; top:50%; transform:translateY(-50%); background:none; border:0; color:var(--link); font:inherit; font-size:.9rem; font-weight:700; cursor:pointer; padding:.35rem .5rem; }
         .howto { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.4rem; margin:1.5rem 0; }
         .howto h2 { margin:0 0 .5rem; } .howto p { margin:.35rem 0; } .howto ul { margin:.4rem 0 .5rem; padding-left:1.2rem; } .howto li { margin:.25rem 0; }
         .news-strip { display:flex; align-items:center; gap:.75rem; margin:-.25rem 0 1.25rem; padding:.7rem 1rem; border:1px solid var(--line); border-radius:14px; background:var(--panel); color:var(--text); }
@@ -475,6 +482,19 @@
                 if (count) count.textContent = shown + (shown === 1 ? ' game' : ' games');
             });
         })();
+
+        document.querySelectorAll('input[type=password]').forEach(function (input) {
+            var wrap = document.createElement('span'); wrap.className = 'pw-wrap';
+            input.parentNode.insertBefore(wrap, input); wrap.appendChild(input);
+            var b = document.createElement('button'); b.type = 'button'; b.className = 'pw-toggle'; b.textContent = 'Show';
+            b.setAttribute('aria-label', 'Show password'); b.setAttribute('aria-pressed', 'false');
+            b.addEventListener('click', function () {
+                var show = input.type === 'password'; input.type = show ? 'text' : 'password';
+                b.textContent = show ? 'Hide' : 'Show'; b.setAttribute('aria-pressed', show ? 'true' : 'false');
+                b.setAttribute('aria-label', show ? 'Hide password' : 'Show password'); input.focus();
+            });
+            wrap.appendChild(b);
+        });
 </script>
 </body>
 </html>
