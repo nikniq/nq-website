@@ -31,4 +31,8 @@ return [
 
     // How many recent activity rows the dashboard shows.
     'activity_limit' => 30,
+
+    // Site languages: code => name shown in the switcher (in its own language).
+    // Strings live in lang/{code}.json keyed by the English text.
+    'locales' => ['en' => 'English', 'ja' => '日本語', 'fr' => 'Français', 'de' => 'Deutsch', 'es' => 'Español'],
 ];

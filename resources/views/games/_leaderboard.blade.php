@@ -1,11 +1,11 @@
 @if($rows->isEmpty())
     <div class="panel" style="display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap">
-        <p style="margin:0">No scores yet. Play signed in with your NikniQ account and your name goes to the top.</p>
-        @isset($game)@if($game->url)<a class="btn sm" href="{{ route('games.play', $game) }}">▶ Be the first</a>@endif @endisset
+        <p style="margin:0">{{ __('No scores yet. Play signed in with your NikniQ account and your name goes to the top.') }}</p>
+        @isset($game)@if($game->url)<a class="btn sm" href="{{ route('games.play', $game) }}">▶ {{ __('Be the first') }}</a>@endif @endisset
     </div>
 @else
     <div class="table-scroll"><table>
-        <thead><tr><th class="num">#</th><th>Player</th><th class="num">Best score</th><th class="num hide-sm">Plays</th><th class="num hide-sm">Wins</th><th class="hide-sm">Last played</th></tr></thead>
+        <thead><tr><th class="num">#</th><th>{{ __('Player') }}</th><th class="num">{{ __('Best score') }}</th><th class="num hide-sm">{{ __('Plays') }}</th><th class="num hide-sm">{{ __('Wins') }}</th><th class="hide-sm">{{ __('Last played') }}</th></tr></thead>
         <tbody>
         @foreach($rows as $row)
             <tr @if(auth()->id() === $row['player']['id']) style="background:rgba(255,200,87,.08)" @endif>

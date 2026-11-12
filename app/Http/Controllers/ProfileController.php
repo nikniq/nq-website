@@ -46,7 +46,7 @@ class ProfileController extends Controller
         ]);
         $user->update($data);
 
-        return back()->with('status', 'Profile updated.');
+        return back()->with('status', __('Profile updated.'));
     }
 
     public function password(Request $request): RedirectResponse
@@ -58,7 +58,7 @@ class ProfileController extends Controller
         $request->validate($rules);
         $request->user()->update(['password' => $request->input('password')]);
 
-        return back()->with('status', $request->user()->wasChanged('password') ? 'Password set.' : 'Password changed.');
+        return back()->with('status', $request->user()->wasChanged('password') ? __('Password set.') : __('Password changed.'));
     }
 
     /** Download everything the portal holds about the signed-in player, as JSON. */
@@ -85,7 +85,7 @@ class ProfileController extends Controller
         $request->validate([
             'confirm_email' => ['required', 'string', function ($attr, $value, $fail) use ($user) {
                 if (strtolower(trim($value)) !== strtolower($user->email)) {
-                    $fail('Type your email address exactly to confirm.');
+                    $fail(__('Type your email address exactly to confirm.'));
                 }
             }],
         ]);
@@ -95,7 +95,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('games.index')->with('status', 'Your account and all of its data have been deleted.');
+        return redirect()->route('games.index')->with('status', __('Your account and all of its data have been deleted.'));
     }
 
     /** Sign out of one game (revokes every token it holds), or all games. */
@@ -107,6 +107,6 @@ class ProfileController extends Controller
         }
         $count = $query->update(['revoked_at' => now()]);
 
-        return back()->with('status', $count ? 'Signed out of the game(s).' : 'Nothing to sign out of.');
+        return back()->with('status', $count ? __('Signed out of the game(s).') : __('Nothing to sign out of.'));
     }
 }

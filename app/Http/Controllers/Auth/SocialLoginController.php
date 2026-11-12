@@ -35,12 +35,12 @@ class SocialLoginController extends Controller
         } catch (Throwable $e) {
             Log::warning('oauth.callback.failed', ['provider' => $provider, 'error' => $e->getMessage()]);
 
-            return $this->fail('Unable to sign in with Google. Please try again.');
+            return $this->fail(__('Unable to sign in with Google. Please try again.'));
         }
 
         $email = strtolower(trim((string) $socialUser->getEmail()));
         if ($email === '') {
-            return $this->fail('Google did not return an email address.');
+            return $this->fail(__('Google did not return an email address.'));
         }
 
         $emailVerified = $this->emailVerified($socialUser);
@@ -57,16 +57,16 @@ class SocialLoginController extends Controller
             // Only let a Google email take over an existing account when Google
             // says it has verified that address.
             if ($user && ! $emailVerified) {
-                return $this->fail("Your Google email is not verified, so it cannot sign in to the existing account for {$email}. Log in with your password and link Google from your profile.");
+                return $this->fail(__('Your Google email is not verified, so it cannot sign in to the existing account for :email. Log in with your password and link Google from your profile.', ['email' => $email]));
             }
             if ($user && $user->hasLinkedProvider() && ($user->provider_name !== $provider || $user->provider_id !== $socialUser->getId())) {
-                return $this->fail('This account is already linked to a different Google login.');
+                return $this->fail(__('This account is already linked to a different Google login.'));
             }
         }
 
         if (! $user) {
             if (! $emailVerified) {
-                return $this->fail('Your Google email address must be verified before you can sign up with it.');
+                return $this->fail(__('Your Google email address must be verified before you can sign up with it.'));
             }
 
             $user = User::create([
@@ -91,7 +91,7 @@ class SocialLoginController extends Controller
         $request->session()->regenerate();
 
         // intended() keeps a game's SSO round trip working: /sso/authorize -> login -> Google -> back.
-        return redirect()->intended(route('dashboard'))->with('status', 'Signed in with Google.');
+        return redirect()->intended(route('dashboard'))->with('status', __('Signed in with Google.'));
     }
 
     /** Remove the link. Only allowed when the user can still log in with a password. */
@@ -103,12 +103,12 @@ class SocialLoginController extends Controller
             return redirect()->route('profile');
         }
         if (! $user->hasPassword()) {
-            return redirect()->route('profile')->withErrors(['provider' => 'Set a password before unlinking Google, or you will be locked out.']);
+            return redirect()->route('profile')->withErrors(['provider' => __('Set a password before unlinking Google, or you will be locked out.')]);
         }
 
         $user->forceFill(['provider_name' => null, 'provider_id' => null])->save();
 
-        return redirect()->route('profile')->with('status', 'Google account unlinked.');
+        return redirect()->route('profile')->with('status', __('Google account unlinked.'));
     }
 
     private function link(Request $request, string $provider, SocialUser $socialUser): RedirectResponse
@@ -117,7 +117,7 @@ class SocialLoginController extends Controller
 
         $owner = User::where('provider_name', $provider)->where('provider_id', $socialUser->getId())->first();
         if ($owner && $owner->id !== $user->id) {
-            return redirect()->route('profile')->withErrors(['provider' => 'That Google account is already linked to another player.']);
+            return redirect()->route('profile')->withErrors(['provider' => __('That Google account is already linked to another player.')]);
         }
 
         $user->forceFill([
@@ -126,7 +126,7 @@ class SocialLoginController extends Controller
             'avatar' => $socialUser->getAvatar() ?: $user->avatar,
         ])->save();
 
-        return redirect()->route('profile')->with('status', 'Google account linked.');
+        return redirect()->route('profile')->with('status', __('Google account linked.'));
     }
 
     private function fail(string $message): RedirectResponse

@@ -25,6 +25,6 @@ class FavouriteController extends Controller
             return response()->json(['game' => $game->slug, 'favourite' => $on]);
         }
 
-        return back()->with('status', $on ? "Added {$game->name} to your favourites." : "Removed {$game->name} from your favourites.");
+        return back()->with('status', $on ? __('Added :game to your favourites.', ['game' => $game->name]) : __('Removed :game from your favourites.', ['game' => $game->name]));
     }
 }

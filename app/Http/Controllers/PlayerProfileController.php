@@ -35,6 +35,6 @@ class PlayerProfileController extends Controller
     {
         $request->user()->update(['is_public' => $request->boolean('is_public')]);
 
-        return back()->with('status', $request->boolean('is_public') ? 'Your player page is now public.' : 'Your player page is now hidden.');
+        return back()->with('status', $request->boolean('is_public') ? __('Your player page is now public.') : __('Your player page is now hidden.'));
     }
 }

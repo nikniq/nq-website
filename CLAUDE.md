@@ -55,3 +55,10 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - Form validation for admin lives in `app/Http/Requests/GameRequest.php`; textarea/CSV fields are normalised in `gameAttributes()`.
 - Migrations are additive; never edit a shipped migration.
 - Seeders are idempotent (`firstOrCreate` by slug) so `--seed` on the server never clobbers admin edits.
+
+## Languages
+
+- Site languages are `portal.locales` (en, ja, fr, de, es). `SetLocale` (web group) picks `?lang=xx` (remembered in a `lang` cookie), then the cookie, then Accept-Language, then English. The layout emits hreflang alternates and a footer/menu switcher.
+- UI strings use `__('English text')`; translations are `lang/{code}.json` keyed by the English text, plus `lang/{code}/validation.php` etc. After adding or changing a string run `php scripts/lang-keys.php --missing` and add it to every language file; `LocaleTest` fails if any key is missing.
+- Not translated: admin pages, API messages, game names/descriptions (DB), HowToPlay tips, news articles, privacy/terms/developers pages.
+- JSON-LD in Blade must write `'@@context'`: Laravel 13 compiles `@context` as a directive (`JsonLdTest` guards this).

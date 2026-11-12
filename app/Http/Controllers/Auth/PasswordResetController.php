@@ -38,7 +38,7 @@ class PasswordResetController extends Controller
             Password::sendResetLink(['email' => $email]);
         }
 
-        return back()->with('status', 'If that address has an account, we have emailed it a link. It works for 60 minutes.');
+        return back()->with('status', __('If that address has an account, we have emailed it a link. It works for 60 minutes.'));
     }
 
     public function edit(Request $request, string $token): View
@@ -65,11 +65,11 @@ class PasswordResetController extends Controller
         });
 
         if ($status !== Password::PASSWORD_RESET) {
-            return back()->withInput($request->only('email'))->withErrors(['email' => 'That reset link is invalid or has expired. Request a new one below.']);
+            return back()->withInput($request->only('email'))->withErrors(['email' => __('That reset link is invalid or has expired. Request a new one below.')]);
         }
 
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard')->with('status', 'Password updated. You are signed in.');
+        return redirect()->route('dashboard')->with('status', __('Password updated. You are signed in.'));
     }
 }

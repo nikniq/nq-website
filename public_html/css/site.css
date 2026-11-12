@@ -328,3 +328,10 @@ main h2 { font-weight:800; }
     .card .btn.play { min-height:40px; font-size:.9rem; margin-top:.35rem; }
     .pill-tag { font-size:.6rem; }
 }
+
+/* Language switcher (footer and phone menu) */
+.lang-switch { display:flex; flex-wrap:wrap; gap:.25rem .9rem; grid-column:1/-1; font-size:.9rem; }
+.lang-switch a { color:var(--muted); }
+.lang-switch a[aria-current] { color:var(--text); font-weight:700; }
+.menu-panel .lang-switch { padding:.5rem 0; border-top:1px solid var(--line); margin-top:.3rem; }
+.menu-panel .lang-switch a { padding:.2rem 0; }

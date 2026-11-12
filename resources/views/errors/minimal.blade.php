@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,13 +12,13 @@
 </head>
 <body>
 <main class="err">
-    <a href="/" aria-label="NikniQ home"><img src="/favicon.svg" alt="" width="56" height="56"></a>
+    <a href="/" aria-label="{{ __('NikniQ home') }}"><img src="/favicon.svg" alt="" width="56" height="56"></a>
     <div class="code">@yield('code')</div>
     <h1>@yield('title')</h1>
     <p class="muted">@yield('message')</p>
     <div class="actions">
         @yield('actions')
-        <a class="btn" href="/">Browse games</a>
+        <a class="btn" href="/">{{ __('Browse games') }}</a>
     </div>
 </main>
 </body>

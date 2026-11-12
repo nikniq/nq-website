@@ -31,7 +31,7 @@ class VerifyEmail extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Confirm your email for '.config('portal.name'));
+        return new Envelope(subject: __('Confirm your email for :site', ['site' => config('portal.name')]));
     }
 
     public function content(): Content

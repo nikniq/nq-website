@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AuthenticatePlayer;
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,6 +22,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
             'admin' => EnsureUserIsAdmin::class,
             'player' => AuthenticatePlayer::class,
         ]);
+        $middleware->web(append: [SetLocale::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
         $middleware->redirectUsersTo(fn () => route('dashboard'));
     })
@@ -37,7 +39,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
             }
 
             return redirect()->route('register')
-                ->with('error', 'That confirmation link has expired or is incomplete. Enter your email below and we will send a fresh one.');
+                ->with('error', __('That confirmation link has expired or is incomplete. Enter your email below and we will send a fresh one.'));
         });
 
         // A missing page (old nikniq.com URL, typo, stale link, unknown game

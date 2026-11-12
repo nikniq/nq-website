@@ -95,7 +95,7 @@ class RegisterController extends Controller
         $request->session()->regenerate();
 
         if ($user->hasPassword()) {
-            return redirect()->intended(route('dashboard'))->with('status', 'Email confirmed.');
+            return redirect()->intended(route('dashboard'))->with('status', __('Email confirmed.'));
         }
 
         return redirect()->route('register.password');
@@ -128,6 +128,6 @@ class RegisterController extends Controller
             'email_verified_at' => $user->email_verified_at ?? now(),
         ])->save();
 
-        return redirect()->intended(route('dashboard'))->with('status', 'Welcome aboard! Your account is ready.');
+        return redirect()->intended(route('dashboard'))->with('status', __('Welcome aboard! Your account is ready.'));
     }
 }

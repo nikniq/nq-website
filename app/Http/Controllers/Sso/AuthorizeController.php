@@ -26,10 +26,10 @@ class AuthorizeController extends Controller
 
         // Never redirect to an unregistered URI: show the error on the portal instead.
         if (! $game || ! $game->is_enabled) {
-            return view('sso.error', ['message' => 'Unknown or disabled game client.']);
+            return view('sso.error', ['message' => __('Unknown or disabled game client.')]);
         }
         if ($redirectUri === '' || ! $game->redirectAllowed($redirectUri)) {
-            return view('sso.error', ['message' => 'The redirect URI is not registered for '.$game->name.'.']);
+            return view('sso.error', ['message' => __('The redirect URI is not registered for :game.', ['game' => $game->name])]);
         }
 
         $challenge = $request->query('code_challenge');

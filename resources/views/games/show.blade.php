@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title', $game->name)
-@section('description', \Illuminate\Support\Str::limit($game->description ?: 'Play '.$game->name.' free in your browser on '.config('portal.name').'.', 155))
+@section('description', \Illuminate\Support\Str::limit($game->description ?: __('Play :name free in your browser on :site.', ['name' => $game->name, 'site' => config('portal.name')]), 155))
 @section('og_type', 'video.other')
 @if($game->thumbnailUrl())@section('image', url($game->thumbnailUrl()))@endif
 @section('jsonld')
 <script type="application/ld+json">{!! json_encode([
-    '@context' => 'https://schema.org',
+    '@@context' => 'https://schema.org',
     '@graph' => [
         ['@type' => 'VideoGame', 'name' => $game->name, 'description' => $game->description, 'url' => route('games.show', $game), 'image' => $game->thumbnailUrl() ? url($game->thumbnailUrl()) : null, 'genre' => $game->genre, 'gamePlatform' => 'Web browser', 'applicationCategory' => 'Game', 'operatingSystem' => 'Any', 'offers' => ['@type' => 'Offer', 'price' => '0', 'priceCurrency' => 'USD'], 'publisher' => ['@type' => 'Organization', 'name' => config('portal.name'), 'url' => url('/')]],
         ['@type' => 'BreadcrumbList', 'itemListElement' => [
-            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Games', 'item' => route('games.index')],
+            ['@type' => 'ListItem', 'position' => 1, 'name' => __('Games'), 'item' => route('games.index')],
             ['@type' => 'ListItem', 'position' => 2, 'name' => $game->name, 'item' => route('games.show', $game)],
         ]],
     ],
@@ -18,65 +18,65 @@
 @section('content')
     @php($prev = url()->previous())
     @php($backToList = str_starts_with($prev, route('games.index')) && in_array(parse_url($prev, PHP_URL_PATH), ['/', null], true) && parse_url($prev, PHP_URL_QUERY))
-    <p><a href="{{ $backToList ? $prev : route('games.index') }}">← {{ $backToList ? 'Back to results' : 'All games' }}</a></p>
+    <p><a href="{{ $backToList ? $prev : route('games.index') }}">← {{ $backToList ? __('Back to results') : __('All games') }}</a></p>
     <div class="game-hero">
-        <a class="game-art" href="{{ $game->url ? route('games.play', $game) : '#' }}" aria-label="Play {{ $game->name }}">
-            @if($game->thumbnailUrl())@include('games._picture', ['game' => $game, 'alt' => $game->name.' screenshot', 'eager' => true])@else<span class="thumb-fallback">🎮</span>@endif
+        <a class="game-art" href="{{ $game->url ? route('games.play', $game) : '#' }}" aria-label="{{ __('Play :name', ['name' => $game->name]) }}">
+            @if($game->thumbnailUrl())@include('games._picture', ['game' => $game, 'alt' => __(':name screenshot', ['name' => $game->name]), 'eager' => true])@else<span class="thumb-fallback">🎮</span>@endif
         </a>
         <div class="game-info">
             <h1>{{ $game->name }}</h1>
             <div class="row">
-                @if($game->is_featured)<span class="badge">Featured</span>@endif
+                @if($game->is_featured)<span class="badge">{{ __('Featured') }}</span>@endif
                 @if($game->genre)<a class="badge muted" href="{{ route('games.index', ['genre' => $game->genre]) }}">{{ $game->genre }}</a>@endif
-                @if($game->is_dementia)<a class="badge calm" href="{{ route('games.index', ['dementia' => 1]) }}">☺ Dementia-friendly</a>@endif
+                @if($game->is_dementia)<a class="badge calm" href="{{ route('games.index', ['dementia' => 1]) }}">☺ {{ __('Dementia-friendly') }}</a>@endif
             </div>
             <p class="lead">{{ $game->description }}</p>
-            @if($game->is_dementia)<p class="muted" style="font-size:.9rem;margin:0">Dementia-friendly: calm pace, simple rules, no time pressure.</p>@endif
+            @if($game->is_dementia)<p class="muted" style="font-size:.9rem;margin:0">{{ __('Dementia-friendly: calm pace, simple rules, no time pressure.') }}</p>@endif
             <div class="row">
-                @if($game->url)<a class="btn big" href="{{ route('games.play', $game) }}">▶ Play now</a>@endif
+                @if($game->url)<a class="btn big" href="{{ route('games.play', $game) }}">▶ {{ __('Play now') }}</a>@endif
                 @auth
                     <form method="post" action="{{ route('games.favourite', $game) }}" data-fav data-name="{{ $game->name }}">@csrf
-                        <button class="btn ghost big {{ $isFavourite ? 'on' : '' }}" type="submit" aria-pressed="{{ $isFavourite ? 'true' : 'false' }}"><span data-icon aria-hidden="true">{{ $isFavourite ? '★' : '☆' }}</span>&nbsp;<span data-label>{{ $isFavourite ? 'Favourited' : 'Favourite' }}</span></button>
+                        <button class="btn ghost big {{ $isFavourite ? 'on' : '' }}" type="submit" aria-pressed="{{ $isFavourite ? 'true' : 'false' }}"><span data-icon aria-hidden="true">{{ $isFavourite ? '★' : '☆' }}</span>&nbsp;<span data-label>{{ $isFavourite ? __('Favourited') : __('Favourite') }}</span></button>
                     </form>
                 @else
-                    <a class="btn ghost big" href="{{ route('login') }}">☆ Log in to favourite</a>
+                    <a class="btn ghost big" href="{{ route('login') }}">☆ {{ __('Log in to favourite') }}</a>
                 @endauth
             </div>
-            @php($shareText = 'Play '.$game->name.' free on '.config('portal.name'))
+            @php($shareText = __('Play :name free on :site', ['name' => $game->name, 'site' => config('portal.name')]))
             <div class="share">
-                <button type="button" class="btn sm ghost" data-share data-title="{{ $game->name }}" data-text="{{ $shareText }}" data-url="{{ route('games.show', $game) }}">Share</button>
+                <button type="button" class="btn sm ghost" data-share data-title="{{ $game->name }}" data-text="{{ $shareText }}" data-url="{{ route('games.show', $game) }}">{{ __('Share') }}</button>
                 <a class="btn sm ghost" href="https://wa.me/?text={{ urlencode($shareText.' '.route('games.show', $game)) }}" target="_blank" rel="noopener">WhatsApp</a>
                 <a class="btn sm ghost" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('games.show', $game)) }}" target="_blank" rel="noopener">Facebook</a>
-                <a class="btn sm ghost" href="mailto:?subject={{ rawurlencode($game->name.' on '.config('portal.name')) }}&body={{ rawurlencode($shareText.': '.route('games.show', $game)) }}">Email</a>
+                <a class="btn sm ghost" href="mailto:?subject={{ rawurlencode(__(':name on :site', ['name' => $game->name, 'site' => config('portal.name')])) }}&body={{ rawurlencode($shareText.': '.route('games.show', $game)) }}">{{ __('Email') }}</a>
             </div>
-            <p class="muted" style="font-size:.85rem;margin:0">Opens {{ parse_url($game->url ?? '', PHP_URL_HOST) ?: 'the game' }}. Your scores are saved when you sign in there with your NikniQ account.</p>
+            <p class="muted" style="font-size:.85rem;margin:0">{{ __('Opens :host. Your scores are saved when you sign in there with your NikniQ account.', ['host' => parse_url($game->url ?? '', PHP_URL_HOST) ?: __('the game')]) }}</p>
         </div>
     </div>
 
     <div class="stats">
-        @if($playerCount > 0)<div class="stat"><div class="v">{{ number_format($playerCount) }}</div><div class="l">{{ \Illuminate\Support\Str::plural('Player', $playerCount) }}</div></div>@endif
-        @if($favouriteCount > 0)<div class="stat"><div class="v">{{ number_format($favouriteCount) }}</div><div class="l">{{ \Illuminate\Support\Str::plural('Favourite', $favouriteCount) }}</div></div>@endif
+        @if($playerCount > 0)<div class="stat"><div class="v">{{ number_format($playerCount) }}</div><div class="l">{{ trans_choice('{1} Player|[0,*] Players', $playerCount) }}</div></div>@endif
+        @if($favouriteCount > 0)<div class="stat"><div class="v">{{ number_format($favouriteCount) }}</div><div class="l">{{ trans_choice('{1} Favourite|[0,*] Favourites', $favouriteCount) }}</div></div>@endif
         @if($myStats)
-            <div class="stat"><div class="v">{{ number_format($myStats->best_score ?? 0) }}</div><div class="l">Your best</div></div>
-            <div class="stat"><div class="v">{{ $myRank ? '#'.$myRank : '—' }}</div><div class="l">Your rank</div></div>
-            <div class="stat"><div class="v">{{ $myStats->plays }}</div><div class="l">Your plays</div></div>
+            <div class="stat"><div class="v">{{ number_format($myStats->best_score ?? 0) }}</div><div class="l">{{ __('Your best') }}</div></div>
+            <div class="stat"><div class="v">{{ $myRank ? '#'.$myRank : '—' }}</div><div class="l">{{ __('Your rank') }}</div></div>
+            <div class="stat"><div class="v">{{ $myStats->plays }}</div><div class="l">{{ __('Your plays') }}</div></div>
         @endif
     </div>
 
     @php($howTo = \App\Support\HowToPlay::for($game->slug))
     @if($howTo)
         <section class="howto" aria-labelledby="howto-h">
-            <h2 id="howto-h">How to play</h2>
-            <p><strong>Goal:</strong> {{ $howTo[0] }}</p>
+            <h2 id="howto-h">{{ __('How to play') }}</h2>
+            <p><strong>{{ __('Goal:') }}</strong> {{ $howTo[0] }}</p>
             <ul>@foreach($howTo[1] as $tip)<li>{{ $tip }}</li>@endforeach</ul>
         </section>
     @endif
 
-    <h2>Top players <a class="muted" style="font-size:.85rem;font-weight:400" href="{{ route('games.leaderboard', $game) }}">full leaderboard →</a></h2>
+    <h2>{{ __('Top players') }} <a class="muted" style="font-size:.85rem;font-weight:400" href="{{ route('games.leaderboard', $game) }}">{{ __('full leaderboard') }} →</a></h2>
     @include('games._leaderboard', ['rows' => $leaderboard])
 
     @if($related->isNotEmpty())
-        <h2>You might also like</h2>
+        <h2>{{ __('You might also like') }}</h2>
         <div class="grid">
             @foreach($related as $other)
                 @include('games._card', ['game' => $other, 'favouriteIds' => auth()->check() ? auth()->user()->favouriteGames()->pluck('games.id')->all() : []])
