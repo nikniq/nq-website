@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Admin\PlayerController as AdminPlayerController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -79,5 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('games', AdminGameController::class)->except('show');
         Route::get('/players', [AdminPlayerController::class, 'index'])->name('players.index');
         Route::get('/activity', [AdminPlayerController::class, 'activity'])->name('players.activity');
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
     });
 });

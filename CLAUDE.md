@@ -46,6 +46,7 @@ Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, mi
 - `/sitemap.xml` is `SitemapController`, cached under `sitemap.xml`; the `Game` model forgets it on save/delete. `bootstrap/app.php` turns `NotFoundHttpException` on HTML GETs without a file extension into a redirect to `games.index`; API, assets and non-GET keep a 404.
 - News articles live in the repo, not the database: metadata in `App\Support\News::ARTICLES` (newest first), body in `resources/views/news/articles/{slug}.blade.php`. `/news` and `/news/{slug}` are `NewsController`; the sitemap lists them.
 - Game-page how-to-play notes are `App\Support\HowToPlay::TIPS`, keyed by slug; a test requires an entry for every game in `GamesSeeder::GAMES`.
+- `/admin/reports` (`Admin\ReportController`, `App\Services\ReportService`): KPIs vs the previous period, daily column charts (`admin/reports/_bars.blade.php`, HTML bars coloured by `--chart`, hover tooltip, table fallback), per-game and top-player tables, CSV via `/admin/reports/export?report=games|daily&days=7|30|90`. Read-only queries; it never writes stats.
 - Admin is the `users.is_admin` flag (`EnsureUserIsAdmin`, alias `admin`). The client secret is shown once after create/rotate via the `client_secret` flash.
 
 ## Conventions

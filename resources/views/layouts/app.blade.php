@@ -153,6 +153,33 @@
         .footer-links a:hover { color:var(--text); }
         @media (max-width:640px) { .footer-grid { grid-template-columns:1fr; } }
         .prose { max-width:760px; }
+        :root { --chart:#0077b6; } :root[data-theme="dark"] { --chart:#1c9fd6; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --chart:#1c9fd6; } }
+        .report-head { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; justify-content:space-between; }
+        .kpis { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:.8rem; margin:1rem 0 1.5rem; }
+        .kpi { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:.9rem 1rem; }
+        .kpi .l { color:var(--muted); font-size:.85rem; font-weight:600; }
+        .kpi .v { font-size:1.9rem; font-weight:800; color:var(--strong); line-height:1.2; font-variant-numeric:tabular-nums; }
+        .kpi .d { font-size:.85rem; color:var(--text); } .kpi .d span { color:var(--muted); }
+        .charts { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr)); gap:1rem; }
+        .chart { margin:0; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1rem 1rem .75rem; min-width:0; }
+        .chart-head { display:flex; align-items:baseline; gap:.75rem; flex-wrap:wrap; margin-bottom:.75rem; }
+        .chart-head h3 { margin:0; font-size:1rem; } .chart-total { color:var(--muted); font-size:.85rem; }
+        .chart-plot { position:relative; height:160px; margin-left:2.6rem; }
+        .chart-y { position:absolute; left:-2.6rem; width:2.2rem; text-align:right; font-size:.75rem; color:var(--muted); transform:translateY(-50%); font-variant-numeric:tabular-nums; }
+        .chart-y.top { top:0; } .chart-y.mid { top:50%; }
+        .chart-grid { position:absolute; inset:0; border-bottom:1px solid var(--muted); }
+        .chart-grid i { position:absolute; left:0; right:0; border-top:1px dashed var(--line); } .chart-grid i:first-child { top:0; } .chart-grid i:last-child { top:50%; }
+        .chart-bars { position:absolute; inset:0; display:grid; grid-template-columns:repeat(var(--n),1fr); gap:2px; align-items:end; }
+        .chart-bars .col { height:100%; display:flex; align-items:flex-end; cursor:default; border-radius:4px; outline-offset:1px; }
+        .chart-bars .col:hover, .chart-bars .col:focus-visible { background:var(--line); }
+        .chart-bars .bar { display:block; width:100%; max-width:28px; margin:0 auto; background:var(--chart); border-radius:4px 4px 0 0; }
+        .chart-x { display:flex; justify-content:space-between; margin:.35rem 0 0 2.6rem; font-size:.75rem; color:var(--muted); }
+        .chart-table { margin-top:.5rem; font-size:.9rem; } .chart-table summary { cursor:pointer; color:var(--link); font-weight:600; }
+        .chart-table .table-scroll { max-height:240px; overflow:auto; margin-top:.5rem; }
+        .chart-tip { position:fixed; z-index:50; pointer-events:none; background:var(--strong); color:var(--bg); font-size:.8rem; font-weight:600; padding:.3rem .55rem; border-radius:6px; transform:translate(-50%,-120%); white-space:nowrap; }
+        td:has(> .inline-bar) { white-space:nowrap; }
+        .inline-bar { display:inline-block; vertical-align:middle; height:.5rem; width:calc(var(--w) * .6); max-width:60px; background:var(--chart); border-radius:0 3px 3px 0; margin-right:.5rem; opacity:.85; }
         .jump { display:flex; gap:.5rem; flex-wrap:wrap; margin:0 0 1.25rem; }
         .jump a { padding:.35rem .8rem; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--text); font-size:.9rem; font-weight:600; }
         .jump a:hover { text-decoration:none; border-color:var(--accent); }
@@ -495,6 +522,16 @@
             });
             wrap.appendChild(b);
         });
+
+        (function () {
+            var tip = document.querySelector('.chart-tip'); if (!tip) return;
+            function show(el) { var r = el.getBoundingClientRect(); tip.textContent = el.dataset.tip; tip.style.left = (r.left + r.width / 2) + 'px'; tip.style.top = (r.top + r.height - (el.firstElementChild.offsetHeight || 0)) + 'px'; tip.hidden = false; }
+            document.querySelectorAll('.chart-bars .col').forEach(function (c) {
+                c.addEventListener('mouseenter', function () { show(c); }); c.addEventListener('focus', function () { show(c); });
+                c.addEventListener('mouseleave', function () { tip.hidden = true; }); c.addEventListener('blur', function () { tip.hidden = true; });
+            });
+            window.addEventListener('scroll', function () { tip.hidden = true; }, { passive: true });
+        })();
 </script>
 </body>
 </html>
