@@ -16,7 +16,9 @@
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 @endsection
 @section('content')
-    <p><a href="{{ route('games.index') }}">← All games</a></p>
+    @php($prev = url()->previous())
+    @php($backToList = str_starts_with($prev, route('games.index')) && in_array(parse_url($prev, PHP_URL_PATH), ['/', null], true) && parse_url($prev, PHP_URL_QUERY))
+    <p><a href="{{ $backToList ? $prev : route('games.index') }}">← {{ $backToList ? 'Back to results' : 'All games' }}</a></p>
     <div class="game-hero">
         <a class="game-art" href="{{ $game->url ? route('games.play', $game) : '#' }}" aria-label="Play {{ $game->name }}">
             @if($game->thumbnailUrl())@include('games._picture', ['game' => $game, 'alt' => $game->name.' screenshot', 'eager' => true])@else<span class="thumb-fallback">🎮</span>@endif

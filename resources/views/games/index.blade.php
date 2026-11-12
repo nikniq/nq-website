@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', $query !== '' ? 'Search: '.$query : ($filters['genre'] !== '' ? $filters['genre'].' games' : ($filters['dementia'] ? 'Dementia-friendly games' : 'Retro & Arcade games')))
-@section('description', 'Play '.$games->count().' free browser games on '.config('portal.name').': arcade classics, puzzles, strategy and dementia-friendly picks. One account keeps your favourites and scores across every game.')
+@section('description', 'Play '.\App\Models\Game::enabled()->count().' free browser games on '.config('portal.name').': arcade classics, puzzles, strategy and dementia-friendly picks. One account keeps your favourites and scores across every game.')
 @section('jsonld')
 <script type="application/ld+json">{!! json_encode([
     '@context' => 'https://schema.org',
@@ -16,7 +16,7 @@
 
     <div class="page-head">
         <h1>Retro &amp; Arcade games</h1>
-        <p class="sub">{{ $games->count() }} free games that run in your browser. @guest<a href="{{ route('register') }}">Create a free account</a> to keep your favourites and scores.@else Pick up where you left off, or try something new.@endguest</p>
+        <p class="sub">{{ \App\Models\Game::enabled()->count() }} free games that run in your browser. @guest<a href="{{ route('register') }}">Create a free account</a> to keep your favourites and scores.@else Pick up where you left off, or try something new.@endguest</p>
     </div>
 
     @if($spotlight)
@@ -99,8 +99,18 @@
         <div class="empty">
             <p class="empty-icon" aria-hidden="true">🕹️</p>
             <p><strong>No games match {{ $query !== '' ? '“'.$query.'”' : 'these filters' }}.</strong></p>
+            @php($all = \App\Models\Game::enabled()->get())
+            @php($needle = \Illuminate\Support\Str::lower($query))
+            @php($close = $query !== '' ? $all->map(fn ($g) => [$g, levenshtein($needle, \Illuminate\Support\Str::lower($g->name))])->filter(fn ($p) => $p[1] <= max(2, intdiv(strlen($needle), 3)))->sortBy(fn ($p) => $p[1])->first() : null)
+            @if($close)<p>Did you mean <a href="{{ route('games.show', $close[0]) }}"><strong>{{ $close[0]->name }}</strong></a>?</p>@endif
             <a class="btn" href="{{ route('games.index') }}">Show all games</a>
+            <a class="btn ghost" href="{{ route('games.random') }}">🎲 Surprise me</a>
         </div>
+        @php($picks = $all->where('is_featured', true)->take(4))
+        @if($picks->isNotEmpty())
+            <h2 class="section-title" style="margin-top:2rem">Popular picks</h2>
+            <div class="grid">@foreach($picks as $game)@include('games._card', ['game' => $game])@endforeach</div>
+        @endif
     @else
         <div class="section-head">
             <h2 class="section-title">{{ $query !== '' ? 'Results' : ($filters['genre'] !== '' ? $filters['genre'].' games' : ($filters['dementia'] ? 'Dementia-friendly games' : 'All games')) }}</h2>
