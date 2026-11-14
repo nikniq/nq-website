@@ -15,6 +15,7 @@ return [
     'frogger' => ['Führ den Frosch über Straße und Fluss in ein sicheres Zuhause.', ['Warte auf eine Lücke, statt durch den Verkehr zu hetzen.', 'Reite auf Baumstämmen und Schildkröten, aber pass auf Schildkröten auf, die abtauchen.']],
     'bomberman' => ['Leg Bomben, um Wände wegzusprengen und Gegner im Labyrinth zu besiegen.', ['Kenne immer deinen Fluchtweg, bevor du eine Bombe legst.', 'In Wänden versteckte Extras geben dir größere Explosionen und mehr Bomben.']],
     'minesweeper' => ['Deck alle sicheren Felder auf, ohne eine Mine zu erwischen.', ['Eine Zahl zeigt, wie viele Minen an dieses Feld grenzen.', 'Markier die Minen, bei denen du dir sicher bist, um den Rest herauszufinden.']],
+    'mindsweeper' => ['Deck alle sicheren Felder so schnell wie möglich auf.', ['Fang mit Anfänger oder dem Tagesbrett an, das für alle gleich ist.', 'Schalte „ohne Raten“ ein, dann ist jedes Brett mit Logik lösbar; ein Tipp kostet 10 Sekunden.']],
     'reversi' => ['Hab am Ende mehr Steine deiner Farbe auf dem Brett.', ['Ecken können nie zurückgedreht werden, darum sind sie viel wert.', 'Meide am Anfang die Felder neben den Ecken.']],
     'candy' => ['Tausche benachbarte Bonbons, um drei oder mehr gleiche in eine Reihe zu bringen.', ['Keine Eile: Lass dir Zeit, den besten Tausch zu finden.', 'Treffer weiter unten können Bonus-Ketten auslösen.']],
     'space-huggers' => ['Lauf, spring und schieß dich durch jedes Level.', ['Bleib in Bewegung; wer stillsteht, ist ein leichtes Ziel.', 'Halte unterwegs Ausschau nach Waffen und Extras.']],
@@ -23,4 +24,5 @@ return [
     'woolfie' => ['Schleich durch die Burg, finde den Schlüssel und erreiche ungesehen den Ausgang.', ['Beobachte die Wege der Wachen, bevor du dich bewegst.', 'Geduld zahlt sich aus: Warte auf die Lücke, dann los.']],
     'lawyer-memory' => ['Deck jeweils zwei Karten auf und finde alle passenden Paare.', ['Merk dir, wo jede Karte lag, auch wenn sie nicht gepasst hat.', 'Es gibt kein Zeitlimit, also spiel in deinem eigenen Tempo.']],
     'doctor-memory' => ['Deck jeweils zwei Karten auf und finde alle passenden Paare.', ['Geh das Brett der Reihe nach durch, um dir die Positionen zu merken.', 'Es gibt kein Zeitlimit, also spiel in deinem eigenen Tempo.']],
+    'note-quest' => ['Beantworte pro Quiz zehn Fragen zu Noten, Tasten und Klängen.', ['Beginn mit Noten im Violinschlüssel und nimm dann den Bassschlüssel dazu.', 'Sing bei den Hörquiz die Töne leise mit, um sie zu vergleichen.']],
 ];

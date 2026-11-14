@@ -10,4 +10,5 @@ return [
     'Platformer' => 'Plataformas',
     'Adventure' => 'Aventura',
     'Stealth' => 'Sigilo',
+    'Music' => 'Música',
 ];

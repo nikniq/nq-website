@@ -10,4 +10,5 @@ return [
     'Platformer' => 'Plattformspiel',
     'Adventure' => 'Abenteuer',
     'Stealth' => 'Schleichspiel',
+    'Music' => 'Musik',
 ];

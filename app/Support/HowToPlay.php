@@ -24,6 +24,7 @@ class HowToPlay
         'frogger' => ['Guide the frog across the road and river to a safe home.', ['Wait for a gap rather than rushing through traffic.', 'Ride the logs and turtles, but watch for turtles that dive.']],
         'bomberman' => ['Drop bombs to clear walls and defeat enemies in the maze.', ['Always know your escape route before you place a bomb.', 'Power-ups hidden in walls give you bigger blasts and more bombs.']],
         'minesweeper' => ['Uncover every safe square without hitting a mine.', ['A number shows how many mines touch that square.', 'Flag the mines you are sure of to work out the rest.']],
+        'mindsweeper' => ['Clear every safe square as fast as you can.', ['Start with Beginner or the Daily board everyone shares.', 'Switch on no-guessing so every board can be solved by logic; a hint costs 10 seconds.']],
         'reversi' => ['Finish with more discs of your colour on the board.', ['Corners can never be flipped back, so they are worth a lot.', 'Avoid the squares next to corners early on.']],
         'candy' => ['Swap neighbouring candies to line up three or more of the same kind.', ['There is no rush: take your time to spot the best swap.', 'Matches near the bottom can set off bonus chains.']],
         'space-huggers' => ['Run, jump and shoot your way through each level.', ['Keep moving; standing still makes you an easy target.', 'Explore for weapons and power-ups along the way.']],
@@ -32,6 +33,7 @@ class HowToPlay
         'woolfie' => ['Sneak through the castle, find the key and reach the exit unseen.', ['Watch the guards\' patterns before you move.', 'Patience wins: wait for the gap, then go.']],
         'lawyer-memory' => ['Turn over two cards at a time and find all the matching pairs.', ['Remember where each card was, even when it does not match.', 'There is no time limit, so play at your own pace.']],
         'doctor-memory' => ['Turn over two cards at a time and find all the matching pairs.', ['Work through the board in order to remember positions.', 'There is no time limit, so play at your own pace.']],
+        'note-quest' => ['Answer ten questions per quiz about notes, keys and sounds.', ['Begin with treble clef notes, then mix in the bass clef.', 'For the listening quizzes, sing the notes quietly to compare them.']],
     ];
 
     /** @return array{0:string,1:array<int,string>}|null */

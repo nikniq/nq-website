@@ -15,6 +15,7 @@ return [
     'frogger' => ['Guidez la grenouille à travers la route et la rivière jusqu’à un abri sûr.', ['Attendez un espace libre plutôt que de foncer dans la circulation.', 'Montez sur les rondins et les tortues, mais méfiez-vous des tortues qui plongent.']],
     'bomberman' => ['Posez des bombes pour détruire les murs et vaincre les ennemis du labyrinthe.', ['Sachez toujours par où fuir avant de poser une bombe.', 'Les bonus cachés dans les murs donnent des explosions plus grandes et plus de bombes.']],
     'minesweeper' => ['Découvrez toutes les cases sûres sans tomber sur une mine.', ['Un chiffre indique combien de mines touchent cette case.', 'Marquez d’un drapeau les mines dont vous êtes sûr pour en déduire le reste.']],
+    'mindsweeper' => ['Découvrez toutes les cases sûres le plus vite possible.', ['Commencez par Débutant ou par la grille du jour, la même pour tous.', 'Activez le mode sans hasard pour que chaque grille se résolve par la logique ; un indice coûte 10 secondes.']],
     'reversi' => ['Terminez avec le plus de pions de votre couleur sur le plateau.', ['Les coins ne peuvent jamais être repris : ils valent beaucoup.', 'En début de partie, évitez les cases voisines des coins.']],
     'candy' => ['Échangez des bonbons voisins pour en aligner au moins trois identiques.', ['Rien ne presse : prenez votre temps pour repérer le meilleur échange.', 'Les alignements en bas du plateau peuvent déclencher des réactions en chaîne.']],
     'space-huggers' => ['Courez, sautez et tirez pour traverser chaque niveau.', ['Restez en mouvement : immobile, vous êtes une cible facile.', 'Explorez pour trouver des armes et des bonus en chemin.']],
@@ -23,4 +24,5 @@ return [
     'woolfie' => ['Faufilez-vous dans le château, trouvez la clé et atteignez la sortie sans être vu.', ['Observez les rondes des gardes avant de bouger.', 'La patience paie : attendez l’ouverture, puis foncez.']],
     'lawyer-memory' => ['Retournez deux cartes à la fois et trouvez toutes les paires.', ['Retenez l’emplacement de chaque carte, même quand elle ne forme pas de paire.', 'Il n’y a pas de limite de temps : jouez à votre rythme.']],
     'doctor-memory' => ['Retournez deux cartes à la fois et trouvez toutes les paires.', ['Parcourez le plateau dans l’ordre pour mieux retenir les positions.', 'Il n’y a pas de limite de temps : jouez à votre rythme.']],
+    'note-quest' => ['Répondez à dix questions par quiz sur les notes, les touches et les sons.', ['Commencez par les notes en clé de sol, puis ajoutez la clé de fa.', 'Pour les quiz d’écoute, chantez doucement les notes pour les comparer.']],
 ];

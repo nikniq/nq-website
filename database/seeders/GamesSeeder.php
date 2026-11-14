@@ -34,6 +34,7 @@ class GamesSeeder extends Seeder
         'frogger' => ['Frogger', 'frogger', 'Arcade', 'Hop across traffic and rivers to get the frog home.'],
         'bomberman' => ['Bomberman', 'bomberman', 'Arcade', 'Drop bombs, clear the maze and outlast your rivals.'],
         'minesweeper' => ['Minesweeper', 'minesweeper', 'Puzzle', 'Clear the field without setting off a mine.'],
+        'mindsweeper' => ['Mindsweeper', 'mindsweeper', 'Puzzle', 'Minesweeper with a daily board, hints, a no-guessing mode and a leaderboard.'],
         'reversi' => ['Reversi', 'reversi', 'Board', 'Flip discs and own the board in this Othello-style strategy game.'],
         'candy' => ['Candy Rush', 'candyrush', 'Puzzle', 'Match three candies and clear the board in this sweet puzzle.', false, true],
         'space-huggers' => ['Space Huggers', 'spacehuggers', 'Platformer', 'A run-and-gun platformer against an empire spreading across the galaxy.'],
@@ -42,6 +43,7 @@ class GamesSeeder extends Seeder
         'woolfie' => ['Castle Wolf', 'woolfie', 'Stealth', 'A tiny top-down stealth game: find the key, open the doors, reach the exit.'],
         'lawyer-memory' => ['Legal Memory', 'lawyermemory', 'Puzzle', 'Flip the cards, find the pairs, close the case: a legal-themed memory game.', false, true],
         'doctor-memory' => ['Doctor Memory', 'doctormemory', 'Puzzle', 'A medical-themed memory matching game.', false, true],
+        'note-quest' => ['Note Quest', 'musical', 'Music', 'Piano music quizzes: read notes on the staff, find keys and train your ear.'],
     ];
 
     /** Seeded in an earlier version but with no live site: disabled, not deleted, so any stats survive. */

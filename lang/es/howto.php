@@ -15,6 +15,7 @@ return [
     'frogger' => ['Lleva a la rana a través de la carretera y el río hasta un lugar seguro.', ['Espera un hueco en lugar de cruzar el tráfico con prisas.', 'Súbete a los troncos y a las tortugas, pero ojo con las que se sumergen.']],
     'bomberman' => ['Pon bombas para derribar muros y vencer a los enemigos del laberinto.', ['Antes de poner una bomba, ten clara tu ruta de escape.', 'Los potenciadores escondidos en los muros te dan explosiones más grandes y más bombas.']],
     'minesweeper' => ['Descubre todas las casillas seguras sin pisar una mina.', ['Un número indica cuántas minas tocan esa casilla.', 'Marca con bandera las minas que tengas claras para deducir el resto.']],
+    'mindsweeper' => ['Descubre todas las casillas seguras lo más rápido que puedas.', ['Empieza con Principiante o con el tablero diario, igual para todos.', 'Activa el modo sin adivinar para que todo tablero se resuelva con lógica; una pista suma 10 segundos.']],
     'reversi' => ['Termina con más fichas de tu color en el tablero.', ['Las esquinas nunca se pueden volver a girar, así que valen mucho.', 'Al principio, evita las casillas junto a las esquinas.']],
     'candy' => ['Intercambia caramelos vecinos para alinear tres o más del mismo tipo.', ['No hay prisa: tómate tu tiempo para encontrar el mejor movimiento.', 'Las combinaciones cerca de la parte de abajo pueden provocar cadenas extra.']],
     'space-huggers' => ['Corre, salta y dispara para superar cada nivel.', ['No te quedes quieto; si te paras, eres un blanco fácil.', 'Explora para encontrar armas y potenciadores por el camino.']],
@@ -23,4 +24,5 @@ return [
     'woolfie' => ['Cuélate por el castillo, encuentra la llave y llega a la salida sin que te vean.', ['Observa los movimientos de los guardias antes de moverte.', 'La paciencia gana: espera el hueco y luego ve.']],
     'lawyer-memory' => ['Da la vuelta a dos cartas cada vez y encuentra todas las parejas.', ['Recuerda dónde estaba cada carta, aunque no forme pareja.', 'No hay límite de tiempo, así que juega a tu ritmo.']],
     'doctor-memory' => ['Da la vuelta a dos cartas cada vez y encuentra todas las parejas.', ['Recorre el tablero en orden para recordar las posiciones.', 'No hay límite de tiempo, así que juega a tu ritmo.']],
+    'note-quest' => ['Responde diez preguntas por quiz sobre notas, teclas y sonidos.', ['Empieza con las notas en clave de sol y luego añade la clave de fa.', 'En los quiz de escucha, canta las notas en voz baja para compararlas.']],
 ];

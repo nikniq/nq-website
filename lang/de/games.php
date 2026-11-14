@@ -15,6 +15,7 @@ return [
     'frogger' => 'Hüpf über Straßen und Flüsse und bring den Frosch nach Hause.',
     'bomberman' => 'Leg Bomben, räum das Labyrinth frei und überdaure deine Gegner.',
     'minesweeper' => 'Räum das Feld, ohne eine Mine auszulösen.',
+    'mindsweeper' => 'Minesweeper mit Tagesbrett, Tipps, Modus ohne Raten und Bestenliste.',
     'reversi' => 'Dreh Steine um und erobere das Brett in diesem Strategiespiel im Stil von Othello.',
     'candy' => 'Bilde Dreierreihen aus Bonbons und räum das Brett in diesem süßen Rätselspiel.',
     'space-huggers' => 'Ein Run-and-Gun-Plattformspiel gegen ein Imperium, das sich über die Galaxis ausbreitet.',
@@ -23,4 +24,5 @@ return [
     'woolfie' => 'Ein kleines Schleichspiel von oben: Finde den Schlüssel, öffne die Türen, erreiche den Ausgang.',
     'lawyer-memory' => 'Deck die Karten auf, finde die Paare, schließ den Fall ab: ein Memory-Spiel rund ums Recht.',
     'doctor-memory' => 'Ein Memory-Spiel rund um die Medizin.',
+    'note-quest' => 'Klavier-Musikquiz: Noten im Notensystem lesen, Tasten finden und das Gehör trainieren.',
 ];

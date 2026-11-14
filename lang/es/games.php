@@ -15,6 +15,7 @@ return [
     'frogger' => 'Salta entre el tráfico y cruza el río para llevar a la rana a casa.',
     'bomberman' => 'Pon bombas, despeja el laberinto y aguanta más que tus rivales.',
     'minesweeper' => 'Despeja el campo sin hacer estallar ninguna mina.',
+    'mindsweeper' => 'Buscaminas con tablero diario, pistas, modo sin adivinar y clasificación.',
     'reversi' => 'Da la vuelta a las fichas y domina el tablero en este juego de estrategia al estilo Othello.',
     'candy' => 'Junta tres caramelos iguales y limpia el tablero en este dulce puzle.',
     'space-huggers' => 'Un juego de plataformas y disparos contra un imperio que se extiende por la galaxia.',
@@ -23,4 +24,5 @@ return [
     'woolfie' => 'Un pequeño juego de sigilo visto desde arriba: encuentra la llave, abre las puertas y llega a la salida.',
     'lawyer-memory' => 'Da la vuelta a las cartas, encuentra las parejas y cierra el caso: un juego de memoria con temática legal.',
     'doctor-memory' => 'Un juego de memoria de parejas con temática médica.',
+    'note-quest' => 'Quiz de piano: lee notas en el pentagrama, encuentra las teclas y entrena el oído.',
 ];
