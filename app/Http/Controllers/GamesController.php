@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Support\GameSearch;
 use App\Services\GameStatsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -25,19 +26,24 @@ class GamesController extends Controller
             'dementia' => $request->boolean('dementia'),
             'favourites' => $user && $request->boolean('favourites'),
             'sort' => in_array($request->query('sort'), ['name', 'newest', 'popular'], true) ? $request->query('sort') : '',
+            // Advanced search options (see App\Support\GameSearch).
+            'in' => $request->query('in') === 'name' ? 'name' : '',
+            'match' => $request->query('match') === 'any' ? 'any' : '',
         ];
+        $search = new GameSearch($filters['q'], namesOnly: $filters['in'] === 'name', matchAny: $filters['match'] === 'any');
 
         $activeFiltersAny = (bool) ($filters['genre'] || $filters['featured'] || $filters['dementia'] || $filters['favourites'] || $filters['sort']);
 
         $games = Game::enabled()
-            ->search($filters['q'])
             ->withCount('favouritedBy')
             ->filter($filters)
             ->when($filters['favourites'], fn ($q) => $q->whereIn('id', $favouriteIds ?: [0]))
             ->get();
+        // Rank by relevance unless the visitor picked a sort order.
+        $games = $search->apply($games, $favouriteIds, rank: $filters['sort'] === '');
 
         // Favourites float to the top for signed-in players (default order only).
-        if ($favouriteIds && $filters['sort'] === '') {
+        if ($favouriteIds && $filters['sort'] === '' && $search->isEmpty()) {
             $games = $games->sortBy(fn (Game $g) => in_array($g->id, $favouriteIds, true) ? 0 : 1, SORT_NUMERIC, false)->values();
         }
 
@@ -59,6 +65,15 @@ class GamesController extends Controller
             'recent' => ($user && $filters['q'] === '' && ! $activeFiltersAny) ? $this->stats->recentGamesFor($user) : collect(),
             'activeFilters' => count(array_filter([$filters['genre'], $filters['featured'], $filters['dementia'], $filters['favourites']])),
         ]);
+    }
+
+    /** Names, genres and thumbnails for the search box's instant suggestions (in the current language). */
+    public function suggest(): JsonResponse
+    {
+        return response()->json(Game::enabled()->orderBy('name')->get()->map(fn (Game $g) => [
+            'n' => $g->name, 'g' => Game::genreLabel($g->genre), 'u' => route('games.show', $g), 't' => $g->webpUrl() ?? $g->thumbnailUrl(),
+            's' => GameSearch::norm($g->name.' '.$g->genre.' '.Game::genreLabel($g->genre)),
+        ])->values())->header('Cache-Control', 'public, max-age=300');
     }
 
     public function show(Request $request, Game $game): View

@@ -30,6 +30,7 @@ Route::get('/terms', fn () => view()->first(['pages.'.app()->getLocale().'.terms
 Route::get('/hall-of-fame', HallOfFameController::class)->name('hall');
 Route::get('/players/{player}', [PlayerProfileController::class, 'show'])->name('players.show');
 Route::get('/games/random', [GamesController::class, 'random'])->name('games.random');
+Route::get('/games/suggest', [GamesController::class, 'suggest'])->name('games.suggest');
 Route::get('/games/{game}', [GamesController::class, 'show'])->name('games.show');
 Route::get('/games/{game}/play', [GamesController::class, 'play'])->name('games.play');
 Route::get('/games/{game}/leaderboard', [GamesController::class, 'leaderboard'])->name('games.leaderboard');

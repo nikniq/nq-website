@@ -342,3 +342,42 @@ main h2 { font-weight:800; }
     .game-hero { grid-template-columns:minmax(0,820px) minmax(0,1fr); }
 }
 .howto > *, .page-head > p, .lead { max-width:75ch; }
+
+/* Prominent search: sits right under the page heading, above the featured game. */
+.search-wrap { max-width:980px; margin:0 0 1.6rem; }
+.searchbar { margin:0; }
+.searchbar svg { left:1.25rem; color:var(--accent-2); }
+.searchbar input { height:64px; padding:0 3.6rem 0 3.6rem; font-size:1.2rem; border:2px solid color-mix(in srgb, var(--accent-2) 45%, var(--line)); border-radius:18px; background:var(--panel); box-shadow:0 10px 30px -12px var(--shadow); }
+.searchbar input:hover { border-color:color-mix(in srgb, var(--accent-2) 70%, var(--line)); }
+.searchbar input:focus { border-color:var(--accent-2); box-shadow:0 0 0 5px color-mix(in srgb, var(--accent-2) 22%, transparent), 0 10px 30px -12px var(--shadow); }
+.searchbar kbd { right:8.6rem; }
+.searchbar .btn { height:64px; padding:0 1.8rem; border-radius:18px; font-size:1.1rem; }
+.page-head + .search-wrap { margin-top:-.2rem; }
+@media (max-width:640px) {
+    .searchbar input, .searchbar .btn { height:54px; }
+    .searchbar input { font-size:1rem; padding:0 .8rem 0 2.9rem; border-radius:14px; }
+    .searchbar svg { left:.9rem; }
+    .searchbar .btn { padding:0 1rem; border-radius:14px; font-size:1rem; }
+}
+
+/* Search suggestions */
+.suggest { position:absolute; z-index:30; top:calc(100% + 6px); left:0; right:0; margin:0; padding:.35rem; list-style:none; background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:0 18px 40px -14px var(--shadow); }
+.suggest a, .suggest button { display:flex; align-items:center; gap:.75rem; width:100%; padding:.45rem .6rem; border-radius:10px; color:var(--text); text-decoration:none; background:none; border:0; font:inherit; text-align:left; cursor:pointer; }
+.suggest img { width:56px; height:32px; object-fit:cover; border-radius:6px; flex:none; background:var(--panel-2); }
+.suggest .sg-name { font-weight:700; }
+.suggest .sg-genre { margin-left:auto; font-size:.85rem; color:var(--muted); }
+.suggest [aria-selected="true"] > *, .suggest a:hover, .suggest button:hover { background:var(--panel-2); }
+.suggest .sg-all button { color:var(--link); font-weight:700; justify-content:center; }
+
+/* Advanced search panel */
+.adv-search { margin-top:.6rem; }
+.adv-search summary { display:inline-block; cursor:pointer; color:var(--link); font-weight:700; font-size:.95rem; padding:.2rem 0; }
+.adv-body { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap:1rem 1.5rem; margin-top:.6rem; padding:1rem 1.2rem; background:var(--panel); border:1px solid var(--line); border-radius:14px; }
+.adv-body fieldset { border:0; margin:0; padding:0; display:flex; flex-direction:column; gap:.35rem; }
+.adv-body legend, .adv-title { font-weight:800; margin:0 0 .35rem; padding:0; }
+.adv-body label { display:flex; gap:.5rem; align-items:center; cursor:pointer; }
+.adv-tips ul { margin:0 0 .4rem; padding-left:1.1rem; line-height:1.8; }
+.adv-tips code { background:var(--code); padding:.05rem .4rem; border-radius:5px; font-size:.88rem; }
+.adv-tips p.muted { margin:0; font-size:.9rem; }
+.adv-body label { flex-direction:row; justify-content:flex-start; text-align:left; font-weight:500; margin:0; }
+.adv-body input[type=radio] { width:1.1rem; height:1.1rem; margin:0; flex:none; accent-color:var(--accent-2); }

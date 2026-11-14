@@ -175,15 +175,97 @@
 })();
 
         (function () {
-            var q = document.querySelector('.searchbar input[name=q]'), grid = document.querySelector('[data-live]');
-            if (!q || !grid) return;
+            // Instant catalogue search: mirrors App\Support\GameSearch (words, "phrases",
+            // -exclude, genre:/name:/is:, all/any words, names only). Enter still asks
+            // the server, which also ranks results and forgives typos.
+            var q = document.querySelector('.searchbar input[name=q]');
+            if (!q) return;
+            var grid = document.querySelector('[data-live]'), form = q.form;
             var empty = document.querySelector('.live-empty'), count = document.querySelector('.section-head .count');
-            q.addEventListener('input', function () {
-                var term = q.value.trim().toLowerCase(), shown = 0;
-                grid.querySelectorAll('.card').forEach(function (c) { var hit = !term || c.dataset.search.indexOf(term) !== -1; c.hidden = !hit; if (hit) shown++; });
+            var list = document.getElementById('search-suggest'), data = [], loaded = false, active = -1, items = [];
+            function load() {
+                if (loaded || !list || !list.dataset.src) return; loaded = true;
+                fetch(list.dataset.src, { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); })
+                    .then(function (d) { data = d; if (document.activeElement === q && q.value.trim()) suggest(); }).catch(function () {});
+            }
+            function norm(s) { return String(s || '').replace(/[À-ɏ]/g, function (c) { return c.normalize('NFD').replace(/[̀-ͯ]/g, ''); }).toLowerCase().trim(); }
+            function parse(raw) {
+                var re = /(-?)(?:(\w+):)?(?:"([^"]*)"|(\S+))/g, m, out = [];
+                while ((m = re.exec(raw))) {
+                    var field = (m[2] || '').toLowerCase(), phrase = m[3] !== undefined && m[3] !== '', v = norm(phrase ? m[3] : (m[4] || ''));
+                    if (!v || v === '-') continue;
+                    var type = ['genre', 'name', 'is'].indexOf(field) !== -1 ? field : 'word';
+                    if (field && type === 'word') v = norm(field + ':' + v);
+                    out.push({ type: type, v: v, neg: m[1] === '-' });
+                }
+                return out;
+            }
+            function opt(name) { var el = form && form.querySelector('input[name=' + name + ']:checked'); return el ? el.value : ''; }
+            function matches(card, terms) {
+                var namesOnly = opt('in') === 'name', any = opt('match') === 'any';
+                var text = namesOnly ? card.dataset.name + ' ' + card.dataset.genre : card.dataset.search, flags = ' ' + (card.dataset.flags || '') + ' ';
+                var positives = 0, hits = 0;
+                for (var i = 0; i < terms.length; i++) {
+                    var t = terms[i], hit;
+                    if (t.type === 'is') hit = flags.indexOf(' ' + t.v + ' ') !== -1;
+                    else if (t.type === 'genre') hit = card.dataset.genre.indexOf(t.v) !== -1;
+                    else if (t.type === 'name') hit = card.dataset.name.indexOf(t.v) !== -1;
+                    else hit = text.indexOf(t.v) !== -1;
+                    if (t.neg) { if (hit) return false; continue; }
+                    positives++;
+                    if (!hit && (t.type !== 'word' || !any)) return false;
+                    if (hit) hits++;
+                }
+                return positives === 0 || hits > 0;
+            }
+            function filterGrid() {
+                if (!grid) return;
+                var terms = parse(q.value), shown = 0;
+                grid.querySelectorAll('.card').forEach(function (c) { var hit = !terms.length || matches(c, terms); c.hidden = !hit; if (hit) shown++; });
                 if (empty) empty.hidden = shown > 0;
                 if (count) count.textContent = (shown === 1 ? @json(__(':count game')) : @json(__(':count games'))).replace(':count', shown);
+            }
+            function close() { if (!list) return; list.hidden = true; q.setAttribute('aria-expanded', 'false'); q.removeAttribute('aria-activedescendant'); active = -1; }
+            function suggest() {
+                if (!list) return;
+                var raw = q.value.trim(), term = norm(raw);
+                if (!term || /[":-]/.test(raw)) { close(); return; }
+                var words = term.split(/\s+/);
+                items = data.filter(function (g) { return words.every(function (w) { return g.s.indexOf(w) !== -1; }); })
+                    .sort(function (a, b) { return (norm(a.n).indexOf(term) === 0 ? 0 : 1) - (norm(b.n).indexOf(term) === 0 ? 0 : 1); }).slice(0, 6);
+                list.innerHTML = '';
+                items.forEach(function (g, i) {
+                    var li = document.createElement('li'); li.id = 'sg-' + i; li.setAttribute('role', 'option');
+                    var a = document.createElement('a'); a.href = g.u; a.tabIndex = -1;
+                    if (g.t) { var img = document.createElement('img'); img.src = g.t; img.alt = ''; img.width = 56; img.height = 32; img.loading = 'lazy'; a.appendChild(img); }
+                    var n = document.createElement('span'); n.className = 'sg-name'; n.textContent = g.n; a.appendChild(n);
+                    if (g.g) { var gg = document.createElement('span'); gg.className = 'sg-genre'; gg.textContent = g.g; a.appendChild(gg); }
+                    li.appendChild(a); list.appendChild(li);
+                });
+                var all = document.createElement('li'); all.id = 'sg-' + items.length; all.setAttribute('role', 'option'); all.className = 'sg-all';
+                var b = document.createElement('button'); b.type = 'submit'; b.tabIndex = -1; b.textContent = @json(__('See all results for ":q"')).replace(':q', raw); all.appendChild(b); list.appendChild(all);
+                list.hidden = false; q.setAttribute('aria-expanded', 'true'); active = -1;
+            }
+            function move(d) {
+                var opts = list.querySelectorAll('[role=option]'); if (!opts.length) return;
+                if (active >= 0) opts[active].removeAttribute('aria-selected');
+                active = (active + d + opts.length) % opts.length;
+                opts[active].setAttribute('aria-selected', 'true'); q.setAttribute('aria-activedescendant', opts[active].id);
+            }
+            q.addEventListener('focus', load);
+            q.addEventListener('input', function () { load(); filterGrid(); suggest(); });
+            q.addEventListener('keydown', function (e) {
+                if (!list || list.hidden) return;
+                if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+                else if (e.key === 'Escape') { close(); }
+                else if (e.key === 'Enter' && active >= 0) {
+                    var el = list.querySelectorAll('[role=option]')[active].querySelector('a');
+                    if (el) { e.preventDefault(); location.href = el.href; }
+                }
             });
+            q.addEventListener('blur', function () { setTimeout(close, 150); });
+            if (form) form.querySelectorAll('.adv-search input').forEach(function (r) { r.addEventListener('change', filterGrid); });
         })();
 
         document.querySelectorAll('input[type=password]').forEach(function (input) {

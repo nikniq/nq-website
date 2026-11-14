@@ -1,5 +1,5 @@
 @php($fav = in_array($game->id, $favouriteIds ?? [], true))
-<article class="card" data-search="{{ \Illuminate\Support\Str::lower($game->name.' '.$game->genre) }}">
+<article class="card" data-search="{{ \App\Support\GameSearch::norm($game->name.' '.$game->genre.' '.\App\Models\Game::genreLabel($game->genre).' '.$game->description.' '.$game->localDescription()) }}" data-name="{{ \App\Support\GameSearch::norm($game->name) }}" data-genre="{{ \App\Support\GameSearch::norm($game->genre.' '.\App\Models\Game::genreLabel($game->genre)) }}" data-flags="{{ trim(($game->is_featured ? 'featured ' : '').($game->is_dementia ? 'calm dementia ' : '').(in_array($game->id, $favouriteIds ?? [], true) ? 'favourite favorite fav' : '')) }}">
     <a class="thumb" href="{{ route('games.show', $game) }}" tabindex="-1" aria-hidden="true">
         @if($game->thumbnailUrl())
             @include('games._picture', ['game' => $game, 'eager' => $eager ?? false])

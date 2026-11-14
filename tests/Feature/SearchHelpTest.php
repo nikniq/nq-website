@@ -14,7 +14,8 @@ class SearchHelpTest extends TestCase
     {
         Game::factory()->create(['name' => 'Minesweeper', 'is_enabled' => true, 'is_featured' => true]);
 
-        $this->get('/?q=minesweper')->assertSee('Did you mean')->assertSee('Minesweeper')->assertSee('Popular picks');
+        // Small typos now find the game directly instead of an empty page.
+        $this->get('/?q=minesweper')->assertSee('Minesweeper')->assertDontSee('Did you mean');
     }
 
     public function test_game_page_links_back_to_filtered_results(): void

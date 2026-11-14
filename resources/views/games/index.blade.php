@@ -19,6 +19,45 @@
         <p class="sub">{{ __(':count free games that run in your browser.', ['count' => \App\Models\Game::enabled()->count()]) }} @guest{!! __(':link to keep your favourites and scores.', ['link' => '<a href="'.e(route('register')).'">'.e(__('Create a free account')).'</a>']) !!}@else {{ __('Pick up where you left off, or try something new.') }}@endguest</p>
     </div>
 
+    <form class="search-wrap" method="get" action="{{ route('games.index') }}" role="search">
+        <div class="searchbar">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" name="q" value="{{ $query }}" placeholder="{{ __('Search :count games', ['count' => \App\Models\Game::enabled()->count()]) }}" aria-label="{{ __('Search games') }}"
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-suggest" autocomplete="off">
+            <kbd class="hide-sm" aria-hidden="true">/</kbd>
+            <button class="btn" type="submit">{{ __('Search') }}</button>
+            <ul class="suggest" id="search-suggest" data-src="{{ route('games.suggest', ['lang' => app()->getLocale()]) }}" role="listbox" aria-label="{{ __('Suggestions') }}" hidden></ul>
+        </div>
+        @foreach(['genre', 'featured', 'dementia', 'favourites', 'sort'] as $keep)
+            @if(!empty($filters[$keep]))<input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] === true ? 1 : $filters[$keep] }}">@endif
+        @endforeach
+        <details class="adv-search" @if($filters['in'] || $filters['match']) open @endif>
+            <summary>{{ __('Advanced search') }}</summary>
+            <div class="adv-body">
+                <fieldset>
+                    <legend>{{ __('Search in') }}</legend>
+                    <label><input type="radio" name="in" value="" @checked($filters['in'] === '')> {{ __('Names, genres and descriptions') }}</label>
+                    <label><input type="radio" name="in" value="name" @checked($filters['in'] === 'name')> {{ __('Names only') }}</label>
+                </fieldset>
+                <fieldset>
+                    <legend>{{ __('Match') }}</legend>
+                    <label><input type="radio" name="match" value="" @checked($filters['match'] === '')> {{ __('All words') }}</label>
+                    <label><input type="radio" name="match" value="any" @checked($filters['match'] === 'any')> {{ __('Any word') }}</label>
+                </fieldset>
+                <div class="adv-tips">
+                    <p class="adv-title">{{ __('Search tips') }}</p>
+                    <ul>
+                        <li><code>"power pellets"</code> {{ __('exact phrase') }}</li>
+                        <li><code>-memory</code> {{ __('leave out games that mention a word') }}</li>
+                        <li><code>genre:puzzle</code> {{ __('only one genre') }}</li>
+                        <li><code>is:calm</code> {{ __('dementia-friendly games') }} · <code>is:featured</code> · <code>is:favourite</code></li>
+                    </ul>
+                    <p class="muted">{{ __('Small typos are forgiven, so "tetrs" still finds Tetris.') }}</p>
+                </div>
+            </div>
+        </details>
+    </form>
+
     @if($spotlight)
         <section class="hero" aria-label="{{ __('Featured game') }}">
             <a class="hero-art" href="{{ route('games.show', $spotlight) }}" tabindex="-1" aria-hidden="true">
@@ -45,15 +84,6 @@
     @endif
 
     <div class="finder">
-        <form class="searchbar" method="get" action="{{ route('games.index') }}" role="search">
-            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input type="search" name="q" value="{{ $query }}" placeholder="{{ __('Search games') }}" aria-label="{{ __('Search games') }}">
-            @foreach(['genre', 'featured', 'dementia', 'favourites', 'sort'] as $keep)
-                @if(!empty($filters[$keep]))<input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] === true ? 1 : $filters[$keep] }}">@endif
-            @endforeach
-            <kbd class="hide-sm" aria-hidden="true">/</kbd>
-            <button class="btn" type="submit">{{ __('Search') }}</button>
-        </form>
 
         <nav class="filters" aria-label="{{ __('Filter games') }}">
             <div class="chips genres">
