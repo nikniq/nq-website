@@ -144,6 +144,27 @@ if [ -z "$app_info" ]; then
     exit 1
 fi
 IFS='|' read -r app_env app_debug app_url session_driver <<<"$app_info"
+# Code freshness: local edits block `git pull`, and a server behind origin runs old code
+# (e.g. a seeder without the newest games) while every other check passes.
+if command -v git >/dev/null 2>&1 && [ -d .git ]; then
+    dirty=$(git status --porcelain --untracked-files=no 2>/dev/null)
+    if [ -n "$dirty" ]; then
+        warn "files changed on the server (git pull will refuse to overwrite them):"
+        echo "$dirty" | sed 's/^/         /'
+        echo "         keep them with: git stash && git pull && git stash pop"
+    fi
+    if git fetch -q origin 2>/dev/null; then
+        behind=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo 0)
+        if [ "${behind:-0}" -gt 0 ]; then
+            fail "code is $behind commit(s) behind origin ($(git log -1 --format=%h HEAD) vs $(git log -1 --format=%h @{u})): run ./deploy.sh"
+        else
+            ok "code up to date ($(git log -1 --format='%h %s' HEAD | cut -c1-60))"
+        fi
+    else
+        warn "could not reach origin to check for new code"
+    fi
+fi
+
 ok "APP_ENV=$app_env APP_URL=$app_url SESSION_DRIVER=$session_driver"
 
 if [ "$app_env" = "production" ] && [ "$app_debug" = "true" ]; then
