@@ -23,7 +23,7 @@ class HowToPlay
         'pong' => ['Return the ball past your opponent\'s paddle to score.', ['Hitting with the paddle edge sends the ball at a sharper angle.', 'Return to the centre after each hit.']],
         'frogger' => ['Guide the frog across the road and river to a safe home.', ['Wait for a gap rather than rushing through traffic.', 'Ride the logs and turtles, but watch for turtles that dive.']],
         'bomberman' => ['Drop bombs to clear walls and defeat enemies in the maze.', ['Always know your escape route before you place a bomb.', 'Power-ups hidden in walls give you bigger blasts and more bombs.']],
-        'minesweeper' => ['Uncover every safe square without hitting a mine.', ['A number shows how many mines touch that square.', 'Flag the mines you are sure of to work out the rest.']],
+        'mindsweeper' => ['Clear every safe square as fast as you can.', ['Start with Beginner or the Daily board everyone shares.', 'Switch on no-guessing so every board can be solved by logic; a hint costs 10 seconds.']],
         'reversi' => ['Finish with more discs of your colour on the board.', ['Corners can never be flipped back, so they are worth a lot.', 'Avoid the squares next to corners early on.']],
         'candy' => ['Swap neighbouring candies to line up three or more of the same kind.', ['There is no rush: take your time to spot the best swap.', 'Matches near the bottom can set off bonus chains.']],
         'space-huggers' => ['Run, jump and shoot your way through each level.', ['Keep moving; standing still makes you an easy target.', 'Explore for weapons and power-ups along the way.']],

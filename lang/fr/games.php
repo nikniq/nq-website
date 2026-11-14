@@ -14,7 +14,7 @@ return [
     'pong' => 'Le tout premier jeu de raquettes, avec un classement.',
     'frogger' => 'Traversez la route et la rivière pour ramener la grenouille chez elle.',
     'bomberman' => 'Posez des bombes, dégagez le labyrinthe et survivez plus longtemps que vos rivaux.',
-    'minesweeper' => 'Déminez le terrain sans faire exploser une seule mine.',
+    'mindsweeper' => 'Le démineur avec une grille du jour, des indices, un mode sans hasard et un classement.',
     'reversi' => 'Retournez les pions et prenez le contrôle du plateau dans ce jeu de stratégie façon Othello.',
     'candy' => 'Alignez trois bonbons et videz le plateau dans ce casse-tête tout en douceur.',
     'space-huggers' => 'Un jeu de plateforme et de tir contre un empire qui s’étend à travers la galaxie.',
