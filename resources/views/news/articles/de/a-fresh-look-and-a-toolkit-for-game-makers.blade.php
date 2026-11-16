@@ -8,8 +8,5 @@
     <li>Die Karten zeigen den Titel unter dem Bild mit einem klaren Spielen-Button, und auf dem Handy gibt es ein kompaktes Layout mit zwei Spalten.</li>
 </ul>
 
-<h2>Ein Werkzeugkasten für Spieleentwickler</h2>
-<p>Jedes Spiel kann sich jetzt mit einer kleinen JavaScript-Datei mit NikniQ-Konten verbinden. Spieler melden sich mit einem Tipp an, und das Spiel meldet Punktestände, die im Dashboard des Spielers und in der Bestenliste des Spiels erscheinen. Auf der <a href="{{ route('developers') }}">Entwicklerseite</a> findest du eine Schritt-für-Schritt-Anleitung.</p>
-
 <h2>Deine Daten, deine Entscheidung</h2>
 <p>In deinem Profil kannst du alles herunterladen, was wir über dich gespeichert haben, oder dein Konto mit allen Daten löschen. Unsere <a href="{{ route('privacy') }}">Datenschutzerklärung</a> erklärt, was wir erfassen und warum.</p>

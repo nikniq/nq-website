@@ -2,8 +2,8 @@
 
 return [
     'a-fresh-look-and-a-toolkit-for-game-makers' => [
-        'title' => 'Ein frischer Look und ein Werkzeugkasten für Spieleentwickler',
-        'summary' => 'Das Portal hat ein ruhigeres, freundlicheres Design, und jedes Spiel kann jetzt mit wenigen Zeilen Code Punktestände in deinem NikniQ-Konto speichern.',
+        'title' => 'Ein frischer Look',
+        'summary' => 'Das Portal hat ein ruhigeres, freundlicheres Design.',
     ],
     'calm-mode-and-dementia-friendly-games' => [
         'title' => 'Ruhemodus und demenzfreundliche Spiele',

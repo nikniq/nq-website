@@ -2,8 +2,8 @@
 
 return [
     'a-fresh-look-and-a-toolkit-for-game-makers' => [
-        'title' => '新しいデザインと、ゲーム制作者向けツールキット',
-        'summary' => 'ポータルが落ち着いた親しみやすいデザインになりました。また、数行のコードで、どのゲームでもスコアを NikniQ アカウントに保存できるようになりました。',
+        'title' => '新しいデザイン',
+        'summary' => 'ポータルが落ち着いた親しみやすいデザインになりました。',
     ],
     'calm-mode-and-dementia-friendly-games' => [
         'title' => 'やさしいモードと、認知症にやさしいゲーム',

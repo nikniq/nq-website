@@ -8,8 +8,5 @@
     <li>Cards show the title under the artwork with one clear Play button, and phones get a compact two-column layout.</li>
 </ul>
 
-<h2>A toolkit for game makers</h2>
-<p>Any game can now connect to NikniQ accounts with a small JavaScript file. Players sign in with one tap, and the game reports scores that appear on the player's dashboard and the game's leaderboard. See the <a href="{{ route('developers') }}">developer page</a> for a step-by-step guide.</p>
-
 <h2>Your data, your choice</h2>
 <p>From your profile you can download everything we hold about you, or delete your account and all of its data. Our <a href="{{ route('privacy') }}">privacy policy</a> explains what we collect and why.</p>

@@ -8,8 +8,5 @@
     <li>Les cartes affichent le titre sous l’illustration avec un seul bouton Jouer bien visible, et les téléphones profitent d’une grille compacte sur deux colonnes.</li>
 </ul>
 
-<h2>Une boîte à outils pour les créateurs de jeux</h2>
-<p>N’importe quel jeu peut désormais se connecter aux comptes NikniQ grâce à un petit fichier JavaScript. Les joueurs se connectent d’un simple geste, et le jeu envoie des scores qui apparaissent sur le tableau de bord du joueur et dans le classement du jeu. Consultez la <a href="{{ route('developers') }}">page développeurs</a> pour un guide pas à pas.</p>
-
 <h2>Vos données, votre choix</h2>
 <p>Depuis votre profil, vous pouvez télécharger toutes les données que nous détenons sur vous, ou supprimer votre compte et toutes ses données. Notre <a href="{{ route('privacy') }}">politique de confidentialité</a> explique ce que nous collectons et pourquoi.</p>
