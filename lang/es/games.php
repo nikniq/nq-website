@@ -24,4 +24,7 @@ return [
     'lawyer-memory' => 'Da la vuelta a las cartas, encuentra las parejas y cierra el caso: un juego de memoria con temática legal.',
     'doctor-memory' => 'Un juego de memoria de parejas con temática médica.',
     'note-quest' => 'Quiz de piano: lee notas en el pentagrama, encuentra las teclas y entrena el oído.',
+    'mahjong' => 'Mahjong solitario: empareja fichas libres en tres disposiciones, con pistas, deshacer y combos.',
+    'starlasso' => 'Dibuja lazos de luz alrededor de las estrellas, esquiva los fragmentos y nunca atrapes una mina.',
+    'starsling' => 'Un arcade de un toque: lanza tu cometa de planeta en planeta antes de que su órbita se apague.',
 ];

@@ -24,4 +24,7 @@ return [
     'lawyer-memory' => ['Da la vuelta a dos cartas cada vez y encuentra todas las parejas.', ['Recuerda dónde estaba cada carta, aunque no forme pareja.', 'No hay límite de tiempo, así que juega a tu ritmo.']],
     'doctor-memory' => ['Da la vuelta a dos cartas cada vez y encuentra todas las parejas.', ['Recorre el tablero en orden para recordar las posiciones.', 'No hay límite de tiempo, así que juega a tu ritmo.']],
     'note-quest' => ['Responde diez preguntas por quiz sobre notas, teclas y sonidos.', ['Empieza con las notas en clave de sol y luego añade la clave de fa.', 'En los quiz de escucha, canta las notas en voz baja para compararlas.']],
+    'mahjong' => ['Despeja el tablero emparejando fichas libres idénticas.', ['Una ficha está libre si no tiene nada encima y su lado izquierdo o derecho está despejado.', 'Libera primero las fichas que bloquean a varias; cualquier flor empareja con cualquier flor.']],
+    'starlasso' => ['Rodea estrellas con tu estela para atraparlas y deja las minas fuera de tus lazos.', ['Cuantas más estrellas en un lazo, más puntos.', 'Encadena lazos rápido para subir el combo hasta ×8.']],
+    'starsling' => ['Suelta en el momento justo para lanzar tu cometa al siguiente planeta.', ['Suelta en menos de una vuelta para mantener la racha.', 'Atrapa estrellas y sáltate planetas para ganar puntos extra.']],
 ];

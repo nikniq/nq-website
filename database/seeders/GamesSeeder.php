@@ -43,6 +43,9 @@ class GamesSeeder extends Seeder
         'lawyer-memory' => ['Legal Memory', 'lawyermemory', 'Puzzle', 'Flip the cards, find the pairs, close the case: a legal-themed memory game.', false, true],
         'doctor-memory' => ['Doctor Memory', 'doctormemory', 'Puzzle', 'A medical-themed memory matching game.', false, true],
         'note-quest' => ['Note Quest', 'musical', 'Music', 'Piano music quizzes: read notes on the staff, find keys and train your ear.'],
+        'mahjong' => ['Mahjong', 'mahjong', 'Puzzle', 'Mahjong solitaire: match free pairs of tiles across three layouts, with hints, undo and combos.'],
+        'starlasso' => ['Starlasso', 'starlasso', 'Arcade', 'Draw loops of light around stars, dodge the shards and never lasso a mine.'],
+        'starsling' => ['Starsling', 'starsling', 'Arcade', 'A one-tap arcade game: sling your comet from planet to planet before its orbit burns out.'],
     ];
 
     /** Seeded in an earlier version but with no live site: disabled, not deleted, so any stats survive. */

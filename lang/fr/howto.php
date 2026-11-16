@@ -24,4 +24,7 @@ return [
     'lawyer-memory' => ['Retournez deux cartes à la fois et trouvez toutes les paires.', ['Retenez l’emplacement de chaque carte, même quand elle ne forme pas de paire.', 'Il n’y a pas de limite de temps : jouez à votre rythme.']],
     'doctor-memory' => ['Retournez deux cartes à la fois et trouvez toutes les paires.', ['Parcourez le plateau dans l’ordre pour mieux retenir les positions.', 'Il n’y a pas de limite de temps : jouez à votre rythme.']],
     'note-quest' => ['Répondez à dix questions par quiz sur les notes, les touches et les sons.', ['Commencez par les notes en clé de sol, puis ajoutez la clé de fa.', 'Pour les quiz d’écoute, chantez doucement les notes pour les comparer.']],
+    'mahjong' => ['Videz le plateau en associant des paires de tuiles libres identiques.', ['Une tuile est libre si rien n’est posé dessus et que son côté gauche ou droit est dégagé.', 'Libérez d’abord les tuiles qui en bloquent plusieurs ; toutes les fleurs vont ensemble.']],
+    'starlasso' => ['Entourez les étoiles avec votre traînée pour les attraper, et laissez les mines hors de vos boucles.', ['Plus une boucle contient d’étoiles, plus elle rapporte.', 'Enchaînez les boucles rapidement pour monter le combo jusqu’à ×8.']],
+    'starsling' => ['Relâchez au bon moment pour lancer votre comète vers la planète suivante.', ['Relâchez en moins d’un tour pour prolonger votre série.', 'Attrapez des étoiles et sautez des planètes pour des points bonus.']],
 ];

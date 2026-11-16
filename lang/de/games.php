@@ -24,4 +24,7 @@ return [
     'lawyer-memory' => 'Deck die Karten auf, finde die Paare, schließ den Fall ab: ein Memory-Spiel rund ums Recht.',
     'doctor-memory' => 'Ein Memory-Spiel rund um die Medizin.',
     'note-quest' => 'Klavier-Musikquiz: Noten im Notensystem lesen, Tasten finden und das Gehör trainieren.',
+    'mahjong' => 'Mahjong-Solitär: Kombiniere freie Steinpaare in drei Layouts, mit Tipps, Rückgängig und Combos.',
+    'starlasso' => 'Zieh Lichtschleifen um Sterne, weich den Splittern aus und fang niemals eine Mine ein.',
+    'starsling' => 'Ein Ein-Tipp-Arcadespiel: Schleudere deinen Kometen von Planet zu Planet, bevor seine Umlaufbahn verglüht.',
 ];

@@ -33,6 +33,9 @@ class HowToPlay
         'lawyer-memory' => ['Turn over two cards at a time and find all the matching pairs.', ['Remember where each card was, even when it does not match.', 'There is no time limit, so play at your own pace.']],
         'doctor-memory' => ['Turn over two cards at a time and find all the matching pairs.', ['Work through the board in order to remember positions.', 'There is no time limit, so play at your own pace.']],
         'note-quest' => ['Answer ten questions per quiz about notes, keys and sounds.', ['Begin with treble clef notes, then mix in the bass clef.', 'For the listening quizzes, sing the notes quietly to compare them.']],
+        'mahjong' => ['Clear the board by matching pairs of identical free tiles.', ['A tile is free when nothing sits on it and its left or right side is open.', 'Free up tiles that block several others first; any flower matches any flower.']],
+        'starlasso' => ['Circle stars with your trail to catch them, and keep mines outside your loops.', ['Bigger loops with more stars inside pay far more.', 'Chain loops quickly to build your combo up to ×8.']],
+        'starsling' => ['Let go at the right moment to fling your comet to the next planet.', ['Let go within one lap to build a streak.', 'Grab stars and skip planets for bonus points.']],
     ];
 
     /** @return array{0:string,1:array<int,string>}|null */

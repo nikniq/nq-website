@@ -24,4 +24,7 @@ return [
     'lawyer-memory' => 'Retournez les cartes, trouvez les paires, classez l’affaire : un jeu de mémoire sur le thème du droit.',
     'doctor-memory' => 'Un jeu de mémoire et de paires sur le thème de la médecine.',
     'note-quest' => 'Des quiz de piano : lisez les notes sur la portée, trouvez les touches et exercez votre oreille.',
+    'mahjong' => 'Mahjong solitaire : associez les paires de tuiles libres sur trois dispositions, avec indices, annulation et combos.',
+    'starlasso' => 'Tracez des boucles de lumière autour des étoiles, évitez les éclats et ne capturez jamais une mine.',
+    'starsling' => 'Un jeu d’arcade à une touche : lancez votre comète de planète en planète avant que son orbite ne s’éteigne.',
 ];

@@ -24,4 +24,7 @@ return [
     'lawyer-memory' => ['Deck jeweils zwei Karten auf und finde alle passenden Paare.', ['Merk dir, wo jede Karte lag, auch wenn sie nicht gepasst hat.', 'Es gibt kein Zeitlimit, also spiel in deinem eigenen Tempo.']],
     'doctor-memory' => ['Deck jeweils zwei Karten auf und finde alle passenden Paare.', ['Geh das Brett der Reihe nach durch, um dir die Positionen zu merken.', 'Es gibt kein Zeitlimit, also spiel in deinem eigenen Tempo.']],
     'note-quest' => ['Beantworte pro Quiz zehn Fragen zu Noten, Tasten und Klängen.', ['Beginn mit Noten im Violinschlüssel und nimm dann den Bassschlüssel dazu.', 'Sing bei den Hörquiz die Töne leise mit, um sie zu vergleichen.']],
+    'mahjong' => ['Räum das Brett, indem du Paare gleicher freier Steine kombinierst.', ['Ein Stein ist frei, wenn nichts auf ihm liegt und seine linke oder rechte Seite offen ist.', 'Befreie zuerst Steine, die mehrere andere blockieren; jede Blume passt zu jeder Blume.']],
+    'starlasso' => ['Umkreise Sterne mit deiner Spur, um sie zu fangen, und lass Minen außerhalb deiner Schleifen.', ['Je mehr Sterne in einer Schleife, desto mehr Punkte.', 'Zieh Schleifen schnell hintereinander, um die Combo bis ×8 zu steigern.']],
+    'starsling' => ['Lass im richtigen Moment los, um deinen Kometen zum nächsten Planeten zu schleudern.', ['Lass innerhalb einer Runde los, um deine Serie zu halten.', 'Sammle Sterne und überspring Planeten für Bonuspunkte.']],
 ];
