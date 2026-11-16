@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', __('Log in'))
 @section('content')
+<div class="auth-card">
     <h1>{{ __('Log in') }}</h1>
     @include('auth._google')
     <form class="stack" method="post" action="{{ route('login') }}">@csrf
@@ -14,4 +15,5 @@
         <label class="inline"><input type="checkbox" name="remember" value="1"> {{ __('Remember me') }}</label>
         <div class="row"><button class="btn" type="submit">{{ __('Log in') }}</button> <span class="muted">{!! __('New here? :link', ['link' => '<a href="'.e(route('register')).'">'.e(__('Create an account')).'</a>']) !!}</span></div>
     </form>
+</div>
 @endsection

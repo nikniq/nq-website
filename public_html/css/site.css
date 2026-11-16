@@ -381,3 +381,18 @@ main h2 { font-weight:800; }
 .adv-tips p.muted { margin:0; font-size:.9rem; }
 .adv-body label { flex-direction:row; justify-content:flex-start; text-align:left; font-weight:500; margin:0; }
 .adv-body input[type=radio] { width:1.1rem; height:1.1rem; margin:0; flex:none; accent-color:var(--accent-2); }
+
+/* Sign-in screens: centred card, Google first and prominent */
+.auth-card { max-width:460px; margin:clamp(1rem, 5vh, 3rem) auto 2rem; padding:2rem clamp(1.1rem, 4vw, 2.2rem); background:var(--panel); border:1px solid var(--line); border-radius:20px; box-shadow:var(--card-shadow); text-align:center; }
+.auth-card h1 { margin:0 0 .4rem; font-size:clamp(1.5rem, 1.2rem + 1vw, 1.9rem); }
+.auth-card > .sub, .auth-card > p { margin:0 auto 1.2rem; }
+.auth-card form.stack { max-width:none; text-align:left; }
+.auth-card form.stack .row { flex-direction:column; align-items:stretch; gap:.7rem; text-align:center; }
+.auth-card form.stack button[type=submit].btn:not(.sm) { width:100%; text-align:center; display:flex; align-items:center; justify-content:center; height:50px; font-size:1.05rem; border-radius:12px; }
+.social-login { margin:1rem 0 .4rem; }
+.btn-google { display:flex; align-items:center; justify-content:center; gap:.75rem; width:100%; height:54px; padding:0 1rem; border-radius:12px; background:#fff; color:#1f1f1f; border:1px solid #dadce0; font-weight:700; font-size:1.08rem; text-decoration:none; box-shadow:0 2px 6px rgba(0,0,0,.08); transition:box-shadow .15s, transform .15s; }
+.btn-google:hover { text-decoration:none; box-shadow:0 6px 18px rgba(0,0,0,.16); transform:translateY(-1px); }
+.btn-google:focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+.social-note { margin:.5rem 0 0; font-size:.88rem; }
+.or-divider { display:flex; align-items:center; gap:.8rem; margin:1.3rem 0 1rem; color:var(--muted); font-size:.88rem; }
+.or-divider::before, .or-divider::after { content:""; flex:1; height:1px; background:var(--line); }
