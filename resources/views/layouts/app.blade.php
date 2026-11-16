@@ -98,23 +98,51 @@
     </div>
 </main>
 <footer class="site">
-    <div class="wrap footer-grid">
-        <div>
+    <div class="wrap footer-main">
+        <div class="footer-brand">
             <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
-            <p class="muted" style="margin:.4rem 0 0">{{ config('portal.tagline') }}</p>
+            <p>{{ config('portal.tagline') }}</p>
+            @guest
+                <a class="btn footer-cta" href="{{ route('register') }}">{{ __('Create a free account') }}</a>
+            @else
+                <a class="btn footer-cta" href="{{ route('games.random') }}">🎲&nbsp; {{ __('Surprise me') }}</a>
+            @endguest
         </div>
-        <nav aria-label="{{ __('Footer') }}" class="footer-links">
-            <a href="{{ route('games.index') }}">{{ __('All games') }}</a>
-            <a href="{{ route('games.index', ['dementia' => 1]) }}">{{ __('Dementia-friendly games') }}</a>
-            <a href="{{ route('hall') }}">{{ __('Hall of fame') }}</a>
-            @guest<a href="{{ route('register') }}">{{ __('Create an account') }}</a>@endguest
-            <a href="{{ route('news.index') }}">{{ __('News') }}</a>
-            <a href="{{ route('developers') }}">{{ __('For game developers') }}</a>
-            <a href="{{ route('privacy') }}">{{ __('Privacy') }}</a>
-            <a href="{{ route('terms') }}">{{ __('Terms') }}</a>
+        <nav class="footer-cols" aria-label="{{ __('Footer') }}">
+            <div>
+                <h2>{{ __('Play') }}</h2>
+                <a href="{{ route('games.index') }}">{{ __('All games') }}</a>
+                <a href="{{ route('games.index', ['dementia' => 1]) }}">{{ __('Dementia-friendly games') }}</a>
+                <a href="{{ route('games.random') }}">{{ __('Surprise me') }}</a>
+                <a href="{{ route('hall') }}">{{ __('Hall of fame') }}</a>
+            </div>
+            <div>
+                <h2>NikniQ</h2>
+                <a href="{{ route('news.index') }}">{{ __('News') }}</a>
+                <a href="{{ route('developers') }}">{{ __('For game developers') }}</a>
+            </div>
+            <div>
+                <h2>{{ __('Account') }}</h2>
+                @auth
+                    <a href="{{ route('dashboard') }}">{{ __('My dashboard') }}</a>
+                    <a href="{{ route('profile') }}">{{ __('Profile') }}</a>
+                @else
+                    <a href="{{ route('login') }}">{{ __('Log in') }}</a>
+                    <a href="{{ route('register') }}">{{ __('Create an account') }}</a>
+                @endauth
+            </div>
+            <div>
+                <h2>{{ __('Legal') }}</h2>
+                <a href="{{ route('privacy') }}">{{ __('Privacy') }}</a>
+                <a href="{{ route('terms') }}">{{ __('Terms') }}</a>
+            </div>
         </nav>
-        <nav class="lang-switch" aria-label="{{ __('Language') }}">@foreach(config('portal.locales') as $code => $name)<a href="{{ $langUrl($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" @if(app()->isLocale($code)) aria-current="true" @endif>{{ $name }}</a>@endforeach</nav>
-        <p class="muted" style="margin:0;grid-column:1/-1">&copy; {{ date('Y') }} {{ config('portal.name') }}</p>
+    </div>
+    <div class="footer-bottom">
+        <div class="wrap">
+            <p>&copy; {{ date('Y') }} {{ config('portal.name') }}</p>
+            <nav class="lang-switch" aria-label="{{ __('Language') }}"><span aria-hidden="true" class="globe">🌐</span>@foreach(config('portal.locales') as $code => $name)<a href="{{ $langUrl($code) }}" hreflang="{{ $code }}" lang="{{ $code }}" @if(app()->isLocale($code)) aria-current="true" @endif>{{ $name }}</a>@endforeach</nav>
+        </div>
     </div>
 </footer>
 <button type="button" class="to-top" id="to-top" aria-label="{{ __('Back to top') }}">↑</button>
