@@ -23,7 +23,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)">
-    <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
