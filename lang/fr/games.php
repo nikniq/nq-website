@@ -16,6 +16,7 @@ return [
     'bomberman' => 'Posez des bombes, dégagez le labyrinthe et survivez plus longtemps que vos rivaux.',
     'mindsweeper' => 'Le démineur avec une grille du jour, des indices, un mode sans hasard et un classement.',
     'reversi' => 'Retournez les pions et prenez le contrôle du plateau dans ce jeu de stratégie façon Othello.',
+    'chess' => 'Jouez aux échecs contre l’ordinateur, avec les Blancs ou les Noirs, en facile, moyen ou difficile.',
     'candy' => 'Alignez trois bonbons et videz le plateau dans ce casse-tête tout en douceur.',
     'space-huggers' => 'Un jeu de plateforme et de tir contre un empire qui s’étend à travers la galaxie.',
     'miniciv' => 'Bâtissez une civilisation en format de poche.',

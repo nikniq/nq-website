@@ -16,6 +16,7 @@ return [
     'bomberman' => 'Leg Bomben, räum das Labyrinth frei und überdaure deine Gegner.',
     'mindsweeper' => 'Minesweeper mit Tagesbrett, Tipps, Modus ohne Raten und Bestenliste.',
     'reversi' => 'Dreh Steine um und erobere das Brett in diesem Strategiespiel im Stil von Othello.',
+    'chess' => 'Spiel Schach gegen den Computer, mit Weiß oder Schwarz, auf leicht, mittel oder schwer.',
     'candy' => 'Bilde Dreierreihen aus Bonbons und räum das Brett in diesem süßen Rätselspiel.',
     'space-huggers' => 'Ein Run-and-Gun-Plattformspiel gegen ein Imperium, das sich über die Galaxis ausbreitet.',
     'miniciv' => 'Ein Zivilisationsaufbau im Taschenformat.',

@@ -35,6 +35,7 @@ class GamesSeeder extends Seeder
         'bomberman' => ['Bomberman', 'bomberman', 'Arcade', 'Drop bombs, clear the maze and outlast your rivals.'],
         'mindsweeper' => ['Mindsweeper', 'mindsweeper', 'Puzzle', 'Minesweeper with a daily board, hints, a no-guessing mode and a leaderboard.'],
         'reversi' => ['Reversi', 'reversi', 'Board', 'Flip discs and own the board in this Othello-style strategy game.'],
+        'chess' => ['Chess', 'chess', 'Board', 'Play chess against the computer as White or Black, on easy, medium or hard.'],
         'candy' => ['Candy Rush', 'candyrush', 'Puzzle', 'Match three candies and clear the board in this sweet puzzle.', false, true],
         'space-huggers' => ['Space Huggers', 'spacehuggers', 'Platformer', 'A run-and-gun platformer against an empire spreading across the galaxy.'],
         'miniciv' => ['MiniCiv', 'miniciv', 'Strategy', 'A pocket-sized civilisation builder.'],

@@ -16,6 +16,7 @@ return [
     'bomberman' => 'Pon bombas, despeja el laberinto y aguanta más que tus rivales.',
     'mindsweeper' => 'Buscaminas con tablero diario, pistas, modo sin adivinar y clasificación.',
     'reversi' => 'Da la vuelta a las fichas y domina el tablero en este juego de estrategia al estilo Othello.',
+    'chess' => 'Juega al ajedrez contra el ordenador con blancas o negras, en fácil, medio o difícil.',
     'candy' => 'Junta tres caramelos iguales y limpia el tablero en este dulce puzle.',
     'space-huggers' => 'Un juego de plataformas y disparos contra un imperio que se extiende por la galaxia.',
     'miniciv' => 'Un constructor de civilizaciones de bolsillo.',

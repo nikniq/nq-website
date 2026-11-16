@@ -16,6 +16,7 @@ return [
     'bomberman' => ['Leg Bomben, um Wände wegzusprengen und Gegner im Labyrinth zu besiegen.', ['Kenne immer deinen Fluchtweg, bevor du eine Bombe legst.', 'In Wänden versteckte Extras geben dir größere Explosionen und mehr Bomben.']],
     'mindsweeper' => ['Deck alle sicheren Felder so schnell wie möglich auf.', ['Fang mit Anfänger oder dem Tagesbrett an, das für alle gleich ist.', 'Schalte „ohne Raten“ ein, dann ist jedes Brett mit Logik lösbar; ein Tipp kostet 10 Sekunden.']],
     'reversi' => ['Hab am Ende mehr Steine deiner Farbe auf dem Brett.', ['Ecken können nie zurückgedreht werden, darum sind sie viel wert.', 'Meide am Anfang die Felder neben den Ecken.']],
+    'chess' => ['Setz den König des Computers matt, bevor er deinen mattsetzt.', ['Kontrollier früh das Zentrum und entwickle Springer und Läufer.', 'Schwerere Stufen bringen mehr Punkte: Sieg 10, Remis 3, mal Schwierigkeit.']],
     'candy' => ['Tausche benachbarte Bonbons, um drei oder mehr gleiche in eine Reihe zu bringen.', ['Keine Eile: Lass dir Zeit, den besten Tausch zu finden.', 'Treffer weiter unten können Bonus-Ketten auslösen.']],
     'space-huggers' => ['Lauf, spring und schieß dich durch jedes Level.', ['Bleib in Bewegung; wer stillsteht, ist ein leichtes Ziel.', 'Halte unterwegs Ausschau nach Waffen und Extras.']],
     'miniciv' => ['Lass eine kleine Zivilisation wachsen, indem du Rohstoffe sammelst und dich ausbreitest.', ['Halte Nahrung und Produktion im Gleichgewicht, damit das Wachstum nicht stockt.', 'Breite dich früh aus, solange noch Land frei ist.']],

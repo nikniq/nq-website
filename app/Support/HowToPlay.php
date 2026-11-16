@@ -25,6 +25,7 @@ class HowToPlay
         'bomberman' => ['Drop bombs to clear walls and defeat enemies in the maze.', ['Always know your escape route before you place a bomb.', 'Power-ups hidden in walls give you bigger blasts and more bombs.']],
         'mindsweeper' => ['Clear every safe square as fast as you can.', ['Start with Beginner or the Daily board everyone shares.', 'Switch on no-guessing so every board can be solved by logic; a hint costs 10 seconds.']],
         'reversi' => ['Finish with more discs of your colour on the board.', ['Corners can never be flipped back, so they are worth a lot.', 'Avoid the squares next to corners early on.']],
+        'chess' => ['Checkmate the computer\'s king before it checkmates yours.', ['Control the centre early and get your knights and bishops out.', 'Harder levels score more points: a win is 10, a draw 3, times the difficulty.']],
         'candy' => ['Swap neighbouring candies to line up three or more of the same kind.', ['There is no rush: take your time to spot the best swap.', 'Matches near the bottom can set off bonus chains.']],
         'space-huggers' => ['Run, jump and shoot your way through each level.', ['Keep moving; standing still makes you an easy target.', 'Explore for weapons and power-ups along the way.']],
         'miniciv' => ['Grow a small civilisation by gathering resources and expanding.', ['Balance food and production so growth does not stall.', 'Expand early while land is free.']],
