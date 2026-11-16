@@ -447,3 +447,23 @@ main p a:not(.btn):hover, .prose a:hover { text-decoration-thickness:2px; }
 .card-desc { font-size:.98rem; }
 .game-meta-note, .hint, p.muted, .section-head .count { font-size:max(.92rem, 1em * .92); }
 .share a, .share button, .badge { font-size:.9rem; }
+
+/* ===== Polish: calmer cards, bigger targets ===== */
+/* Play buttons are tinted until the card is hovered/focused, so 27 solid blue buttons don't shout. */
+.card .btn.play { background:var(--chip-bg); color:var(--link); border:1px solid transparent; box-shadow:none; }
+.card:hover .btn.play, .card:focus-within .btn.play, .card .btn.play:focus-visible { background:var(--accent-2); color:var(--btn-text); }
+.card { transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.card:hover { transform:translateY(-3px); box-shadow:0 14px 30px -14px rgba(15,30,60,.35); }
+.card .thumb img { transition:transform .3s ease; }
+.card:hover .thumb img { transform:scale(1.03); }
+/* Section headings get a small accent bar. */
+.section-head h2 { position:relative; padding-left:.8rem; }
+.section-head h2::before { content:""; position:absolute; left:0; top:.2em; bottom:.2em; width:4px; border-radius:4px; background:linear-gradient(var(--accent), var(--accent-2)); }
+/* Comfortable touch targets (≥40px). */
+nav.main a.nav-link, nav.main .btn { min-height:40px; display:inline-flex; align-items:center; }
+.footer-cols a { padding:.5rem 0; }
+details.adv-search > summary { min-height:40px; display:inline-flex; align-items:center; cursor:pointer; }
+.chip { min-height:40px; display:inline-flex; align-items:center; }
+.lang-switch a { min-height:36px; display:inline-flex; align-items:center; }
+@media (prefers-reduced-motion: reduce) { .card:hover, .card:hover .thumb img { transform:none; } }
+html[data-calm="1"] .card:hover, html[data-calm="1"] .card:hover .thumb img { transform:none; }
