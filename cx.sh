@@ -12,6 +12,11 @@
 #   ./cx.sh --mail you@example.com send a test email through the configured mailer
 #   ./cx.sh --seed-games           run GamesSeeder: refresh names, URLs, genres and art from
 #                                  GamesSeeder::GAMES (credentials and flags are kept)
+#   ./cx.sh --admin list                    list admin accounts
+#   ./cx.sh --admin grant  you@example.com  make an existing account an admin
+#   ./cx.sh --admin revoke you@example.com  remove admin rights (never the last admin)
+#   ./cx.sh --admin create you@example.com [Name]  new admin with a temporary password
+#   ./cx.sh --admin password you@example.com       set a new random password and print it
 #
 # Checks: PHP binary, version and extensions, Composer, vendor/ and its
 # platform check, .env and APP_KEY (generated if missing), APP_DEBUG in
@@ -27,6 +32,15 @@ FIX=0
 MAIL_TO=""
 SEED_GAMES=0
 case "${1:-}" in
+    --admin)
+        # Admin maintenance only: skips the setup checks. See app/Console/Commands/PortalAdmin.php.
+        shift
+        if [ -z "${1:-}" ]; then echo "Usage: ./cx.sh --admin list|grant|revoke|create|password [email] [name]"; exit 1; fi
+        action="$1"; email="${2:-}"; name="${3:-}"
+        args=(artisan portal:admin "$action")
+        [ -n "$email" ] && args+=("$email")
+        [ -n "$name" ] && args+=("--name=$name")
+        exec "${PHP_BIN:-php}" "${args[@]}" ;;
     --fix) FIX=1 ;;
     --seed-games) SEED_GAMES=1 ;;
     --mail)
@@ -249,8 +263,11 @@ if [ "$db_ping" = "up" ]; then
         fi
 
         admins=$(tinker 'echo App\Models\User::where("is_admin", true)->count();')
+        if tinker 'echo App\Models\User::where("email", "demo@example.com")->where("is_admin", true)->exists() ? "yes" : "no";' | grep -q yes; then
+            warn "demo@example.com is an admin with the public seed password. Fix: ./cx.sh --admin revoke demo@example.com (or --admin password demo@example.com)"
+        fi
         if [ "${admins:-0}" -eq 0 ]; then
-            warn "no admin user. Promote one: php artisan tinker --execute=\"App\\Models\\User::where('email','you@example.com')->update(['is_admin'=>true]);\""
+            warn "no admin user. Promote one: ./cx.sh --admin grant you@example.com (or --admin create you@example.com)"
         else
             ok "$admins admin user(s)"
         fi
