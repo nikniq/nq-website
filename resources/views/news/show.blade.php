@@ -5,6 +5,7 @@
 @section('og_type', 'article')
 @section('jsonld')<script type="application/ld+json">{!! json_encode(['@@context' => 'https://schema.org', '@type' => 'NewsArticle', 'headline' => $article->title, 'datePublished' => $article->date->toDateString(), 'image' => url($article->image), 'description' => $article->summary, 'publisher' => ['@type' => 'Organization', 'name' => config('portal.name')]], JSON_UNESCAPED_SLASHES) !!}</script>@endsection
 @section('content')
+<div class="news-page">
 <p><a href="{{ route('news.index') }}">← {{ __('All news') }}</a></p>
 <article class="prose news-lead">
     <time class="news-date" datetime="{{ $article->date->toDateString() }}">{{ $article->date->translatedFormat('j F Y') }}</time>
@@ -27,4 +28,5 @@
         @endforeach
     </div>
 @endif
+</div>
 @endsection

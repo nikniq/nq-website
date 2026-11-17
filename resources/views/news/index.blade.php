@@ -2,6 +2,7 @@
 @section('title', __('News'))
 @section('description', __('What is new on :name: new features, games and improvements.', ['name' => config('portal.name')]))
 @section('content')
+<div class="news-page">
 <div class="page-head">
     <h1>{{ __('News') }}</h1>
     <p class="muted">{{ __("What's new on :name: features, games and improvements.", ['name' => config('portal.name')]) }}</p>
@@ -17,5 +18,6 @@
             </div>
         </article>
     @endforeach
+</div>
 </div>
 @endsection

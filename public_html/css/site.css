@@ -592,3 +592,17 @@ body.is-admin main .panel { max-width:920px; box-sizing:border-box; }
 .danger-box { border-top:1px solid var(--line); padding-top:.75rem; }
 .btn.warn { background:#b54708; color:#fff; border-color:#b54708; }
 .table-scroll:has(.admin-players), table.admin-players { overflow:visible; }
+
+/* ===== News: centred, roomy on desktop ===== */
+.news-page { max-width:1100px; margin-inline:auto; }
+.news-page .page-head { text-align:center; }
+.news-page .news-lead { max-width:760px; margin-inline:auto; }
+.news-page > p:first-child, .news-page > .section-title { max-width:760px; margin-inline:auto; }
+.news-page > .section-title { text-align:center; }
+@media (min-width:1024px) {
+  .news-page .news-lead { max-width:820px; font-size:1.12rem; line-height:1.75; }
+  .news-page .news-lead h1 { font-size:2.6rem; line-height:1.2; }
+  .news-page .news-lead .lede { font-size:1.3rem; }
+  .news-page > p:first-child { max-width:820px; }
+}
+@media (min-width:1440px) { .news-page .news-lead { max-width:880px; font-size:1.2rem; } .news-page > p:first-child { max-width:880px; } }
