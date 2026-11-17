@@ -9,6 +9,18 @@
     <h1>NikniQ in dein Spiel einbauen</h1>
     <p class="lead">Ein einziger Script-Tag gibt deinem Spiel die NikniQ-Anmeldung, gespeicherte Punktestände, den Rang des Spielers und die gemeinsame Bestenliste. Die Ergebnisse der Spieler erscheinen dann in ihrem Dashboard, auf ihrer Spielerseite und in der Ruhmeshalle.</p>
 
+    <h2>Wähle, wie dein Spiel NikniQ nutzt</h2>
+    <p>Die NikniQ-Anmeldung ist optional. Jedes Spiel behält die Kontrolle über seine eigenen Konten und läuft weiter, wenn das Portal nicht erreichbar ist; es erhält nur ein Token und das öffentliche Spielerprofil, nie Zugriff auf die Benutzerdatenbank.</p>
+    <table>
+        <thead><tr><th>Ansatz</th><th>So funktioniert es</th><th>Spieler bekommen</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Unabhängig</strong></td><td>Nur eigene Konten; das Spiel lädt <code>nikniq.js</code> nicht.</td><td>Eine eigene Anmeldung. Punktestände bleiben im Spiel, das Portal blendet die Bestenliste aus.</td></tr>
+            <tr><td><strong>Optionale Verknüpfung</strong></td><td>Eigene Anmeldung plus Schaltfläche „Mit NikniQ anmelden“. Setze <code>autoSignIn: false</code>.</td><td>Freie Wahl. Verknüpfte Spieler bekommen Punktestände, Rang und Favoriten im Portal.</td></tr>
+            <tr><td><strong>Hybrid</strong></td><td>Eigene Anmeldung, aber zuerst wird NikniQ versucht (Standard).</td><td>Wer auf nikniq.com angemeldet ist, ist sofort drin; alle anderen sehen deine Anmeldung.</td></tr>
+            <tr><td><strong>Nur NikniQ</strong></td><td>NikniQ ist die einzige Anmeldung des Spiels.</td><td>Ein Konto für alle NikniQ-Spiele.</td></tr>
+        </tbody>
+    </table>
+
     <h2>1. Spiel registrieren</h2>
     <p>Ein Admin legt das Spiel unter <a href="{{ route('admin.games.index') }}">Admin → Spiele</a> an, setzt bei einem reinen Browserspiel das Häkchen bei <em>Public client</em> und trägt die genaue Seite, auf die der Spieler zurückkehrt, als Redirect-URI ein, zum Beispiel <code>https://{{ $slug }}.nikniq.com/</code>. Die Client-ID des Spiels steht auf seiner Admin-Seite.</p>
 
@@ -46,6 +58,16 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
         <li>Ist niemand angemeldet, wird nichts gesendet; das Spiel funktioniert für Gäste also genauso.</li>
     </ul>
 
+    <h2>Eigene Anmeldung behalten (hybrid)</h2>
+    <p>Warte auf <code>nq.ready</code>. Liefert es einen Spieler, war er bereits auf nikniq.com angemeldet; sonst nutze deine eigene Anmeldung. Ist das Portal nicht erreichbar, schlägt <code>ready</code> fehl und das Spiel läuft einfach weiter.</p>
+<pre><code>const nq = NikniQ.init({ clientId: '{{ $clientId }}', game: '{{ $slug }}' });
+nq.ready
+  .then(player =&gt; {
+    if (player) useNikniqPlayer(player);   // über NikniQ angemeldet: dem eigenen Konto zuordnen
+    else showOwnLogin();                    // nicht auf nikniq.com angemeldet
+  })
+  .catch(() =&gt; showOwnLogin());             // Portal nicht erreichbar: weiterspielen</code></pre>
+
     <h2>Alles andere</h2>
     <table>
         <thead><tr><th>Aufruf</th><th>Was er macht</th></tr></thead>
@@ -54,6 +76,7 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
             <tr><td><code>nq.stats</code>, <code>nq.rank</code></td><td>Die Gesamtwerte des Spielers und sein Rang in der Bestenliste dieses Spiels</td></tr>
             <tr><td><code>nq.leaderboard(10)</code></td><td>Bestwerte, ohne Anmeldung</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Fügt das Spiel den Favoriten des Spielers hinzu oder entfernt es</td></tr>
+            <tr><td><code>autoSignIn</code></td><td>Auf <code>false</code> setzen, um die automatische Anmeldeprüfung beim ersten Laden zu überspringen</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Widerruft das Token dieses Spiels</td></tr>
         </tbody>
     </table>

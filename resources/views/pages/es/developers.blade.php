@@ -9,6 +9,18 @@
     <h1>Añade NikniQ a tu juego</h1>
     <p class="lead">Una sola etiqueta script le da a tu juego el inicio de sesión de NikniQ, puntuaciones guardadas, el puesto del jugador y la clasificación compartida. Los resultados de los jugadores aparecen luego en su panel, en su página de jugador y en el salón de la fama.</p>
 
+    <h2>Elige cómo usa NikniQ tu juego</h2>
+    <p>El inicio de sesión de NikniQ es opcional. Cada juego conserva el control de sus propias cuentas y sigue funcionando si el portal no está disponible; solo recibe un token y el perfil público del jugador, nunca acceso a la base de usuarios.</p>
+    <table>
+        <thead><tr><th>Enfoque</th><th>Cómo funciona</th><th>Los jugadores obtienen</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Independiente</strong></td><td>Solo cuentas propias; el juego no carga <code>nikniq.js</code>.</td><td>Un inicio de sesión aparte. Las puntuaciones se quedan en el juego y el portal oculta su clasificación.</td></tr>
+            <tr><td><strong>Vínculo opcional</strong></td><td>Inicio de sesión propio más un botón «Iniciar sesión con NikniQ». Usa <code>autoSignIn: false</code>.</td><td>Ellos eligen. Los jugadores vinculados obtienen puntuaciones, posición y favoritos en el portal.</td></tr>
+            <tr><td><strong>Híbrido</strong></td><td>Inicio de sesión propio, pero primero se intenta NikniQ (por defecto).</td><td>Quien ya inició sesión en nikniq.com entra directamente; los demás ven tu inicio de sesión.</td></tr>
+            <tr><td><strong>Solo NikniQ</strong></td><td>NikniQ es el único inicio de sesión del juego.</td><td>Una sola cuenta para todos los juegos de NikniQ.</td></tr>
+        </tbody>
+    </table>
+
     <h2>1. Registra el juego</h2>
     <p>Un administrador añade el juego en <a href="{{ route('admin.games.index') }}">Administración → Juegos</a>, marca <em>Public client</em> si el juego funciona solo en el navegador e indica como URI de redirección la página exacta a la que vuelve el jugador, por ejemplo <code>https://{{ $slug }}.nikniq.com/</code>. El ID de cliente del juego aparece en su página de administración.</p>
 
@@ -46,6 +58,16 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
         <li>No se envía nada si nadie ha iniciado sesión, así que el juego funciona igual para los invitados.</li>
     </ul>
 
+    <h2>Mantener tu propio inicio de sesión (híbrido)</h2>
+    <p>Espera a <code>nq.ready</code>. Si devuelve un jugador, ya había iniciado sesión en nikniq.com; si no, usa tu propio inicio de sesión. Si el portal no responde, <code>ready</code> falla y el juego sigue sin más.</p>
+<pre><code>const nq = NikniQ.init({ clientId: '{{ $clientId }}', game: '{{ $slug }}' });
+nq.ready
+  .then(player =&gt; {
+    if (player) useNikniqPlayer(player);   // conectado con NikniQ: asociarlo a tu propia cuenta
+    else showOwnLogin();                    // sin sesión en nikniq.com
+  })
+  .catch(() =&gt; showOwnLogin());             // portal no disponible: seguir jugando</code></pre>
+
     <h2>Todo lo demás</h2>
     <table>
         <thead><tr><th>Llamada</th><th>Qué hace</th></tr></thead>
@@ -54,6 +76,7 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
             <tr><td><code>nq.stats</code>, <code>nq.rank</code></td><td>Los totales del jugador y su puesto en la clasificación de este juego</td></tr>
             <tr><td><code>nq.leaderboard(10)</code></td><td>Las mejores puntuaciones, sin necesidad de iniciar sesión</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Añade o quita el juego de los favoritos del jugador</td></tr>
+            <tr><td><code>autoSignIn</code></td><td>Ponlo en <code>false</code> para omitir la comprobación automática de sesión en la primera carga</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Revoca el token de este juego</td></tr>
         </tbody>
     </table>

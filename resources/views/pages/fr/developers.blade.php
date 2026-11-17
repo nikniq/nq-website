@@ -9,6 +9,18 @@
     <h1>Ajoutez NikniQ à votre jeu</h1>
     <p class="lead">Une seule balise script donne à votre jeu la connexion NikniQ, les scores enregistrés, le rang du joueur et le classement partagé. Les résultats des joueurs apparaissent ensuite sur leur tableau de bord, leur page joueur et au Panthéon.</p>
 
+    <h2>Choisir comment votre jeu utilise NikniQ</h2>
+    <p>La connexion NikniQ est facultative. Chaque jeu garde la maîtrise de ses propres comptes et continue de fonctionner si le portail est injoignable ; il ne reçoit qu’un jeton et le profil public du joueur, jamais l’accès à la base des utilisateurs.</p>
+    <table>
+        <thead><tr><th>Approche</th><th>Fonctionnement</th><th>Pour les joueurs</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Indépendant</strong></td><td>Comptes propres uniquement ; le jeu ne charge pas <code>nikniq.js</code>.</td><td>Une connexion séparée. Les scores restent dans le jeu et le portail masque son classement.</td></tr>
+            <tr><td><strong>Lien facultatif</strong></td><td>Connexion propre, plus un bouton « Se connecter avec NikniQ ». Mettez <code>autoSignIn: false</code>.</td><td>Au choix. Les joueurs liés obtiennent scores, rang et favoris sur le portail.</td></tr>
+            <tr><td><strong>Hybride</strong></td><td>Connexion propre, mais NikniQ est essayé d’abord (par défaut).</td><td>Les joueurs connectés sur nikniq.com entrent directement ; les autres voient votre connexion.</td></tr>
+            <tr><td><strong>NikniQ seul</strong></td><td>NikniQ est la seule connexion du jeu.</td><td>Un seul compte pour tous les jeux NikniQ.</td></tr>
+        </tbody>
+    </table>
+
     <h2>1. Enregistrer le jeu</h2>
     <p>Un administrateur ajoute le jeu dans <a href="{{ route('admin.games.index') }}">Administration → Jeux</a>, coche <em>Public client</em> pour un jeu qui tourne uniquement dans le navigateur, et indique comme URI de redirection la page exacte où revient le joueur, par exemple <code>https://{{ $slug }}.nikniq.com/</code>. L’identifiant client (client ID) du jeu figure sur sa page d’administration.</p>
 
@@ -46,6 +58,16 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
         <li>Rien n’est envoyé quand personne n’est connecté : le jeu fonctionne de la même façon pour les invités.</li>
     </ul>
 
+    <h2>Garder votre propre connexion (hybride)</h2>
+    <p>Attendez <code>nq.ready</code>. S’il renvoie un joueur, celui-ci était déjà connecté sur nikniq.com ; sinon, utilisez votre propre connexion. Si le portail est injoignable, <code>ready</code> échoue et le jeu continue simplement.</p>
+<pre><code>const nq = NikniQ.init({ clientId: '{{ $clientId }}', game: '{{ $slug }}' });
+nq.ready
+  .then(player =&gt; {
+    if (player) useNikniqPlayer(player);   // connecté via NikniQ : associer à votre propre compte
+    else showOwnLogin();                    // pas connecté sur nikniq.com
+  })
+  .catch(() =&gt; showOwnLogin());             // portail injoignable : on continue</code></pre>
+
     <h2>Tout le reste</h2>
     <table>
         <thead><tr><th>Appel</th><th>Ce qu’il fait</th></tr></thead>
@@ -54,6 +76,7 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
             <tr><td><code>nq.stats</code>, <code>nq.rank</code></td><td>Les totaux du joueur et son rang au classement de ce jeu</td></tr>
             <tr><td><code>nq.leaderboard(10)</code></td><td>Meilleurs scores, sans connexion</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Ajoute le jeu aux favoris du joueur ou l’en retire</td></tr>
+            <tr><td><code>autoSignIn</code></td><td>Mettre à <code>false</code> pour ne pas vérifier automatiquement la connexion au premier chargement</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Révoque le jeton de ce jeu</td></tr>
         </tbody>
     </table>

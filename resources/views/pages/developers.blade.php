@@ -9,6 +9,18 @@
     <h1>Add NikniQ to your game</h1>
     <p class="lead">One script tag gives your game NikniQ sign-in, saved scores, the player's rank and the shared leaderboard. Players' results then appear on their dashboard, player page and the hall of fame.</p>
 
+    <h2>Choose how your game uses NikniQ</h2>
+    <p>NikniQ sign-in is optional. Every game keeps control of its own accounts and keeps working if the portal is unreachable; it only receives a token and the player's public profile, never access to the user database.</p>
+    <table>
+        <thead><tr><th>Approach</th><th>How it works</th><th>Players get</th></tr></thead>
+        <tbody>
+            <tr><td><strong>Independent</strong></td><td>Own accounts only; the game never loads <code>nikniq.js</code>.</td><td>A separate login. Scores stay in the game, and the portal hides its leaderboard.</td></tr>
+            <tr><td><strong>Optional link</strong></td><td>Own login, plus a “Sign in with NikniQ” button. Set <code>autoSignIn: false</code>.</td><td>Their choice. Linked players get portal scores, rank and favourites.</td></tr>
+            <tr><td><strong>Hybrid</strong></td><td>Own login, but try NikniQ first (the default).</td><td>Players logged in on nikniq.com go straight in; everyone else sees your login.</td></tr>
+            <tr><td><strong>NikniQ only</strong></td><td>NikniQ is the game's only login.</td><td>One account across every NikniQ game.</td></tr>
+        </tbody>
+    </table>
+
     <h2>1. Register the game</h2>
     <p>An admin adds the game at <a href="{{ route('admin.games.index') }}">Admin → Games</a>, ticks <em>Public client</em> for a browser-only game, and lists the exact page the player returns to, for example <code>https://{{ $slug }}.nikniq.com/</code>, as a redirect URI. The game's client ID is shown on its admin page.</p>
 
@@ -47,6 +59,16 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
         <li>Nothing is sent when nobody is signed in, so the game works the same for guests.</li>
     </ul>
 
+    <h2>Keeping your own login (hybrid)</h2>
+    <p>Wait for <code>nq.ready</code>. If it gives you a player, they were already logged in on nikniq.com; otherwise fall back to your own login. If the portal can't be reached, <code>ready</code> rejects and the game simply carries on.</p>
+<pre><code>const nq = NikniQ.init({ clientId: '{{ $clientId }}', game: '{{ $slug }}' });
+nq.ready
+  .then(player =&gt; {
+    if (player) useNikniqPlayer(player);   // signed in through NikniQ: map to your own account
+    else showOwnLogin();                    // not logged in on nikniq.com
+  })
+  .catch(() =&gt; showOwnLogin());             // portal unreachable: play on</code></pre>
+
     <h2>Everything else</h2>
     <table>
         <thead><tr><th>Call</th><th>What it does</th></tr></thead>
@@ -55,6 +77,7 @@ nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
             <tr><td><code>nq.stats</code>, <code>nq.rank</code></td><td>The player's totals and leaderboard rank in this game</td></tr>
             <tr><td><code>nq.leaderboard(10)</code></td><td>Top scores, no sign-in needed</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Add or remove the game from the player's favourites</td></tr>
+            <tr><td><code>autoSignIn</code></td><td>Set to <code>false</code> to skip the automatic sign-in check on first load</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Revoke this game's token</td></tr>
         </tbody>
     </table>
