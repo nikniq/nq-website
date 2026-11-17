@@ -19,6 +19,9 @@ use App\Http\Controllers\Sso\AuthorizeController;
 use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
+// Game sign-in: guests go to /login and back, or get login_required with prompt=none.
+Route::get('/sso/authorize', AuthorizeController::class)->middleware('throttle:60,1')->name('sso.authorize');
+
 Route::get('/', [GamesController::class, 'index'])->name('games.index');
 Route::get('/games', fn () => redirect()->route('games.index', request()->query()));
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
@@ -72,8 +75,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('throttle:6,1')->name('profile.destroy');
     Route::post('/profile/disconnect', [ProfileController::class, 'disconnect'])->name('profile.disconnect');
 
-    // Game sign-in: must be authenticated, so guests get bounced to /login and back.
-    Route::get('/sso/authorize', AuthorizeController::class)->name('sso.authorize');
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/', fn () => redirect()->route('admin.games.index'));

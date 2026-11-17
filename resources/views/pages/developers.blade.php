@@ -35,6 +35,7 @@
 
   signInButton.onclick = () =&gt; nq.signIn();   // goes to NikniQ and back
 &lt;/script&gt;</code></pre>
+    <p>Players already logged in on nikniq.com are signed in automatically: on its first load in a tab, the SDK makes a quick round trip to the portal and comes back signed in, or as a guest if they aren't logged in. Pass <code>autoSignIn: false</code> to <code>NikniQ.init</code> to turn this off.</p>
 
     <h2>3. Report what happens</h2>
 <pre><code>nq.report({ event: 'level_complete', level: '3', score: 820 });

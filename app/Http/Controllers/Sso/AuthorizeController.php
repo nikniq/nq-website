@@ -15,7 +15,11 @@ use Illuminate\View\View;
  * sure they are logged in, then redirects back with a one-time code.
  *
  *   GET /sso/authorize?client_id=...&redirect_uri=...&state=...
- *       [&code_challenge=...&code_challenge_method=S256]
+ *       [&code_challenge=...&code_challenge_method=S256][&prompt=none]
+ *
+ * prompt=none is the silent check the SDK makes on load: a player already
+ * logged in on the portal gets a code straight back; a guest gets
+ * error=login_required instead of the login page.
  */
 class AuthorizeController extends Controller
 {
@@ -41,6 +45,14 @@ class AuthorizeController extends Controller
         }
         if ($game->is_public && $challenge === null) {
             return $this->redirectError($redirectUri, $state, 'invalid_request', 'Public clients must use PKCE (code_challenge).');
+        }
+
+        if (! $request->user()) {
+            if ($request->query('prompt') === 'none') {
+                return $this->redirectError($redirectUri, $state, 'login_required', 'The player is not signed in to NikniQ.');
+            }
+
+            return redirect()->guest(route('login'));
         }
 
         $plain = Str::random(64);

@@ -43,7 +43,7 @@ class GameSsoTest extends TestCase
     public function test_guest_is_sent_to_login_and_back(): void
     {
         $game = $this->confidentialGame();
-        $this->get('/sso/authorize?client_id='.$game->client_id)->assertRedirect('/login');
+        $this->get('/sso/authorize?'.http_build_query(['client_id' => $game->client_id, 'redirect_uri' => self::CALLBACK]))->assertRedirect('/login');
     }
 
     public function test_unregistered_redirect_uri_shows_error_page_without_redirecting(): void
@@ -127,5 +127,18 @@ class GameSsoTest extends TestCase
         $this->actingAs($user)->get('/profile')->assertOk()->assertSee($game->name);
         $this->actingAs($user)->post('/profile/disconnect', ['game_id' => $game->id])->assertRedirect();
         $this->withToken($token)->getJson('/api/sso/me')->assertStatus(401);
+    }
+
+    public function test_silent_check_returns_login_required_for_guests_and_a_code_for_logged_in_players(): void
+    {
+        $game = $this->confidentialGame();
+        $q = http_build_query(['client_id' => $game->client_id, 'redirect_uri' => self::CALLBACK, 'state' => 'abc', 'prompt' => 'none']);
+
+        $guest = $this->get('/sso/authorize?'.$q)->assertRedirect();
+        $this->assertStringStartsWith(self::CALLBACK.'?error=login_required', $guest->headers->get('Location'));
+        $this->assertStringContainsString('state=abc', $guest->headers->get('Location'));
+
+        $player = $this->actingAs(User::factory()->create())->get('/sso/authorize?'.$q)->assertRedirect();
+        $this->assertMatchesRegularExpression('/\?code=[A-Za-z0-9]{64}&state=abc$/', $player->headers->get('Location'));
     }
 }

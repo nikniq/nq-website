@@ -5,6 +5,8 @@
  *   <script src="https://nikniq.com/js/nikniq.js"></script>
  *   const nq = NikniQ.init({ clientId: 'CLIENT_ID', game: 'chopper' });
  *   await nq.ready;                       // finishes a sign-in redirect if there is one
+ *                                         // (players already logged in on nikniq.com are signed in
+ *                                         //  automatically; pass autoSignIn: false to turn that off)
  *   if (!nq.player) button.onclick = () => nq.signIn();
  *   nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 });
  */
@@ -33,6 +35,7 @@
     this.game = opts.game;
     this.redirectUri = opts.redirectUri || (location.origin + location.pathname);
     this.key = 'nikniq:' + this.game;
+    this.autoSignIn = opts.autoSignIn !== false;
     this.player = null;
     this.stats = null;
     this._queue = [];
@@ -80,6 +83,7 @@
       var clean = location.pathname + (params.toString() ? '?' + params : '') + location.hash;
       var url = new URLSearchParams(location.search);
       history.replaceState(null, '', clean);
+      if (url.get('error') === 'login_required' && pending.silent) { this._emit(); return null; }
       if (url.get('error')) throw new Error(url.get('error_description') || url.get('error'));
       if (url.get('state') !== pending.state) throw new Error('Sign-in state mismatch, please try again.');
       var res = await this._api('/api/sso/token', { method: 'POST', body: {
@@ -92,6 +96,14 @@
       this._emit();
       return this.player;
     }
+    // Silent sign-in: once per tab, ask the portal whether the player is already
+    // logged in there. Guests come straight back with login_required.
+    var ss = store('session');
+    if (!this._token && this.autoSignIn && ss && !ss.getItem(this.key + ':silent')) {
+      ss.setItem(this.key + ':silent', '1');
+      await this.signIn({ silent: true });
+      return new Promise(function () {}); // the page is navigating away
+    }
     if (this._token) {
       try { var me = await this._api('/api/sso/me'); this.player = me.player; this.stats = me.stats; this.rank = me.rank; this.favourite = me.favourite; }
       catch (e) { if (e.status !== 401) throw e; }
@@ -101,13 +113,14 @@
   };
 
   /** Send the player to NikniQ to sign in; they come back to redirectUri. */
-  Client.prototype.signIn = async function () {
+  Client.prototype.signIn = async function (opts) {
+    var silent = !!(opts && opts.silent);
     var verifier = randomString(48), state = randomString(16);
-    store('session').setItem(this.key + ':pkce', JSON.stringify({ verifier: verifier, state: state, redirectUri: this.redirectUri }));
-    location.href = this.portal + '/sso/authorize?' + new URLSearchParams({
-      client_id: this.clientId, redirect_uri: this.redirectUri, state: state,
-      code_challenge: await challengeFor(verifier), code_challenge_method: 'S256',
-    });
+    store('session').setItem(this.key + ':pkce', JSON.stringify({ verifier: verifier, state: state, redirectUri: this.redirectUri, silent: silent }));
+    var q = { client_id: this.clientId, redirect_uri: this.redirectUri, state: state,
+      code_challenge: await challengeFor(verifier), code_challenge_method: 'S256' };
+    if (silent) q.prompt = 'none';
+    location.href = this.portal + '/sso/authorize?' + new URLSearchParams(q);
   };
 
   Client.prototype.signOut = async function () {
@@ -154,5 +167,5 @@
       .then(function (r) { return r.json(); }).then(function (d) { return d.leaderboard || []; });
   };
 
-  global.NikniQ = { init: function (opts) { return new Client(opts); }, version: '1.0.0' };
+  global.NikniQ = { init: function (opts) { return new Client(opts); }, version: '1.1.0' };
 })(window);
