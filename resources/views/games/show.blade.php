@@ -49,7 +49,8 @@
                 <a class="btn sm ghost" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('games.show', $game)) }}" target="_blank" rel="noopener">Facebook</a>
                 <a class="btn sm ghost" href="mailto:?subject={{ rawurlencode(__(':name on :site', ['name' => $game->name, 'site' => config('portal.name')])) }}&body={{ rawurlencode($shareText.': '.route('games.show', $game)) }}">{{ __('Email') }}</a>
             </div>
-            <p class="muted" style="font-size:.85rem;margin:0">{{ __('Opens :host. Your scores are saved when you sign in there with your NikniQ account.', ['host' => parse_url($game->url ?? '', PHP_URL_HOST) ?: __('the game')]) }}</p>
+            @php($host = parse_url($game->url ?? '', PHP_URL_HOST) ?: __('the game'))
+            <p class="muted" style="font-size:.85rem;margin:0">{{ ($connected || $leaderboard->isNotEmpty()) ? __('Opens :host. Your scores are saved when you sign in there with your NikniQ account.', ['host' => $host]) : __('Opens :host.', ['host' => $host]) }}</p>
         </div>
     </div>
 
@@ -72,8 +73,10 @@
         </section>
     @endif
 
+    @if($connected || $leaderboard->isNotEmpty())
     <h2>{{ __('Top players') }} <a class="btn sm ghost" style="margin-left:.5rem;vertical-align:middle" href="{{ route('games.leaderboard', $game) }}">{{ __('full leaderboard') }} →</a></h2>
     @include('games._leaderboard', ['rows' => $leaderboard])
+    @endif
 
     @if($related->isNotEmpty())
         <h2>{{ __('You might also like') }}</h2>

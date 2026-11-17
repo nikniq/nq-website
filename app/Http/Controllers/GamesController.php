@@ -90,6 +90,8 @@ class GamesController extends Controller
             'myStats' => $user ? $this->stats->statsFor($game, $user) : null,
             'myRank' => $user ? $this->stats->rankFor($game, $user) : null,
             'playerCount' => $game->stats()->count(),
+            // Games with their own login never get a NikniQ token; don't promise them scores.
+            'connected' => \App\Models\PlayerToken::where('game_id', $game->id)->exists(),
         ]);
     }
 
