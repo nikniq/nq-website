@@ -24,6 +24,10 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        if (User::isSuspendedEmail($credentials['email'])) {
+            throw ValidationException::withMessages(['email' => __('This account has been suspended. Contact us if you think this is a mistake.')]);
+        }
+
         $existing = User::where('email', $credentials['email'])->first();
         if ($existing && ! $existing->hasPassword()) {
             $message = $existing->hasLinkedProvider()

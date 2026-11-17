@@ -24,6 +24,7 @@ class HallOfFameController extends Controller
             ->join('games', 'games.id', '=', 'player_game_stats.game_id')
             ->where('games.is_enabled', true)
             ->whereNotNull('best_score')
+            ->whereHas('user')
             ->when($since, fn ($q) => $q->where('last_played_at', '>=', $since))
             ->get(['player_game_stats.*']);
 

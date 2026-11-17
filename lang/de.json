@@ -335,5 +335,6 @@
     "{1} Player|[0,*] Players": "{1} Spieler|[0,*] Spieler",
     "Opens :host.": "Öffnet :host.",
     "Welcome back": "Willkommen zurück",
-    "Log in to see your favourites and scores.": "Melde dich an, um deine Favoriten und Punktestände zu sehen."
+    "Log in to see your favourites and scores.": "Melde dich an, um deine Favoriten und Punktestände zu sehen.",
+    "This account has been suspended. Contact us if you think this is a mistake.": "Dieses Konto wurde gesperrt. Kontaktiere uns, wenn du das für einen Fehler hältst."
 }

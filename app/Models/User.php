@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = ['name', 'email', 'password', 'avatar', 'provider_name', 'provider_id', 'email_verified_at', 'is_public'];
 
@@ -46,6 +47,25 @@ class User extends Authenticatable
     public function playerTokens(): HasMany
     {
         return $this->hasMany(PlayerToken::class);
+    }
+
+    /** Suspended (soft-deleted) accounts can't sign up, log in or use Google with this email. */
+    public static function isSuspendedEmail(?string $email): bool
+    {
+        return $email !== null && $email !== '' && static::onlyTrashed()->where('email', strtolower(trim($email)))->exists();
+    }
+
+    /** Soft delete: hide the account, end its sessions and revoke its game tokens. Restorable. */
+    public function suspend(?string $reason = null): void
+    {
+        $this->forceFill(['deleted_reason' => $reason ? mb_substr($reason, 0, 255) : null])->saveQuietly();
+        $this->playerTokens()->whereNull('revoked_at')->update(['revoked_at' => now()]);
+        if (config('session.driver') === 'database') {
+            \Illuminate\Support\Facades\DB::table(config('session.table', 'sessions'))->where('user_id', $this->id)->delete();
+        }
+        $this->setRememberToken(null);
+        $this->saveQuietly();
+        $this->delete();
     }
 
     public function hasPassword(): bool

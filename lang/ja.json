@@ -335,5 +335,6 @@
     "{1} Player|[0,*] Players": "{1} プレイヤー|[0,*] プレイヤー",
     "Opens :host.": ":host を開きます。",
     "Welcome back": "おかえりなさい",
-    "Log in to see your favourites and scores.": "ログインしてお気に入りとスコアを確認しましょう。"
+    "Log in to see your favourites and scores.": "ログインしてお気に入りとスコアを確認しましょう。",
+    "This account has been suspended. Contact us if you think this is a mistake.": "このアカウントは停止されています。誤りだと思われる場合はお問い合わせください。"
 }

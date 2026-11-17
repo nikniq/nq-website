@@ -576,3 +576,19 @@ dl.kv dt { font-weight:700; color:var(--muted); }
 dl.kv dd { margin:0; word-break:break-all; }
 @media (max-width:640px) { dl.kv { grid-template-columns:1fr; } dl.kv dt { margin-top:.4rem; } }
 body.is-admin main .panel { max-width:920px; box-sizing:border-box; }
+/* Admin players */
+.admin-players .sub-line { font-size:.9rem; margin-top:.15rem; }
+.admin-players .actions-h { text-align:right; }
+.row-menu { position:relative; display:inline-block; text-align:left; }
+.row-menu > summary { list-style:none; cursor:pointer; }
+.row-menu > summary::-webkit-details-marker { display:none; }
+.row-menu-panel { position:absolute; right:0; top:calc(100% + .4rem); z-index:5; width:min(340px, 86vw); background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:0 18px 40px -12px rgba(15,23,42,.35); padding:.9rem; display:flex; flex-direction:column; gap:.75rem; white-space:normal; }
+.row-menu-panel form { margin:0; }
+.row-menu-panel .btn { width:100%; justify-content:center; }
+.stack-sm { display:flex; flex-direction:column; gap:.45rem; }
+.stack-sm label { display:flex; flex-direction:column; gap:.3rem; font-size:.92rem; font-weight:600; }
+.stack-sm input[type=text] { padding:.5rem .7rem; border-radius:8px; border:2px solid var(--line); background:var(--input); color:var(--input-text); font:inherit; font-size:.95rem; }
+.stack-sm small { font-size:.85rem; }
+.danger-box { border-top:1px solid var(--line); padding-top:.75rem; }
+.btn.warn { background:#b54708; color:#fff; border-color:#b54708; }
+.table-scroll:has(.admin-players), table.admin-players { overflow:visible; }

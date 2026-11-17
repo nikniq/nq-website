@@ -121,7 +121,7 @@ class ReportService
         ['from' => $from, 'to' => $to] = $this->window($days);
 
         return DB::table('game_events')
-            ->join('users', 'users.id', '=', 'game_events.user_id')
+            ->join('users', 'users.id', '=', 'game_events.user_id')->whereNull('users.deleted_at')
             ->whereBetween('occurred_at', [$from, $to])
             ->groupBy('users.id', 'users.name')
             ->select('users.id', 'users.name')

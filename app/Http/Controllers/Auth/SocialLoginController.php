@@ -49,6 +49,10 @@ class SocialLoginController extends Controller
             return $this->link($request, $provider, $socialUser);
         }
 
+        if (User::isSuspendedEmail($email) || User::onlyTrashed()->where('provider_name', $provider)->where('provider_id', $socialUser->getId())->exists()) {
+            return $this->fail(__('This account has been suspended. Contact us if you think this is a mistake.'));
+        }
+
         $user = User::where('provider_name', $provider)->where('provider_id', $socialUser->getId())->first();
 
         if (! $user) {

@@ -91,7 +91,7 @@ class ProfileController extends Controller
         ]);
 
         Auth::logout();
-        $user->delete();
+        $user->forceDelete(); // the player asked for their data to go: no soft delete
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

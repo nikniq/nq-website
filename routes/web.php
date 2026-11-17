@@ -105,6 +105,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/games/{game}/rotate-secret', [AdminGameController::class, 'rotateSecret'])->name('games.rotate-secret');
         Route::resource('games', AdminGameController::class)->except('show');
         Route::get('/players', [AdminPlayerController::class, 'index'])->name('players.index');
+        Route::delete('/players/{id}', [AdminPlayerController::class, 'destroy'])->whereNumber('id')->name('players.destroy');
+        Route::post('/players/{id}/restore', [AdminPlayerController::class, 'restore'])->whereNumber('id')->name('players.restore');
+        Route::delete('/players/{id}/purge', [AdminPlayerController::class, 'purge'])->whereNumber('id')->name('players.purge');
+        Route::post('/players/{id}/admin', [AdminPlayerController::class, 'toggleAdmin'])->whereNumber('id')->name('players.admin');
         Route::get('/activity', [AdminPlayerController::class, 'activity'])->name('players.activity');
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');

@@ -37,6 +37,10 @@ class RegisterController extends Controller
         $data = $request->validate(['email' => ['required', 'email', 'max:255']]);
         $email = strtolower(trim($data['email']));
 
+        if (User::isSuspendedEmail($email)) {
+            return back()->withInput()->withErrors(['email' => __('This account has been suspended. Contact us if you think this is a mistake.')]);
+        }
+
         $user = User::where('email', $email)->first();
 
         if ($user && $user->hasPassword()) {

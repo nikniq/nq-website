@@ -84,6 +84,7 @@ class GameStatsService
         $limit = max(1, min($limit, (int) config('portal.leaderboard_max', 100)));
 
         return PlayerGameStat::with('user:id,name,avatar')
+            ->whereHas('user') // skips suspended players
             ->where('game_id', $game->id)
             ->whereNotNull('best_score')
             ->orderByDesc('best_score')
