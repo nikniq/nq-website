@@ -46,7 +46,7 @@
     @stack('head')
     @yield('jsonld')
 </head>
-<body>
+<body @if(request()->routeIs('admin.*')) class="is-admin" @endif>
 <a class="skip" href="#content">{{ __('Skip to content') }}</a>
 <header class="site">
     <div class="wrap">
