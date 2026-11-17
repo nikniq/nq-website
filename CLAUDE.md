@@ -13,7 +13,7 @@ php artisan test                    # in-memory sqlite via phpunit.xml
 ./vendor/bin/pint                   # code style
 ```
 
-Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, migrate, optional seeder, optimize). `cx.sh [--fix | --mail addr | --seed-games | --admin list|grant|revoke|create|password email]` is a server-side setup checker; `--admin` wraps `php artisan portal:admin` and skips the checks that reads config through tinker; it needs no settings file. `--mail` sends a test message and a rendered sign-up email. `--seed-games` runs `GamesSeeder`; a plain run warns when catalogue rows differ from `GamesSeeder::GAMES`.
+Deployment: `deploy.sh` runs on the server (pull, composer if lockfile moved, migrate, optional seeder, optimize). `cx.sh [--fix | --mail addr | --seed-games | --admin list|grant|revoke|create|password email]` is a server-side setup checker (plain `./cx.sh` in a terminal shows a menu; `--check` or non-interactive runs report only); `--admin` wraps `php artisan portal:admin` and skips the checks that reads config through tinker; it needs no settings file. `--mail` sends a test message and a rendered sign-up email. `--seed-games` runs `GamesSeeder`; a plain run warns when catalogue rows differ from `GamesSeeder::GAMES`.
 
 ## Layout
 

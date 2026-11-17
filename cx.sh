@@ -7,7 +7,8 @@
 # config are honoured.
 #
 # Usage:
-#   ./cx.sh                        report problems only
+#   ./cx.sh                        menu when run in a terminal; otherwise report problems only
+#   ./cx.sh --check                report problems only
 #   ./cx.sh --fix                  report and apply corrections
 #   ./cx.sh --mail you@example.com send a test email through the configured mailer
 #   ./cx.sh --seed-games           run GamesSeeder: refresh names, URLs, genres and art from
@@ -28,6 +29,44 @@ set -u
 
 cd "$(dirname "$0")"
 
+# Interactive menu: plain ./cx.sh in a terminal. Each choice re-runs this
+# script with the matching flags, so the menu adds no behaviour of its own.
+if [ $# -eq 0 ] && { { [ -t 0 ] && [ -t 1 ]; } || [ "${CX_MENU:-}" = 1 ]; }; then
+    self="$0"
+    ask() { local v; read -r -p "$1" v; printf '%s' "$v"; }
+    while true; do
+        echo
+        echo "NikniQ Games - cx.sh"
+        echo "  1) Check setup (report only)"
+        echo "  2) Check setup and fix problems"
+        echo "  3) Refresh games catalogue (GamesSeeder)"
+        echo "  4) Send a test email"
+        echo "  5) List admins"
+        echo "  6) Make an account an admin"
+        echo "  7) Remove admin rights"
+        echo "  8) Create a new admin account"
+        echo "  9) Reset a user's password"
+        echo "  q) Quit"
+        choice=$(ask "Choose: ")
+        case "$choice" in
+            1) "$self" --check ;;
+            2) "$self" --fix ;;
+            3) "$self" --seed-games ;;
+            4) to=$(ask "Send to email: "); [ -n "$to" ] && "$self" --mail "$to" ;;
+            5) "$self" --admin list ;;
+            6) e=$(ask "Email: "); [ -n "$e" ] && "$self" --admin grant "$e" ;;
+            7) e=$(ask "Email: "); [ -n "$e" ] && "$self" --admin revoke "$e" ;;
+            8) e=$(ask "Email: "); n=$(ask "Name (optional): "); [ -n "$e" ] && "$self" --admin create "$e" "$n" ;;
+            9) e=$(ask "Email: ")
+               if [ -n "$e" ]; then c=$(ask "Set a new random password for $e? [y/N] "); [ "$c" = y ] || [ "$c" = Y ] && "$self" --admin password "$e"; fi ;;
+            q|Q|"") exit 0 ;;
+            *) echo "Unknown choice: $choice" ;;
+        esac
+        echo
+        ask "Press Enter to return to the menu (q to quit) " | grep -qi '^q' && exit 0
+    done
+fi
+
 FIX=0
 MAIL_TO=""
 SEED_GAMES=0
@@ -41,6 +80,7 @@ case "${1:-}" in
         [ -n "$email" ] && args+=("$email")
         [ -n "$name" ] && args+=("--name=$name")
         exec "${PHP_BIN:-php}" "${args[@]}" ;;
+    --check) ;;
     --fix) FIX=1 ;;
     --seed-games) SEED_GAMES=1 ;;
     --mail)
