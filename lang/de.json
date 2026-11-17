@@ -333,5 +333,7 @@
     "{0} :count games|{1} :count game|[2,*] :count games": "{0} :count Spiele|{1} :count Spiel|[2,*] :count Spiele",
     "{1} Favourite|[0,*] Favourites": "{1} Favorit|[0,*] Favoriten",
     "{1} Player|[0,*] Players": "{1} Spieler|[0,*] Spieler",
-    "Opens :host.": "Öffnet :host."
+    "Opens :host.": "Öffnet :host.",
+    "Welcome back": "Willkommen zurück",
+    "Log in to see your favourites and scores.": "Melde dich an, um deine Favoriten und Punktestände zu sehen."
 }

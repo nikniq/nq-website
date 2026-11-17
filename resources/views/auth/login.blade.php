@@ -2,7 +2,8 @@
 @section('title', __('Log in'))
 @section('content')
 <div class="auth-card">
-    <h1>{{ __('Log in') }}</h1>
+    <h1>{{ __('Welcome back') }}</h1>
+    <p class="sub">{{ __('Log in to see your favourites and scores.') }}</p>
     @include('auth._google')
     <form class="stack" method="post" action="{{ route('login') }}">@csrf
         <label>{{ __('Email') }} <input type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email"></label>
@@ -13,7 +14,7 @@
         <label>{{ __('Password') }} <input type="password" name="password" required autocomplete="current-password"></label>
         <a href="{{ route('password.request') }}" style="font-size:.9rem;align-self:flex-start">{{ __('Forgot your password?') }}</a>
         <label class="inline"><input type="checkbox" name="remember" value="1"> {{ __('Remember me') }}</label>
-        <div class="row"><button class="btn" type="submit">{{ __('Log in') }}</button> <span class="muted">{!! __('New here? :link', ['link' => '<a href="'.e(route('register')).'">'.e(__('Create an account')).'</a>']) !!}</span></div>
+        <div class="row"><button class="btn" type="submit">{{ __('Log in') }}</button> <span class="auth-switch">{!! __('New here? :link', ['link' => '<a href="'.e(route('register')).'">'.e(__('Create an account')).'</a>']) !!}</span></div>
     </form>
 </div>
 @endsection

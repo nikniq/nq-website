@@ -9,7 +9,7 @@
         <label>{{ __('Email') }} <input type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="email" placeholder="you@example.com"></label>
         @error('email')<div class="err">{{ $message }}</div>@enderror
         <p class="muted" style="margin:0;font-size:.9rem">{{ __("We'll email you a link to confirm your address.") }} {{ __('You choose a password after that.') }} {!! __('By signing up you agree to the :terms and :privacy.', ['terms' => '<a href="'.e(route('terms')).'">'.e(__('terms')).'</a>', 'privacy' => '<a href="'.e(route('privacy')).'">'.e(__('privacy policy')).'</a>']) !!}</p>
-        <div class="row"><button class="btn" type="submit">{{ __('Send me the link') }}</button> <span class="muted">{!! __('Already have an account? :link', ['link' => '<a href="'.e(route('login')).'">'.e(__('Log in')).'</a>']) !!}</span></div>
+        <div class="row"><button class="btn" type="submit">{{ __('Send me the link') }}</button> <span class="auth-switch">{!! __('Already have an account? :link', ['link' => '<a href="'.e(route('login')).'">'.e(__('Log in')).'</a>']) !!}</span></div>
     </form>
 </div>
 @endsection

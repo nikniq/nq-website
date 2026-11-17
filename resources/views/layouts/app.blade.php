@@ -103,7 +103,7 @@
             <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
             <p>{{ config('portal.tagline') }}</p>
             @guest
-                <a class="btn footer-cta" href="{{ route('register') }}">{{ __('Create a free account') }}</a>
+                @unless(request()->routeIs('login', 'register', 'password.*'))<a class="btn footer-cta" href="{{ route('register') }}">{{ __('Create a free account') }}</a>@endunless
             @else
                 <a class="btn footer-cta" href="{{ route('games.random') }}">🎲&nbsp; {{ __('Surprise me') }}</a>
             @endguest

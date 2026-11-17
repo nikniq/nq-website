@@ -333,5 +333,7 @@
     "{0} :count games|{1} :count game|[2,*] :count games": "{0} :count 本のゲーム|{1} :count 本のゲーム|[2,*] :count 本のゲーム",
     "{1} Favourite|[0,*] Favourites": "{1} お気に入り|[0,*] お気に入り",
     "{1} Player|[0,*] Players": "{1} プレイヤー|[0,*] プレイヤー",
-    "Opens :host.": ":host を開きます。"
+    "Opens :host.": ":host を開きます。",
+    "Welcome back": "おかえりなさい",
+    "Log in to see your favourites and scores.": "ログインしてお気に入りとスコアを確認しましょう。"
 }
