@@ -450,7 +450,7 @@ main p a:not(.btn):hover, .prose a:hover { text-decoration-thickness:2px; }
 
 /* ===== Polish: calmer cards, bigger targets ===== */
 /* Play buttons are tinted until the card is hovered/focused, so 27 solid blue buttons don't shout. */
-.card .btn.play { background:var(--chip-bg); color:var(--link); border:1px solid transparent; box-shadow:none; }
+.card .btn.play { background:color-mix(in srgb, var(--accent-2) 12%, transparent); color:var(--link); border:1px solid color-mix(in srgb, var(--accent-2) 35%, transparent); box-shadow:none; }
 .card:hover .btn.play, .card:focus-within .btn.play, .card .btn.play:focus-visible { background:var(--accent-2); color:var(--btn-text); }
 .card { transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
 .card:hover { transform:translateY(-3px); box-shadow:0 14px 30px -14px rgba(15,30,60,.35); }

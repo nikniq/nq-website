@@ -72,7 +72,7 @@
         </section>
     @endif
 
-    <h2>{{ __('Top players') }} <a class="muted" style="font-size:.85rem;font-weight:400" href="{{ route('games.leaderboard', $game) }}">{{ __('full leaderboard') }} →</a></h2>
+    <h2>{{ __('Top players') }} <a class="btn sm ghost" style="margin-left:.5rem;vertical-align:middle" href="{{ route('games.leaderboard', $game) }}">{{ __('full leaderboard') }} →</a></h2>
     @include('games._leaderboard', ['rows' => $leaderboard])
 
     @if($related->isNotEmpty())
