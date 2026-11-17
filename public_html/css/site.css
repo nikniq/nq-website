@@ -481,3 +481,16 @@ html[data-calm="1"] .card:hover, html[data-calm="1"] .card:hover .thumb img { tr
 .auth-switch { display:block; margin-top:.4rem; padding-top:1rem; border-top:1px solid var(--line); color:var(--muted); }
 .auth-switch a { font-weight:700; }
 .auth-card .btn-google { border:2px solid color-mix(in srgb, var(--text) 30%, transparent); }
+
+/* ===== Logo ===== */
+.brand { display:inline-flex; align-items:center; gap:.55rem; text-decoration:none; letter-spacing:0; line-height:1; }
+.brand:hover { text-decoration:none; }
+.brand-mark { flex:none; border-radius:10px; box-shadow:0 3px 10px -3px rgba(109,40,217,.45); transition:transform .2s ease; }
+.brand:hover .brand-mark { transform:rotate(-6deg) scale(1.05); }
+.brand .brand-word { font-weight:800; font-size:1.35em; letter-spacing:-.02em; color:var(--strong); }
+.brand-word span { background:linear-gradient(90deg, #ff3b81, #6d28d9); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.brand .brand-tag { font-size:.62em; font-weight:800; letter-spacing:.18em; color:var(--muted); border:1.5px solid var(--line); border-radius:6px; padding:.3em .45em .25em; align-self:center; }
+:root[data-theme="dark"] .brand-word span { background-image:linear-gradient(90deg, #ff6aa2, #a78bfa); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .brand-word span { background-image:linear-gradient(90deg, #ff6aa2, #a78bfa); } }
+@media (max-width:380px) { .brand-tag { display:none; } }
+html[data-calm="1"] .brand:hover .brand-mark { transform:none; }

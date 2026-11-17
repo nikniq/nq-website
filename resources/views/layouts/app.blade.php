@@ -50,7 +50,7 @@
 <a class="skip" href="#content">{{ __('Skip to content') }}</a>
 <header class="site">
     <div class="wrap">
-        <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
+        @include('partials._brand')
         @php($navLinks = array_values(array_filter([['games.index', __('Games')], ['hall', __('Hall of fame')], ['news.index', __('News')], auth()->check() ? ['dashboard', __('My dashboard')] : null, auth()->check() ? ['profile', __('Profile')] : null, auth()->user()?->is_admin ? ['admin.games.index', __('Admin')] : null])))
         <nav class="main" aria-label="{{ __('Main') }}">
             @foreach($navLinks as [$route, $label])
@@ -100,7 +100,7 @@
 <footer class="site">
     <div class="wrap footer-main">
         <div class="footer-brand">
-            <a class="brand" href="{{ route('games.index') }}">NIK<span>NIQ</span> GAMES</a>
+            @include('partials._brand', ['id' => 'f'])
             <p>{{ config('portal.tagline') }}</p>
             @guest
                 @unless(request()->routeIs('login', 'register', 'password.*'))<a class="btn footer-cta" href="{{ route('register') }}">{{ __('Create a free account') }}</a>@endunless
