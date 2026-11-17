@@ -510,3 +510,17 @@ nav.main .theme-toggle { width:46px; height:46px; font-size:1.1rem; }
     nav.main .pill { font-size:1rem; min-height:42px; }
     .menu > summary { min-width:46px; min-height:46px; }
 }
+
+/* ===== Auth on laptop/desktop screens ===== */
+@media (min-width:1024px) {
+    .auth-card { max-width:600px; padding:3rem 3.25rem 2.75rem; font-size:1.22rem; margin-top:clamp(2rem, 7vh, 4.5rem); border-radius:24px; }
+    .auth-card h1 { font-size:2.7rem; margin-bottom:.7rem; }
+    .auth-card > .sub, .auth-card > p { font-size:1.22rem; }
+    .auth-card form.stack { gap:1.2rem; }
+    .auth-card label { font-size:1.15rem; }
+    .auth-card form.stack input[type=email], .auth-card form.stack input[type=password], .auth-card form.stack input[type=text] { height:62px; font-size:1.25rem; padding:0 1.15rem; }
+    .auth-card form.stack button[type=submit].btn:not(.sm) { height:60px; font-size:1.2rem; }
+    .auth-card .btn-google { min-height:60px; font-size:1.18rem; }
+    .auth-card input[type=checkbox] { width:1.4rem; height:1.4rem; }
+}
+@media (min-width:1600px) { .auth-card { max-width:660px; } }
