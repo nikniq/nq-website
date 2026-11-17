@@ -69,6 +69,24 @@ nq.ready
   })
   .catch(() =&gt; showOwnLogin());             // portal unreachable: play on</code></pre>
 
+    <h2>Standard OAuth 2.0 and OpenID Connect</h2>
+    <p>Sites with their own server, or any framework with an OAuth or OpenID Connect library (Laravel Socialite, Auth.js/NextAuth, Passport.js, Spring Security, oidc-client-ts and others), can use NikniQ as a standard identity provider instead of the SDK. Point the library at the discovery document and it configures itself:</p>
+<pre><code>{{ url('/.well-known/openid-configuration') }}</code></pre>
+    <table>
+        <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+        <tbody>
+            <tr><td>Flow</td><td>Authorization code (<code>response_type=code</code>), with PKCE <code>S256</code>; PKCE is required for public clients</td></tr>
+            <tr><td>Authorization endpoint</td><td><code>{{ route('sso.authorize') }}</code></td></tr>
+            <tr><td>Token endpoint</td><td><code>{{ route('api.sso.token') }}</code> (client auth: <code>client_secret_basic</code>, <code>client_secret_post</code>, or none with PKCE)</td></tr>
+            <tr><td>UserInfo</td><td><code>{{ route('api.oauth.userinfo') }}</code></td></tr>
+            <tr><td>Revocation</td><td><code>{{ route('api.oauth.revoke') }}</code> (RFC 7009)</td></tr>
+            <tr><td>Keys</td><td><code>{{ route('api.oauth.jwks') }}</code>; ID tokens are signed RS256</td></tr>
+            <tr><td>Scopes</td><td><code>openid</code> (ID token), <code>profile</code> (name, picture), <code>email</code> (email, email_verified)</td></tr>
+            <tr><td>Silent sign-in</td><td><code>prompt=none</code> returns a code if the player is logged in on nikniq.com, otherwise <code>error=login_required</code></td></tr>
+        </tbody>
+    </table>
+    <p>The client ID, the client secret (for server-side apps) and the allowed redirect URIs are set when the site is registered in Admin → Games. The <code>sub</code> claim is the player's stable NikniQ ID; use it, not the email, to link accounts. Access tokens last {{ config('portal.token_ttl_days') }} days and also work with the score and favourite APIs above. There are no refresh tokens: when a token expires, send the player through the authorization endpoint again (with <code>prompt=none</code> it is invisible).</p>
+
     <h2>Everything else</h2>
     <table>
         <thead><tr><th>Call</th><th>What it does</th></tr></thead>

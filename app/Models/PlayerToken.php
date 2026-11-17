@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PlayerToken extends Model
 {
-    protected $fillable = ['game_id', 'user_id', 'token_hash', 'last_used_at', 'expires_at', 'revoked_at'];
+    protected $fillable = ['game_id', 'user_id', 'token_hash', 'scope', 'last_used_at', 'expires_at', 'revoked_at'];
 
     protected $casts = ['last_used_at' => 'datetime', 'expires_at' => 'datetime', 'revoked_at' => 'datetime'];
 

@@ -37,7 +37,7 @@ class GameSsoTest extends TestCase
         return $this->postJson('/api/sso/token', [
             'grant_type' => 'authorization_code', 'client_id' => $game->client_id, 'client_secret' => 'top-secret',
             'code' => $code, 'redirect_uri' => self::CALLBACK,
-        ])->assertCreated()->json('access_token');
+        ])->assertOk()->json('access_token');
     }
 
     public function test_guest_is_sent_to_login_and_back(): void
@@ -84,7 +84,7 @@ class GameSsoTest extends TestCase
         $body = ['grant_type' => 'authorization_code', 'client_id' => $game->client_id, 'code' => $code, 'redirect_uri' => self::CALLBACK];
 
         $this->postJson('/api/sso/token', $body + ['client_secret' => 'wrong'])->assertStatus(401);
-        $this->postJson('/api/sso/token', $body + ['client_secret' => 'top-secret'])->assertCreated();
+        $this->postJson('/api/sso/token', $body + ['client_secret' => 'top-secret'])->assertOk();
         $this->postJson('/api/sso/token', $body + ['client_secret' => 'top-secret'])->assertStatus(400)->assertJsonPath('error', 'invalid_grant');
     }
 
@@ -103,7 +103,7 @@ class GameSsoTest extends TestCase
 
         $this->postJson('/api/sso/token', $body)->assertStatus(400)->assertJsonPath('error', 'invalid_grant');
         $this->postJson('/api/sso/token', $body + ['code_verifier' => str_repeat('x', 50)])->assertStatus(400);
-        $this->postJson('/api/sso/token', $body + ['code_verifier' => $verifier])->assertCreated();
+        $this->postJson('/api/sso/token', $body + ['code_verifier' => $verifier])->assertOk();
     }
 
     public function test_token_is_scoped_to_its_game_and_can_be_revoked(): void

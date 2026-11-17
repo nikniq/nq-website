@@ -17,7 +17,7 @@ class AuthenticatePlayer
     {
         $plain = $request->bearerToken();
         if (! $plain) {
-            return response()->json(['message' => 'Player token required.'], 401);
+            return response()->json(['message' => 'Player token required.'], 401, ['WWW-Authenticate' => 'Bearer realm="nikniq"']);
         }
 
         $token = PlayerToken::with(['user', 'game'])
@@ -25,7 +25,7 @@ class AuthenticatePlayer
             ->first();
 
         if (! $token || ! $token->isValid() || ! $token->game || ! $token->game->is_enabled || ! $token->user) {
-            return response()->json(['message' => 'Player token is invalid or expired.'], 401);
+            return response()->json(['message' => 'Player token is invalid or expired.', 'error' => 'invalid_token'], 401, ['WWW-Authenticate' => 'Bearer realm="nikniq", error="invalid_token"']);
         }
 
         if ($token->last_used_at === null || $token->last_used_at->lt(now()->subMinutes(5))) {

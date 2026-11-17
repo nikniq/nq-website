@@ -17,6 +17,9 @@ return [
     'code_ttl_minutes' => (int) env('SSO_CODE_TTL_MINUTES', 5),
 
     // How long a player token issued to a game stays valid.
+    // OpenID Connect signing key (PEM). Empty: storage/app/oidc-private.pem, generated on first use.
+    'oidc_private_key' => env('OIDC_PRIVATE_KEY', ''),
+
     'token_ttl_days' => (int) env('SSO_TOKEN_TTL_DAYS', 30),
 
     // Event names that count as one completed play in the aggregates.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Models\SsoCode;
+use App\Support\Oidc;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -15,6 +16,7 @@ use Illuminate\View\View;
  * sure they are logged in, then redirects back with a one-time code.
  *
  *   GET /sso/authorize?client_id=...&redirect_uri=...&state=...
+ *       [&response_type=code][&scope=openid profile email][&nonce=...]
  *       [&code_challenge=...&code_challenge_method=S256][&prompt=none]
  *
  * prompt=none is the silent check the SDK makes on load: a player already
@@ -34,6 +36,11 @@ class AuthorizeController extends Controller
         }
         if ($redirectUri === '' || ! $game->redirectAllowed($redirectUri)) {
             return view('sso.error', ['message' => __('The redirect URI is not registered for :game.', ['game' => $game->name])]);
+        }
+
+        $responseType = $request->query('response_type');
+        if ($responseType !== null && $responseType !== 'code') {
+            return $this->redirectError($redirectUri, $request->query('state'), 'unsupported_response_type', 'Only response_type=code is supported.');
         }
 
         $challenge = $request->query('code_challenge');
@@ -63,6 +70,8 @@ class AuthorizeController extends Controller
             'code_hash' => SsoCode::hashFor($plain),
             'redirect_uri' => $redirectUri,
             'code_challenge' => $challenge,
+            'scope' => Oidc::normaliseScope($request->query('scope')),
+            'nonce' => is_string($request->query('nonce')) ? substr($request->query('nonce'), 0, 255) : null,
             'expires_at' => now()->addMinutes((int) config('portal.code_ttl_minutes', 5)),
         ]);
 

@@ -68,6 +68,10 @@ nq.ready
   })
   .catch(() =&gt; showOwnLogin());             // ポータルに接続できない：そのまま続行</code></pre>
 
+    <h2>標準の OAuth 2.0 と OpenID Connect</h2>
+    <p>独自サーバーを持つサイトや、OAuth / OpenID Connect ライブラリを使うフレームワークは、SDK の代わりに NikniQ を標準の ID プロバイダーとして使えます。ライブラリにディスカバリー文書を指定すると、エンドポイント（認可、トークン、UserInfo、失効、JWKS）が自動で設定されます。認可コードフロー（PKCE S256）、スコープ openid・profile・email、RS256 署名の ID トークン、<code>prompt=none</code> に対応しています。アカウントの紐付けにはメールではなく <code>sub</code> を使ってください。</p>
+<pre><code>{{ url('/.well-known/openid-configuration') }}</code></pre>
+
     <h2>その他の機能</h2>
     <table>
         <thead><tr><th>呼び出し</th><th>内容</th></tr></thead>

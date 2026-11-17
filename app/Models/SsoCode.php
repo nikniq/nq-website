@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SsoCode extends Model
 {
-    protected $fillable = ['game_id', 'user_id', 'code_hash', 'redirect_uri', 'code_challenge', 'expires_at', 'used_at'];
+    protected $fillable = ['game_id', 'user_id', 'code_hash', 'redirect_uri', 'code_challenge', 'scope', 'nonce', 'expires_at', 'used_at'];
 
     protected $casts = ['expires_at' => 'datetime', 'used_at' => 'datetime'];
 

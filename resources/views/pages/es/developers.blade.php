@@ -68,6 +68,10 @@ nq.ready
   })
   .catch(() =&gt; showOwnLogin());             // portal no disponible: seguir jugando</code></pre>
 
+    <h2>OAuth 2.0 y OpenID Connect estándar</h2>
+    <p>Los sitios con servidor propio, o cualquier framework con una biblioteca OAuth u OpenID Connect, pueden usar NikniQ como proveedor de identidad estándar en lugar del SDK. Indica a la biblioteca el documento de descubrimiento y configurará sola los endpoints (autorización, token, UserInfo, revocación, JWKS). Se admite el flujo de código de autorización con PKCE S256, los scopes openid, profile y email, tokens de identidad firmados con RS256 y <code>prompt=none</code>. Usa <code>sub</code>, no el correo, para vincular cuentas.</p>
+<pre><code>{{ url('/.well-known/openid-configuration') }}</code></pre>
+
     <h2>Todo lo demás</h2>
     <table>
         <thead><tr><th>Llamada</th><th>Qué hace</th></tr></thead>

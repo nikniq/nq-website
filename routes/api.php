@@ -14,7 +14,11 @@ Route::get('/games/{game}/leaderboard', LeaderboardController::class)->middlewar
 // Game SSO: code exchange is client-authenticated, the rest needs a player token.
 Route::post('/sso/token', [SsoTokenController::class, 'token'])->middleware('throttle:60,1')->name('api.sso.token');
 
+Route::post('/oauth/revoke', [SsoTokenController::class, 'revoke'])->middleware('throttle:60,1')->name('api.oauth.revoke');
+Route::get('/oauth/jwks', fn () => response()->json(\App\Support\Oidc::jwks())->header('Cache-Control', 'public, max-age=3600'))->name('api.oauth.jwks');
+
 Route::middleware(['player', 'throttle:120,1'])->group(function () {
+    Route::match(['get', 'post'], '/oauth/userinfo', [SsoTokenController::class, 'userinfo'])->name('api.oauth.userinfo');
     Route::get('/sso/me', [SsoTokenController::class, 'me'])->name('api.sso.me');
     Route::post('/sso/logout', [SsoTokenController::class, 'logout'])->name('api.sso.logout');
     Route::post('/sso/favourite', [FavouriteController::class, 'store'])->name('api.sso.favourite');

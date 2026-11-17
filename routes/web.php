@@ -19,6 +19,30 @@ use App\Http\Controllers\Sso\AuthorizeController;
 use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
+// OpenID Connect discovery for subsites using standard OAuth/OIDC libraries.
+Route::get('/.well-known/openid-configuration', function () {
+    $iss = \App\Support\Oidc::issuer();
+
+    return response()->json([
+        'issuer' => $iss,
+        'authorization_endpoint' => route('sso.authorize'),
+        'token_endpoint' => route('api.sso.token'),
+        'userinfo_endpoint' => route('api.oauth.userinfo'),
+        'revocation_endpoint' => route('api.oauth.revoke'),
+        'jwks_uri' => route('api.oauth.jwks'),
+        'response_types_supported' => ['code'],
+        'response_modes_supported' => ['query'],
+        'grant_types_supported' => ['authorization_code'],
+        'subject_types_supported' => ['public'],
+        'id_token_signing_alg_values_supported' => ['RS256'],
+        'scopes_supported' => \App\Support\Oidc::SCOPES,
+        'claims_supported' => ['sub', 'name', 'preferred_username', 'picture', 'profile', 'email', 'email_verified', 'iss', 'aud', 'exp', 'iat', 'auth_time', 'nonce', 'at_hash'],
+        'token_endpoint_auth_methods_supported' => ['client_secret_basic', 'client_secret_post', 'none'],
+        'code_challenge_methods_supported' => ['S256'],
+        'prompt_values_supported' => ['none'],
+    ])->header('Cache-Control', 'public, max-age=3600');
+})->name('oidc.discovery');
+
 // Game sign-in: guests go to /login and back, or get login_required with prompt=none.
 Route::get('/sso/authorize', AuthorizeController::class)->middleware('throttle:60,1')->name('sso.authorize');
 
