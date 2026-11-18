@@ -31,8 +31,15 @@
         @foreach(['genre', 'featured', 'dementia', 'favourites', 'sort'] as $keep)
             @if(!empty($filters[$keep]))<input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] === true ? 1 : $filters[$keep] }}">@endif
         @endforeach
+        @php($advCount = ($filters['in'] ? 1 : 0) + ($filters['match'] ? 1 : 0))
+        <div class="adv-row">
         <details class="adv-search" @if($filters['in'] || $filters['match']) open @endif>
-            <summary>{{ __('Advanced search') }}</summary>
+            <summary class="btn ghost adv-toggle">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                {{ __('Advanced search') }}
+                @if($advCount)<span class="adv-count">{{ $advCount }}</span>@endif
+                <span class="adv-caret" aria-hidden="true">▾</span>
+            </summary>
             <div class="adv-body">
                 <fieldset>
                     <legend>{{ __('Search in') }}</legend>
@@ -56,6 +63,13 @@
                 </div>
             </div>
         </details>
+        @if($advCount)
+            <span class="adv-active">
+                @if($filters['in'] === 'name')<span class="chip on">{{ __('Names only') }}</span>@endif
+                @if($filters['match'] === 'any')<span class="chip on">{{ __('Any word') }}</span>@endif
+            </span>
+        @endif
+        </div>
     </form>
 
     @if($spotlight)
