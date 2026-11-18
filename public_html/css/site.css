@@ -619,3 +619,15 @@ body.is-admin main .panel { max-width:920px; box-sizing:border-box; }
 @media (min-width:1600px) {
   .grid { grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:2rem; }
 }
+
+/* ===== Glow ring on card hover/focus ===== */
+.card:hover, .card:focus-within {
+  border-color:var(--accent-2);
+  box-shadow:0 18px 40px var(--shadow),
+    0 0 0 2px color-mix(in srgb, var(--accent-2) 70%, transparent),
+    0 0 22px 4px color-mix(in srgb, var(--accent-2) 45%, transparent),
+    0 0 48px 8px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+:root[data-calm="1"] .card:hover, :root[data-calm="1"] .card:focus-within {
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--accent-2) 60%, transparent), 0 0 16px color-mix(in srgb, var(--accent-2) 25%, transparent);
+}
