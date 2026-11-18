@@ -36,11 +36,11 @@ class NewsTest extends TestCase
         $this->get('/sitemap.xml')->assertSee(route('news.show', News::all()->first()->slug));
     }
 
-    public function test_catalogue_shows_latest_news(): void
+    public function test_catalogue_no_longer_shows_a_news_strip(): void
     {
         Game::factory()->create(['is_enabled' => true, 'is_featured' => true]);
 
-        $this->get('/')->assertSee(News::all()->first()->title)
+        $this->get('/')->assertDontSee('news-strip', false)
             ->assertSee('<title>Retro &amp; Arcade games', false);
     }
 }
