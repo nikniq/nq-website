@@ -74,9 +74,7 @@
 
     @if($spotlight)
         <section class="hero" aria-label="{{ __('Featured game') }}">
-            <a class="hero-art" href="{{ route('games.show', $spotlight) }}" tabindex="-1" aria-hidden="true">
-                @if($spotlight->thumbnailUrl())@include('games._picture', ['game' => $spotlight, 'eager' => true])@endif
-            </a>
+            <div class="hero-art">@include('games._gallery', ['game' => $spotlight, 'link' => route('games.show', $spotlight), 'autoplay' => true, 'eager' => true])</div>
             <div class="hero-copy">
                 <span class="eyebrow">★ {{ __('Featured game') }}</span>
                 <h2><a href="{{ route('games.show', $spotlight) }}">{{ $spotlight->name }}</a></h2>

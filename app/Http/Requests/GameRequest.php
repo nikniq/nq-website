@@ -22,6 +22,9 @@ class GameRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:2000'],
             'url' => ['nullable', 'url', 'max:2048'],
             'thumbnail' => ['nullable', 'string', 'max:2048'],
+            'screenshots' => ['nullable', 'string', 'max:8000'],
+            'screenshot_files' => ['nullable', 'array', 'max:12'],
+            'screenshot_files.*' => ['image', 'mimes:jpg,jpeg,png,webp,gif', 'max:5120'],
             'genre' => ['nullable', 'string', 'max:64'],
             'tags' => ['nullable', 'string', 'max:500'],
             'redirect_uris' => ['nullable', 'string', 'max:4000'],
@@ -32,6 +35,23 @@ class GameRequest extends FormRequest
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:65535'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ];
+    }
+
+    /** Store uploaded screenshots in public_html/images/games/{slug}/ and return their URLs. */
+    public function storeScreenshots(string $slug): array
+    {
+        $urls = [];
+        $dir = public_path('images/games/'.$slug);
+        foreach ($this->file('screenshot_files', []) as $file) {
+            if (! is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+            $name = now()->format('YmdHis').'-'.\Illuminate\Support\Str::random(6).'.'.strtolower($file->extension());
+            $file->move($dir, $name);
+            $urls[] = '/images/games/'.$slug.'/'.$name;
+        }
+
+        return $urls;
     }
 
     /** Normalise the textarea/CSV inputs into arrays the model expects. */
@@ -47,6 +67,7 @@ class GameRequest extends FormRequest
             'description' => $v['description'] ?? null,
             'url' => $v['url'] ?? null,
             'thumbnail' => $v['thumbnail'] ?? null,
+            'screenshots' => array_values(array_filter(array_map('trim', preg_split('/[\r\n]+/', (string) ($v['screenshots'] ?? ''))))),
             'genre' => $v['genre'] ?? null,
             'tags' => $lines($v['tags'] ?? null),
             'redirect_uris' => $lines($v['redirect_uris'] ?? null),

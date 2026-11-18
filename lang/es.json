@@ -336,5 +336,14 @@
     "Opens :host.": "Abre :host.",
     "Welcome back": "Hola de nuevo",
     "Log in to see your favourites and scores.": "Inicia sesión para ver tus favoritos y puntuaciones.",
-    "This account has been suspended. Contact us if you think this is a mistake.": "Esta cuenta ha sido suspendida. Contáctanos si crees que es un error."
+    "This account has been suspended. Contact us if you think this is a mistake.": "Esta cuenta ha sido suspendida. Contáctanos si crees que es un error.",
+    ":name screenshot :n of :count": ":name, captura :n de :count",
+    ":name screenshots": "Capturas de :name",
+    "Close": "Cerrar",
+    "Next screenshot": "Captura siguiente",
+    "Previous screenshot": "Captura anterior",
+    "Screenshot": "Captura de pantalla",
+    "Screenshot :n": "Captura :n",
+    "Screenshots": "Capturas de pantalla",
+    "View larger": "Ver más grande"
 }

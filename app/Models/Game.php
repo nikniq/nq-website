@@ -17,7 +17,7 @@ class Game extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'description', 'url', 'thumbnail', 'genre', 'tags',
+        'name', 'slug', 'description', 'url', 'thumbnail', 'screenshots', 'genre', 'tags',
         'client_id', 'client_secret', 'redirect_uris',
         'is_public', 'is_enabled', 'is_featured', 'is_dementia', 'sort_order', 'notes',
     ];
@@ -27,6 +27,7 @@ class Game extends Model
     protected $casts = [
         'tags' => 'array',
         'redirect_uris' => 'array',
+            'screenshots' => 'array',
         'is_public' => 'boolean',
         'is_enabled' => 'boolean',
         'is_featured' => 'boolean',
@@ -160,6 +161,39 @@ class Game extends Model
         $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $url);
 
         return file_exists(public_path(ltrim($webp, '/'))) ? $webp : null;
+    }
+
+    /**
+     * Screenshot URLs: the admin list, then any images dropped into
+     * public_html/images/games/{slug}/ (sorted by file name), without duplicates.
+     *
+     * @return array<int, string>
+     */
+    public function screenshotUrls(): array
+    {
+        $norm = fn (string $u) => Str::startsWith($u, ['http://', 'https://', '/']) ? $u : '/'.ltrim($u, '/');
+        $urls = array_map($norm, array_values(array_filter($this->screenshots ?? [], 'is_string')));
+        if ($this->slug && is_dir($dir = public_path('images/games/'.$this->slug))) {
+            $files = glob($dir.'/*.{jpg,jpeg,png,webp,gif}', GLOB_BRACE) ?: [];
+            sort($files, SORT_NATURAL);
+            $byBase = [];
+            foreach ($files as $f) {
+                // Prefer the .webp when both shot.png and shot.webp exist.
+                $base = pathinfo($f, PATHINFO_FILENAME);
+                if (! isset($byBase[$base]) || str_ends_with($f, '.webp')) {
+                    $byBase[$base] = '/images/games/'.$this->slug.'/'.basename($f);
+                }
+            }
+            $urls = array_merge($urls, array_values($byBase));
+        }
+
+        return array_values(array_unique($urls));
+    }
+
+    /** Thumbnail first, then screenshots: the pictures a gallery shows. */
+    public function galleryUrls(): array
+    {
+        return array_values(array_unique(array_filter(array_merge([$this->webpUrl() ?? $this->thumbnailUrl()], $this->screenshotUrls()))));
     }
 
     public function thumbnailUrl(): ?string

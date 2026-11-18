@@ -29,7 +29,7 @@
         </div>
     @endif
 
-    <form class="admin-form" method="post" action="{{ $game->exists ? route('admin.games.update', $game) : route('admin.games.store') }}">@csrf
+    <form class="admin-form" method="post" action="{{ $game->exists ? route('admin.games.update', $game) : route('admin.games.store') }}" enctype="multipart/form-data">@csrf
         @if($game->exists)@method('PUT')@endif
         @if($errors->any())<div class="flash error">{{ $errors->first() }}</div>@endif
 
@@ -46,6 +46,11 @@
                 <label>Play URL <input type="url" name="url" value="{{ old('url', $game->url) }}" placeholder="https://chopper.nikniq.com"></label>
                 <label>Thumbnail <input type="text" name="thumbnail" value="{{ old('thumbnail', $game->thumbnail) }}" placeholder="/images/games/chopper.jpg"><small>A URL, or a path under public_html.</small></label>
             </div>
+            <label>Screenshots <textarea name="screenshots" rows="3" placeholder="/images/games/{{ $game->slug ?: 'chopper' }}/level-2.jpg">{{ old('screenshots', implode("\n", $game->screenshots ?? [])) }}</textarea><small>One URL or path per line, in display order. Images in <code>public_html/images/games/{{ $game->slug ?: 'slug' }}/</code> are added automatically.</small></label>
+            <label>Upload screenshots <input type="file" name="screenshot_files[]" accept="image/png,image/jpeg,image/webp,image/gif" multiple><small>Up to 12 images, 5 MB each. 16:9 looks best.</small></label>
+            @if($game->exists && count($game->screenshotUrls()))
+                <div class="admin-shots">@foreach($game->screenshotUrls() as $shot)<a href="{{ $shot }}" target="_blank" rel="noopener"><img src="{{ $shot }}" alt="" loading="lazy"></a>@endforeach</div>
+            @endif
             <label>Tags <input type="text" name="tags" value="{{ old('tags', implode(', ', $game->tags ?? [])) }}"><small>Comma separated.</small></label>
         </fieldset>
 

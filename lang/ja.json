@@ -336,5 +336,14 @@
     "Opens :host.": ":host を開きます。",
     "Welcome back": "おかえりなさい",
     "Log in to see your favourites and scores.": "ログインしてお気に入りとスコアを確認しましょう。",
-    "This account has been suspended. Contact us if you think this is a mistake.": "このアカウントは停止されています。誤りだと思われる場合はお問い合わせください。"
+    "This account has been suspended. Contact us if you think this is a mistake.": "このアカウントは停止されています。誤りだと思われる場合はお問い合わせください。",
+    ":name screenshot :n of :count": ":nameのスクリーンショット :n / :count",
+    ":name screenshots": ":nameのスクリーンショット",
+    "Close": "閉じる",
+    "Next screenshot": "次のスクリーンショット",
+    "Previous screenshot": "前のスクリーンショット",
+    "Screenshot": "スクリーンショット",
+    "Screenshot :n": "スクリーンショット :n",
+    "Screenshots": "スクリーンショット",
+    "View larger": "拡大して見る"
 }

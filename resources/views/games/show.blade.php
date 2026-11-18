@@ -64,6 +64,13 @@
         @endif
     </div>
 
+    @if(count($game->screenshotUrls()))
+        <section class="shots" aria-labelledby="shots-h">
+            <h2 id="shots-h">{{ __('Screenshots') }}</h2>
+            @include('games._gallery', ['game' => $game])
+        </section>
+    @endif
+
     @php($howTo = \App\Support\HowToPlay::for($game->slug))
     @if($howTo)
         <section class="howto" aria-labelledby="howto-h">

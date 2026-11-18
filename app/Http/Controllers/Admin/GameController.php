@@ -31,7 +31,9 @@ class GameController extends Controller
 
     public function store(GameRequest $request): RedirectResponse
     {
-        $game = new Game($request->gameAttributes());
+        $attrs = $request->gameAttributes();
+        $attrs['screenshots'] = array_merge($attrs['screenshots'], $request->storeScreenshots($attrs['slug']));
+        $game = new Game($attrs);
         $game->client_id = Game::generateClientId();
 
         $secret = null;
@@ -53,7 +55,9 @@ class GameController extends Controller
 
     public function update(GameRequest $request, Game $game): RedirectResponse
     {
-        $game->fill($request->gameAttributes())->save();
+        $attrs = $request->gameAttributes();
+        $attrs['screenshots'] = array_merge($attrs['screenshots'], $request->storeScreenshots($attrs['slug']));
+        $game->fill($attrs)->save();
 
         return redirect()->route('admin.games.edit', $game)->with('status', 'Game updated.');
     }
