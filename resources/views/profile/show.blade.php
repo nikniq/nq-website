@@ -3,7 +3,7 @@
 @section('content')
     <h1>{{ __('Profile') }}</h1>
     <nav class="jump" aria-label="{{ __('Profile sections') }}">
-        <a href="#details">{{ __('Details') }}</a><a href="#visibility">{{ __('Player page') }}</a><a href="#password">{{ __('Password') }}</a>@if(config('social.providers.google.enabled'))<a href="#google">Google</a>@endif<a href="#games">{{ __('Connected games') }}</a><a href="#data">{{ __('Your data') }}</a><a href="#delete">{{ __('Delete account') }}</a>
+        <a href="#details">{{ __('Details') }}</a><a href="#plan">{{ __('Plan') }}</a><a href="#visibility">{{ __('Player page') }}</a><a href="#password">{{ __('Password') }}</a>@if(config('social.providers.google.enabled'))<a href="#google">Google</a>@endif<a href="#games">{{ __('Connected games') }}</a><a href="#data">{{ __('Your data') }}</a><a href="#delete">{{ __('Delete account') }}</a>
     </nav>
 
     <div class="panel" id="details" style="margin-bottom:1rem">
@@ -15,6 +15,29 @@
             @error('email')<div class="err">{{ $message }}</div>@enderror
             <div><button class="btn" type="submit">{{ __('Save') }}</button></div>
         </form>
+    </div>
+
+    @php($sub = $user->currentSubscription())
+    <div class="panel" id="plan" style="margin-bottom:1rem">
+        <h2 style="margin-top:0">{{ __('Plan') }}</h2>
+        @error('billing')<div class="flash error">{{ $message }}</div>@enderror
+        @if($user->isPlus())
+            <p><strong>Plus</strong> <span class="plus-badge">PLUS</span>
+                @if($sub?->current_period_end)
+                    · {{ $sub->cancel_at_period_end ? __('Ends on :date', ['date' => $sub->current_period_end->translatedFormat('j F Y')]) : __('Renews on :date', ['date' => $sub->current_period_end->translatedFormat('j F Y')]) }}
+                @endif
+            </p>
+            <p class="muted">{{ __('Thank you for supporting NikniQ.') }}</p>
+        @else
+            <p><strong>{{ __('Free') }}</strong>@if($sub && $sub->status === 'past_due') · <span class="error-text">{{ __('Your last payment failed. Update your card to keep Plus.') }}</span>@endif</p>
+            <p class="muted">{{ __('Get Plus to support new games and show a Plus badge next to your name.') }}</p>
+        @endif
+        <div class="row">
+            @if($user->stripe_customer_id)
+                <form method="post" action="{{ route('billing.portal') }}">@csrf<button class="btn" type="submit">{{ __('Manage billing') }}</button></form>
+            @endif
+            @unless($user->isPlus())<a class="btn {{ $user->stripe_customer_id ? 'ghost' : '' }}" href="{{ route('pricing') }}">{{ __('See Plus') }}</a>@endunless
+        </div>
     </div>
 
     <div class="panel" id="visibility" style="margin-bottom:1rem">

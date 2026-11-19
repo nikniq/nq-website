@@ -6,9 +6,10 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -26,6 +27,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_admin' => 'boolean',
             'is_public' => 'boolean',
+            'plus_until' => 'datetime',
         ];
     }
 
@@ -49,6 +51,22 @@ class User extends Authenticatable
         return $this->hasMany(PlayerToken::class);
     }
 
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /** Has a live Plus subscription (cached in plus_until by BillingService). */
+    public function isPlus(): bool
+    {
+        return $this->plus_until !== null && $this->plus_until->isFuture();
+    }
+
+    public function currentSubscription(): ?Subscription
+    {
+        return $this->subscriptions()->orderByRaw("case when status in ('active','trialing') then 0 when status = 'past_due' then 1 else 2 end")->latest('updated_at')->first();
+    }
+
     /** Suspended (soft-deleted) accounts can't sign up, log in or use Google with this email. */
     public static function isSuspendedEmail(?string $email): bool
     {
@@ -61,7 +79,7 @@ class User extends Authenticatable
         $this->forceFill(['deleted_reason' => $reason ? mb_substr($reason, 0, 255) : null])->saveQuietly();
         $this->playerTokens()->whereNull('revoked_at')->update(['revoked_at' => now()]);
         if (config('session.driver') === 'database') {
-            \Illuminate\Support\Facades\DB::table(config('session.table', 'sessions'))->where('user_id', $this->id)->delete();
+            DB::table(config('session.table', 'sessions'))->where('user_id', $this->id)->delete();
         }
         $this->setRememberToken(null);
         $this->saveQuietly();

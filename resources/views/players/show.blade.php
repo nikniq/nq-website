@@ -6,7 +6,7 @@
     <div class="row" style="gap:1rem;align-items:center">
         @if($player->avatar)<img src="{{ $player->avatar }}" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover">@else<span style="width:64px;height:64px;border-radius:50%;background:var(--panel-2);display:inline-flex;align-items:center;justify-content:center;font-size:1.6rem">🎮</span>@endif
         <div>
-            <h1 style="margin:0">{{ $player->name }}</h1>
+            <h1 style="margin:0">{{ $player->name }}@if($player->isPlus()) <span class="plus-badge" title="{{ __('Plus supporter') }}">PLUS</span>@endif</h1>
             <p class="muted" style="margin:0">{{ __('Playing since :date', ['date' => $player->created_at->translatedFormat('F Y')]) }}@if($isMe) · <a href="{{ route('profile') }}">{{ __('edit profile') }}</a>@endif</p>
         </div>
     </div>

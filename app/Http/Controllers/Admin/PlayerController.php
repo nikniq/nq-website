@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\GameEvent;
 use App\Models\User;
+use App\Services\BillingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -39,6 +40,7 @@ class PlayerController extends Controller
         if ($error = $this->guard($request, $user)) {
             return back()->with('error', $error);
         }
+        app(BillingService::class)->cancelAll($user);
         $user->suspend($request->input('reason'));
 
         return back()->with('status', "{$user->email} was suspended. Restore it from Deleted, or delete it permanently there.");
@@ -64,6 +66,7 @@ class PlayerController extends Controller
             return back()->with('error', "Type {$user->email} exactly to delete it permanently.");
         }
         $email = $user->email;
+        app(BillingService::class)->cancelAll($user);
         $user->forceDelete();
 
         return redirect()->route('admin.players.index', ['show' => $request->query('show')])->with('status', "{$email} and all of its data were permanently deleted.");

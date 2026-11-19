@@ -25,7 +25,7 @@
             @foreach($overall as $i => $row)
                 <tr @if(auth()->id() === $row['user']->id) style="background:rgba(255,200,87,.08)" @endif>
                     <td class="num">{{ ['🥇','🥈','🥉'][$i] ?? $i + 1 }}</td>
-                    <td><a href="{{ route('players.show', $row['user']) }}">@if($row['user']->avatar)<img class="avatar" src="{{ $row['user']->avatar }}" alt=""> @endif{{ $row['user']->name }}</a></td>
+                    <td><a href="{{ route('players.show', $row['user']) }}">@if($row['user']->avatar)<img class="avatar" src="{{ $row['user']->avatar }}" alt=""> @endif{{ $row['user']->name }}</a>@if($row['user']->isPlus()) <span class="plus-badge" title="{{ __('Plus supporter') }}">PLUS</span>@endif</td>
                     <td class="num"><strong>{{ $row['points'] }}</strong></td>
                     <td class="num hide-sm">{{ $row['games'] }}</td>
                     <td class="num">{{ $row['wins'] }}</td>
@@ -49,7 +49,7 @@
                         <span class="thumb-title"><strong>{{ $c['game']->name }}</strong></span>
                     </a>
                     <div class="body">
-                        <p>🏆 <a href="{{ route('players.show', $c['user']) }}">{{ $c['user']->name }}</a> · {{ number_format($c['stat']->best_score) }}</p>
+                        <p>🏆 <a href="{{ route('players.show', $c['user']) }}">{{ $c['user']->name }}</a>@if($c['user']->isPlus()) <span class="plus-badge" title="{{ __('Plus supporter') }}">PLUS</span>@endif · {{ number_format($c['stat']->best_score) }}</p>
                         <div class="row actions"><a class="btn sm ghost" href="{{ route('games.leaderboard', $c['game']) }}">{{ __('Leaderboard') }}</a></div>
                     </div>
                 </article>

@@ -51,7 +51,7 @@
 <header class="site">
     <div class="wrap">
         @include('partials._brand')
-        @php($navLinks = array_values(array_filter([['games.index', __('Games')], ['hall', __('Hall of fame')], ['news.index', __('News')], auth()->check() ? ['dashboard', __('My dashboard')] : null, auth()->check() ? ['profile', __('Profile')] : null, auth()->user()?->is_admin ? ['admin.games.index', __('Admin')] : null])))
+        @php($navLinks = array_values(array_filter([['games.index', __('Games')], ['hall', __('Hall of fame')], ['news.index', __('News')], ['pricing', __('Pricing')], auth()->check() ? ['dashboard', __('My dashboard')] : null, auth()->check() ? ['profile', __('Profile')] : null, auth()->user()?->is_admin ? ['admin.games.index', __('Admin')] : null])))
         <nav class="main" aria-label="{{ __('Main') }}">
             @foreach($navLinks as [$route, $label])
                 <a class="nav-link" href="{{ route($route) }}" @if(request()->routeIs($route === 'admin.games.index' ? 'admin.*' : ($route === 'news.index' ? 'news.*' : $route))) aria-current="page" @endif>{{ $label }}</a>
@@ -119,6 +119,7 @@
             <div>
                 <h2>NikniQ</h2>
                 <a href="{{ route('news.index') }}">{{ __('News') }}</a>
+                <a href="{{ route('pricing') }}">{{ __('Pricing') }}</a>
                 <a href="{{ route('developers') }}">{{ __('For game developers') }}</a>
             </div>
             <div>

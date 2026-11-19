@@ -851,3 +851,36 @@ html, body { overflow-x:clip; }
   .sv-nav { width:42px; height:42px; font-size:1.8rem; }
 }
 .shot-viewer { grid-template-rows:minmax(0,1fr); } @media (max-width:800px) { .shot-viewer { grid-template-rows:minmax(0,1fr) auto; } }
+
+/* ===== Pricing ===== */
+.pricing-page { max-width:1040px; margin-inline:auto; }
+.pricing-head { text-align:center; }
+.pricing-head .lead { max-width:620px; margin-inline:auto; }
+.interval-toggle { display:flex; justify-content:center; gap:0; border:0; margin:0 auto 1.6rem; padding:4px; width:max-content; background:var(--panel); border:1px solid var(--line); border-radius:999px; }
+.interval-toggle label { display:inline-flex; align-items:center; gap:.45rem; padding:.55rem 1.2rem; border-radius:999px; cursor:pointer; font-weight:700; }
+.interval-toggle input { position:absolute; opacity:0; pointer-events:none; }
+.interval-toggle label:has(input:checked) { background:var(--accent-2); color:#fff; }
+.interval-toggle label:has(input:focus-visible) { outline:3px solid var(--accent-2); outline-offset:2px; }
+.interval-toggle .save { font-size:.8rem; background:#16a34a; color:#fff; padding:.05rem .5rem; border-radius:999px; }
+.plan-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap:1.5rem; align-items:stretch; }
+.plan { position:relative; display:flex; flex-direction:column; gap:.4rem; padding:2rem; background:var(--panel); border:1px solid var(--line); border-radius:22px; box-shadow:var(--card-shadow); }
+.plan h2 { margin:0; font-size:1.5rem; display:flex; align-items:center; gap:.5rem; }
+.plan .price { margin:.4rem 0 0; } .plan .amount { font-size:2.8rem; font-weight:800; font-family:"Plus Jakarta Sans", sans-serif; color:var(--strong); } .plan .per { color:var(--muted); font-weight:600; }
+.plan .ticks { list-style:none; padding:0; margin:1rem 0 1.4rem; display:grid; gap:.6rem; flex:1; }
+.plan .ticks li { padding-left:1.8rem; position:relative; }
+.plan .ticks li::before { content:"✓"; position:absolute; left:0; top:0; width:1.3rem; height:1.3rem; border-radius:50%; display:grid; place-items:center; font-size:.8rem; font-weight:800; background:color-mix(in srgb, var(--accent-2) 15%, transparent); color:var(--accent-2); }
+.plan .btn.block { display:flex; justify-content:center; width:100%; }
+.plan .fine { font-size:.85rem; text-align:center; margin:.5rem 0 0; }
+.plan-plus { border:2px solid var(--accent-2); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent-2) 14%, transparent), 0 24px 50px -24px color-mix(in srgb, var(--accent-2) 60%, transparent); }
+.plan-flag { position:absolute; top:-.85rem; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; font-size:.8rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:.25rem .9rem; border-radius:999px; white-space:nowrap; }
+.plans:has(input[value="monthly"]:checked) .when-yearly, .plans:has(input[value="yearly"]:checked) .when-monthly { display:none; }
+.plus-badge { display:inline-block; vertical-align:middle; font:800 .68rem/1 "Plus Jakarta Sans", sans-serif; letter-spacing:.08em; color:#fff; background:linear-gradient(135deg, var(--accent), var(--accent-2)); padding:.22rem .45rem; border-radius:6px; margin-left:.3rem; }
+h1 .plus-badge { font-size:.9rem; padding:.3rem .55rem; }
+.pricing-faq { max-width:760px; margin:3rem auto 0; }
+.pricing-faq details { border-bottom:1px solid var(--line); padding:.9rem 0; }
+.pricing-faq summary { cursor:pointer; font-weight:700; font-size:1.05rem; }
+.pricing-faq details p { margin:.6rem 0 0; color:var(--muted); }
+.error-text { color:#dc2626; font-weight:600; }
+.stripe-status { margin-bottom:1.2rem; }
+.interval-toggle label { white-space:nowrap; }
+.plan .btn[disabled] { opacity:.55; cursor:not-allowed; filter:grayscale(.4); }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PlayerToken;
+use App\Services\BillingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -91,6 +92,7 @@ class ProfileController extends Controller
         ]);
 
         Auth::logout();
+        app(BillingService::class)->cancelAll($user);
         $user->forceDelete(); // the player asked for their data to go: no soft delete
         $request->session()->invalidate();
         $request->session()->regenerateToken();

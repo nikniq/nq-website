@@ -23,6 +23,7 @@ class SitemapController extends Controller
                 ['loc' => route('login'), 'changefreq' => 'monthly', 'priority' => '0.2'],
             ];
 
+            $urls[] = ['loc' => route('pricing'), 'changefreq' => 'monthly', 'priority' => '0.5'];
             $urls[] = ['loc' => route('news.index'), 'changefreq' => 'weekly', 'priority' => '0.6', 'lastmod' => News::all()->first()?->date];
             foreach (News::all() as $article) {
                 $urls[] = ['loc' => route('news.show', $article->slug), 'changefreq' => 'monthly', 'priority' => '0.5', 'lastmod' => $article->date, 'image' => url($article->image), 'title' => $article->title];

@@ -3,10 +3,12 @@
 use App\Http\Controllers\Admin\GameController as AdminGameController;
 use App\Http\Controllers\Admin\PlayerController as AdminPlayerController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SalesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\GamesController;
@@ -17,11 +19,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Sso\AuthorizeController;
 use App\Models\Game;
+use App\Support\Oidc;
 use Illuminate\Support\Facades\Route;
 
 // OpenID Connect discovery for subsites using standard OAuth/OIDC libraries.
 Route::get('/.well-known/openid-configuration', function () {
-    $iss = \App\Support\Oidc::issuer();
+    $iss = Oidc::issuer();
 
     return response()->json([
         'issuer' => $iss,
@@ -35,7 +38,7 @@ Route::get('/.well-known/openid-configuration', function () {
         'grant_types_supported' => ['authorization_code'],
         'subject_types_supported' => ['public'],
         'id_token_signing_alg_values_supported' => ['RS256'],
-        'scopes_supported' => \App\Support\Oidc::SCOPES,
+        'scopes_supported' => Oidc::SCOPES,
         // Non-standard: values for the authorize endpoint's provider= parameter.
         'nikniq_login_providers' => array_values(array_filter(['nikniq', config('social.providers.google.enabled') ? 'google' : null])),
         'claims_supported' => ['sub', 'name', 'preferred_username', 'picture', 'profile', 'email', 'email_verified', 'iss', 'aud', 'exp', 'iat', 'auth_time', 'nonce', 'at_hash'],
@@ -54,6 +57,7 @@ Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/developers', fn () => view()->first(['pages.'.app()->getLocale().'.developers', 'pages.developers'], ['games' => Game::enabled()->orderBy('name')->get(['slug', 'name'])]))->name('developers');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->where('slug', '[a-z0-9-]+')->name('news.show');
+Route::get('/pricing', [BillingController::class, 'pricing'])->name('pricing');
 Route::get('/privacy', fn () => view()->first(['pages.'.app()->getLocale().'.privacy', 'pages.privacy']))->name('privacy');
 Route::get('/terms', fn () => view()->first(['pages.'.app()->getLocale().'.terms', 'pages.terms']))->name('terms');
 Route::get('/hall-of-fame', HallOfFameController::class)->name('hall');
@@ -94,6 +98,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/games/{game}/favourite', [FavouriteController::class, 'toggle'])->name('games.favourite');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::post('/billing/checkout', [BillingController::class, 'checkout'])->middleware('throttle:10,1')->name('billing.checkout');
+    Route::get('/billing/plus', fn () => redirect()->route('pricing'))->name('billing.start'); // guests log in, then return here
+    Route::get('/billing/success', [BillingController::class, 'success'])->name('billing.success');
+    Route::post('/billing/portal', [BillingController::class, 'portal'])->middleware('throttle:10,1')->name('billing.portal');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
     Route::put('/profile/visibility', [PlayerProfileController::class, 'visibility'])->name('profile.visibility');
@@ -101,9 +109,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('throttle:6,1')->name('profile.destroy');
     Route::post('/profile/disconnect', [ProfileController::class, 'disconnect'])->name('profile.disconnect');
 
-
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/', fn () => redirect()->route('admin.games.index'));
+        Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
+        Route::get('/sales/export', [SalesController::class, 'export'])->name('sales.export');
         Route::post('/games/{game}/rotate-secret', [AdminGameController::class, 'rotateSecret'])->name('games.rotate-secret');
         Route::resource('games', AdminGameController::class)->except('show');
         Route::get('/players', [AdminPlayerController::class, 'index'])->name('players.index');

@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\GameCatalogController;
 use App\Http\Controllers\Api\GameEventController;
 use App\Http\Controllers\Api\LeaderboardController;
 use App\Http\Controllers\Api\SsoTokenController;
+use App\Http\Controllers\StripeWebhookController;
+use App\Support\Oidc;
 use Illuminate\Support\Facades\Route;
 
 // Public, read-only.
@@ -15,7 +17,7 @@ Route::get('/games/{game}/leaderboard', LeaderboardController::class)->middlewar
 Route::post('/sso/token', [SsoTokenController::class, 'token'])->middleware('throttle:60,1')->name('api.sso.token');
 
 Route::post('/oauth/revoke', [SsoTokenController::class, 'revoke'])->middleware('throttle:60,1')->name('api.oauth.revoke');
-Route::get('/oauth/jwks', fn () => response()->json(\App\Support\Oidc::jwks())->header('Cache-Control', 'public, max-age=3600'))->name('api.oauth.jwks');
+Route::get('/oauth/jwks', fn () => response()->json(Oidc::jwks())->header('Cache-Control', 'public, max-age=3600'))->name('api.oauth.jwks');
 
 Route::middleware(['player', 'throttle:120,1'])->group(function () {
     Route::match(['get', 'post'], '/oauth/userinfo', [SsoTokenController::class, 'userinfo'])->name('api.oauth.userinfo');
@@ -25,3 +27,6 @@ Route::middleware(['player', 'throttle:120,1'])->group(function () {
     Route::delete('/sso/favourite', [FavouriteController::class, 'destroy'])->name('api.sso.unfavourite');
     Route::post('/games/{game}/events', [GameEventController::class, 'store'])->name('api.games.events.store');
 });
+
+// Stripe webhooks (signature-verified; no session or CSRF).
+Route::post('/stripe/webhook', StripeWebhookController::class)->middleware('throttle:120,1')->name('api.stripe.webhook');
