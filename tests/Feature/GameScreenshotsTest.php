@@ -18,8 +18,8 @@ class GameScreenshotsTest extends TestCase
         $game = Game::factory()->create(['slug' => 'zz-gallery', 'is_enabled' => true, 'is_featured' => true, 'thumbnail' => '/images/games/x.jpg', 'screenshots' => ['/s/one.jpg', 'https://cdn.example/two.png']]);
 
         $this->assertSame(['/s/one.jpg', 'https://cdn.example/two.png'], $game->screenshotUrls());
-        $this->get('/games/zz-gallery')->assertOk()->assertSee('Screenshots')->assertSee('/s/one.jpg')->assertSee('data-gallery', false);
-        $this->get('/')->assertOk()->assertSee('https://cdn.example/two.png')->assertSee('data-autoplay', false);
+        $this->get('/games/zz-gallery')->assertOk()->assertSee('Screenshots')->assertSee('/s/one.jpg')->assertSee('shot-grid', false);
+        $this->get('/')->assertOk()->assertSee('https://cdn.example/two.png')->assertSee('class="hero-art"><div class="shot-grid', false);
     }
 
     public function test_admin_can_upload_screenshots(): void
