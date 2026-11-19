@@ -404,5 +404,11 @@
     "Your plan": "現在のプラン",
     "Your subscription is cancelled straight away and you are not charged again.": "サブスクリプションはすぐに解約され、以後請求されることはありません。",
     "month": "月",
-    "year": "年"
+    "year": "年",
+    "Secure checkout with Stripe": "Stripe による安全な決済",
+    "Games stay free for everyone": "ゲームはみんな無料のまま",
+    "Compare plans": "プランを比較",
+    "Plus badge": "Plus バッジ",
+    "Supports new games": "新しいゲームを応援",
+    "Price": "料金"
 }

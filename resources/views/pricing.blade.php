@@ -10,6 +10,7 @@
 @section('content')
 <div class="pricing-page">
     <div class="page-head pricing-head">
+        <span class="eyebrow">{{ __('Pricing') }}</span>
         <h1>{{ __('Simple pricing') }}</h1>
         <p class="lead">{{ __('Every game is free to play. Plus is for players who want to support new games.') }}</p>
     </div>
@@ -47,10 +48,11 @@
                 <h2>Plus <span class="plus-badge" aria-hidden="true">PLUS</span></h2>
                 <p class="price">
                     <span class="amount when-monthly">{{ $money($m) }}</span><span class="per when-monthly"> / {{ __('month') }}</span>
-                    <span class="amount when-yearly">{{ $money($y) }}</span><span class="per when-yearly"> / {{ __('year') }}</span>
+                    @if($m * 12 > $y)<s class="was when-yearly" aria-hidden="true">{{ $money($m * 12) }}</s> @endif<span class="amount when-yearly">{{ $money($y) }}</span><span class="per when-yearly"> / {{ __('year') }}</span>
                 </p>
                 <p class="muted when-yearly">{{ __(':price a month, billed yearly', ['price' => $money((int) round($y / 12))]) }}</p>
                 <p class="muted when-monthly">{{ __('Cancel any time.') }}</p>
+                <div class="badge-preview" aria-hidden="true"><span class="bp-avatar">{{ mb_strtoupper(mb_substr($user?->name ?? 'P', 0, 1)) }}</span><span class="bp-name">{{ $user?->name ?? 'Player' }}</span><span class="plus-badge">PLUS</span><span class="bp-score">12,480</span></div>
                 <ul class="ticks">
                     <li><strong>{{ __('Everything in Free') }}</strong></li>
                     <li>{{ __('A Plus badge next to your name on leaderboards, the hall of fame and your player page') }}</li>
@@ -71,6 +73,27 @@
             </section>
         </div>
     </form>
+
+    <ul class="trust">
+        <li><span aria-hidden="true">🔒</span> {{ __('Secure checkout with Stripe') }}</li>
+        <li><span aria-hidden="true">↺</span> {{ __('Cancel any time.') }}</li>
+        <li><span aria-hidden="true">🎮</span> {{ __('Games stay free for everyone') }}</li>
+    </ul>
+
+    <section class="compare" aria-labelledby="compare-h">
+        <h2 id="compare-h">{{ __('Compare plans') }}</h2>
+        <div class="table-scroll"><table>
+            <thead><tr><th scope="col"><span class="sr-only">{{ __('Plan') }}</span></th><th scope="col">{{ __('Free') }}</th><th scope="col" class="col-plus">Plus</th></tr></thead>
+            <tbody>
+                <tr><th scope="row">{{ __('Price') }}</th><td>{{ $money(0) }}</td><td class="col-plus"><span class="when-monthly-t">{{ $money($m) }} / {{ __('month') }}</span> · {{ $money($y) }} / {{ __('year') }}</td></tr>
+                @foreach([__('Every game, in your browser'), __('Favourites and saved scores'), __('Leaderboards and the hall of fame'), __('One sign-in for every game')] as $row)
+                    <tr><th scope="row">{{ $row }}</th><td><span class="yes" aria-label="✓">✓</span></td><td class="col-plus"><span class="yes" aria-label="✓">✓</span></td></tr>
+                @endforeach
+                <tr><th scope="row">{{ __('Plus badge') }}</th><td><span class="no" aria-label="—">—</span></td><td class="col-plus"><span class="yes" aria-label="✓">✓</span></td></tr>
+                <tr><th scope="row">{{ __('Supports new games') }}</th><td><span class="no" aria-label="—">—</span></td><td class="col-plus"><span class="yes" aria-label="✓">✓</span></td></tr>
+            </tbody>
+        </table></div>
+    </section>
 
     <section class="pricing-faq" aria-labelledby="faq-h">
         <h2 id="faq-h">{{ __('Questions') }}</h2>

@@ -884,3 +884,47 @@ h1 .plus-badge { font-size:.9rem; padding:.3rem .55rem; }
 .stripe-status { margin-bottom:1.2rem; }
 .interval-toggle label { white-space:nowrap; }
 .plan .btn[disabled] { opacity:.55; cursor:not-allowed; filter:grayscale(.4); }
+
+/* ===== Pricing UX pass ===== */
+.pricing-head { padding:1rem 0 .5rem; }
+.pricing-head .eyebrow { display:inline-block; font-size:.8rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-2); background:color-mix(in srgb, var(--accent-2) 12%, transparent); padding:.25rem .8rem; border-radius:999px; margin-bottom:.6rem; }
+.pricing-head h1 { font-size:clamp(2rem, 1.4rem + 2.4vw, 3.2rem); margin:.2rem 0 .5rem; background:linear-gradient(135deg, var(--strong) 30%, var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.interval-toggle { padding:5px; box-shadow:var(--card-shadow); }
+.interval-toggle label { padding:.65rem 1.4rem; font-size:1rem; transition:background .2s, color .2s; }
+.interval-toggle label:not(:has(input:checked)):hover { background:color-mix(in srgb, var(--accent-2) 10%, transparent); }
+.plan { transition:transform .2s, box-shadow .2s; }
+.plan:hover { transform:translateY(-3px); }
+.plan .price { display:flex; align-items:baseline; gap:.35rem; flex-wrap:wrap; min-height:3.6rem; }
+.plan .was { color:var(--muted); font-size:1.2rem; font-weight:600; }
+.plan-plus { background:linear-gradient(180deg, color-mix(in srgb, var(--accent-2) 7%, var(--panel)), var(--panel) 45%); }
+.badge-preview { display:flex; align-items:center; gap:.55rem; margin:.6rem 0 0; padding:.6rem .8rem; border:1px dashed color-mix(in srgb, var(--accent-2) 45%, var(--line)); border-radius:12px; background:var(--bg); font-weight:700; }
+.bp-avatar { width:28px; height:28px; border-radius:50%; display:grid; place-items:center; color:#fff; font-size:.85rem; background:linear-gradient(135deg, var(--accent), var(--accent-2)); flex:none; }
+.bp-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+.badge-preview .plus-badge { margin-left:0; }
+.bp-score { margin-left:auto; color:var(--muted); font-variant-numeric:tabular-nums; }
+.trust { list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem 2rem; padding:0; margin:1.8rem 0 0; color:var(--muted); font-weight:600; }
+.trust li { display:inline-flex; align-items:center; gap:.45rem; }
+.compare { max-width:860px; margin:3rem auto 0; }
+.compare h2, .pricing-faq h2 { text-align:center; }
+.compare table { width:100%; }
+.compare th[scope="row"] { font-weight:600; text-align:left; }
+.compare td, .compare thead th { text-align:center; }
+.compare .col-plus { background:color-mix(in srgb, var(--accent-2) 7%, transparent); }
+.compare thead .col-plus { color:var(--accent-2); }
+.compare .yes { display:inline-grid; place-items:center; width:1.6rem; height:1.6rem; border-radius:50%; background:color-mix(in srgb, var(--accent-2) 15%, transparent); color:var(--accent-2); font-weight:800; }
+.compare .no { color:var(--muted); }
+.pricing-faq { display:grid; gap:.7rem; }
+.pricing-faq details { border:1px solid var(--line); border-radius:14px; padding:0; background:var(--panel); transition:border-color .2s; }
+.pricing-faq details[open] { border-color:color-mix(in srgb, var(--accent-2) 45%, var(--line)); }
+.pricing-faq summary { list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1rem 1.2rem; }
+.pricing-faq summary::-webkit-details-marker { display:none; }
+.pricing-faq summary::after { content:"+"; font-size:1.4rem; line-height:1; color:var(--accent-2); transition:transform .2s; flex:none; }
+.pricing-faq details[open] summary::after { transform:rotate(45deg); }
+.pricing-faq details p { padding:0 1.2rem 1.1rem; margin:0; }
+@media (max-width:700px) { .plan-plus { order:-1; margin-top:.8rem; } .plan { padding:1.5rem; } .compare th[scope="row"] { font-size:.9rem; } }
+.interval-toggle label { flex-direction:row; align-items:center; }
+.sr-only { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+.compare th[scope="row"] { text-transform:none; letter-spacing:0; font-size:1rem; color:var(--text); }
+.compare thead th { text-transform:none; letter-spacing:0; font-size:1.05rem; font-weight:800; color:var(--strong); }
+.compare thead .col-plus { color:var(--accent-2); }
+.compare td, .compare th { padding:.8rem 1rem; }
