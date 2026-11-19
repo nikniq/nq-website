@@ -48,6 +48,11 @@
   signInButton.onclick = () =&gt; nq.signIn();   // geht zu NikniQ und zurück
 &lt;/script&gt;</code></pre>
 
+    <h2>Mit NikniQ oder Google anmelden</h2>
+    <p>Biete beide Buttons an. Die Google-Anmeldung läuft über NikniQ, daher bekommt der Spieler trotzdem ein NikniQ-Konto (beim ersten Mal angelegt oder per bestätigter E-Mail verknüpft), und Punkte, Ränge und Favoriten funktionieren genauso.</p>
+<pre><code>nq.mountSignIn(document.getElementById('signin'));
+googleButton.onclick = () =&gt; nq.signIn({ provider: 'google' });</code></pre>
+
     <h2>3. Melden, was passiert</h2>
 <pre><code>nq.report({ event: 'level_complete', level: '3', score: 820 });
 nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
@@ -81,6 +86,8 @@ nq.ready
             <tr><td><code>nq.leaderboard(10)</code></td><td>Bestwerte, ohne Anmeldung</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Fügt das Spiel den Favoriten des Spielers hinzu oder entfernt es</td></tr>
             <tr><td><code>autoSignIn</code></td><td>Auf <code>false</code> setzen, um die automatische Anmeldeprüfung beim ersten Laden zu überspringen</td></tr>
+            <tr><td><code>nq.signIn({ provider: 'google' })</code></td><td>Mit Google anmelden (über NikniQ)</td></tr>
+            <tr><td><code>nq.mountSignIn(el)</code></td><td>Zeigt Anmelde-Buttons für NikniQ und Google</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Widerruft das Token dieses Spiels</td></tr>
         </tbody>
     </table>

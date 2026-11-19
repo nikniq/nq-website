@@ -17,11 +17,15 @@ use Illuminate\View\View;
  *
  *   GET /sso/authorize?client_id=...&redirect_uri=...&state=...
  *       [&response_type=code][&scope=openid profile email][&nonce=...]
- *       [&code_challenge=...&code_challenge_method=S256][&prompt=none]
+ *       [&code_challenge=...&code_challenge_method=S256][&prompt=none][&provider=google]
  *
  * prompt=none is the silent check the SDK makes on load: a player already
  * logged in on the portal gets a code straight back; a guest gets
  * error=login_required instead of the login page.
+ *
+ * provider=google sends a guest straight to Google (when Google sign-in is
+ * enabled) instead of the NikniQ login page; the player still ends up with a
+ * NikniQ account and the game still gets a NikniQ code. Signed-in players skip it.
  */
 class AuthorizeController extends Controller
 {
@@ -57,6 +61,10 @@ class AuthorizeController extends Controller
         if (! $request->user()) {
             if ($request->query('prompt') === 'none') {
                 return $this->redirectError($redirectUri, $state, 'login_required', 'The player is not signed in to NikniQ.');
+            }
+
+            if (strtolower((string) $request->query('provider')) === 'google' && config('social.providers.google.enabled')) {
+                return redirect()->guest(route('social.redirect', 'google'));
             }
 
             return redirect()->guest(route('login'));

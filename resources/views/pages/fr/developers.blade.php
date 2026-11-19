@@ -48,6 +48,11 @@
   signInButton.onclick = () =&gt; nq.signIn();   // va sur NikniQ puis revient
 &lt;/script&gt;</code></pre>
 
+    <h2>Connexion avec NikniQ ou Google</h2>
+    <p>Proposez les deux boutons. La connexion Google passe par NikniQ : le joueur obtient quand même un compte NikniQ (créé à la première utilisation ou lié par e-mail vérifié), et scores, classements et favoris fonctionnent de la même façon.</p>
+<pre><code>nq.mountSignIn(document.getElementById('signin'));
+googleButton.onclick = () =&gt; nq.signIn({ provider: 'google' });</code></pre>
+
     <h2>3. Signaler ce qui se passe</h2>
 <pre><code>nq.report({ event: 'level_complete', level: '3', score: 820 });
 nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
@@ -81,6 +86,8 @@ nq.ready
             <tr><td><code>nq.leaderboard(10)</code></td><td>Meilleurs scores, sans connexion</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Ajoute le jeu aux favoris du joueur ou l’en retire</td></tr>
             <tr><td><code>autoSignIn</code></td><td>Mettre à <code>false</code> pour ne pas vérifier automatiquement la connexion au premier chargement</td></tr>
+            <tr><td><code>nq.signIn({ provider: 'google' })</code></td><td>Se connecter avec Google (via NikniQ)</td></tr>
+            <tr><td><code>nq.mountSignIn(el)</code></td><td>Affiche les boutons de connexion NikniQ et Google</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Révoque le jeton de ce jeu</td></tr>
         </tbody>
     </table>

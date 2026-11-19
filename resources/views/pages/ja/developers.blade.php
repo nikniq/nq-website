@@ -48,6 +48,11 @@
   signInButton.onclick = () =&gt; nq.signIn();   // NikniQ に移動して戻ってきます
 &lt;/script&gt;</code></pre>
 
+    <h2>NikniQ または Google でサインイン</h2>
+    <p>両方のボタンを用意できます。Google サインインは NikniQ を経由するため、プレイヤーには NikniQ アカウントが作られ（初回作成、または確認済みメールで連携）、スコア・順位・お気に入りは同じように使えます。</p>
+<pre><code>nq.mountSignIn(document.getElementById('signin'));
+googleButton.onclick = () =&gt; nq.signIn({ provider: 'google' });</code></pre>
+
     <h2>3. ゲームの出来事を送る</h2>
 <pre><code>nq.report({ event: 'level_complete', level: '3', score: 820 });
 nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
@@ -81,6 +86,8 @@ nq.ready
             <tr><td><code>nq.leaderboard(10)</code></td><td>上位のスコア（サインイン不要）</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>プレイヤーのお気に入りにゲームを追加、または削除</td></tr>
             <tr><td><code>autoSignIn</code></td><td><code>false</code> にすると、最初の読み込み時の自動サインイン確認を行いません</td></tr>
+            <tr><td><code>nq.signIn({ provider: 'google' })</code></td><td>Google でサインイン（NikniQ 経由）</td></tr>
+            <tr><td><code>nq.mountSignIn(el)</code></td><td>NikniQ と Google のサインインボタンを表示</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>このゲームのトークンを無効にする</td></tr>
         </tbody>
     </table>

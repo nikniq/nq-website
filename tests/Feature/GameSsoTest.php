@@ -141,4 +141,22 @@ class GameSsoTest extends TestCase
         $player = $this->actingAs(User::factory()->create())->get('/sso/authorize?'.$q)->assertRedirect();
         $this->assertMatchesRegularExpression('/\?code=[A-Za-z0-9]{64}&state=abc$/', $player->headers->get('Location'));
     }
+
+    public function test_provider_google_sends_guests_to_google_and_back_to_the_game(): void
+    {
+        $game = $this->confidentialGame();
+        $q = '/sso/authorize?'.http_build_query(['client_id' => $game->client_id, 'redirect_uri' => self::CALLBACK, 'state' => 's', 'provider' => 'google']);
+
+        config(['social.providers.google.enabled' => false]);
+        $this->get($q)->assertRedirect('/login');
+
+        config(['social.providers.google.enabled' => true]);
+        $this->get($q)->assertRedirect(route('social.redirect', 'google'));
+        $this->assertStringContainsString('/sso/authorize', session('url.intended'));
+        $this->getJson('/.well-known/openid-configuration')->assertJsonPath('nikniq_login_providers', ['nikniq', 'google']);
+
+        // Already signed in: provider is ignored and the game gets its code.
+        $signedIn = $this->actingAs(User::factory()->create())->get($q)->assertRedirect();
+        $this->assertStringStartsWith(self::CALLBACK.'?code=', $signedIn->headers->get('Location'));
+    }
 }

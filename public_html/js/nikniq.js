@@ -7,7 +7,9 @@
  *   await nq.ready;                       // finishes a sign-in redirect if there is one
  *                                         // (players already logged in on nikniq.com are signed in
  *                                         //  automatically; pass autoSignIn: false to turn that off)
- *   if (!nq.player) button.onclick = () => nq.signIn();
+ *   if (!nq.player) button.onclick = () => nq.signIn();               // NikniQ login page
+ *   if (!nq.player) googleBtn.onclick = () => nq.signIn({ provider: 'google' }); // straight to Google
+ *   nq.mountSignIn(document.getElementById('signin'));  // or: ready-made NikniQ + Google buttons
  *   nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 });
  */
 (function (global) {
@@ -115,12 +117,63 @@
   /** Send the player to NikniQ to sign in; they come back to redirectUri. */
   Client.prototype.signIn = async function (opts) {
     var silent = !!(opts && opts.silent);
+    var provider = opts && opts.provider;
     var verifier = randomString(48), state = randomString(16);
     store('session').setItem(this.key + ':pkce', JSON.stringify({ verifier: verifier, state: state, redirectUri: this.redirectUri, silent: silent }));
     var q = { client_id: this.clientId, redirect_uri: this.redirectUri, state: state,
       code_challenge: await challengeFor(verifier), code_challenge_method: 'S256' };
     if (silent) q.prompt = 'none';
+    else if (provider && provider !== 'nikniq') q.provider = provider;
     location.href = this.portal + '/sso/authorize?' + new URLSearchParams(q);
+  };
+
+  /** Sign-in options the portal offers: resolves to e.g. ['nikniq', 'google']. */
+  Client.prototype.providers = function () {
+    var self = this;
+    if (!this._providers) {
+      this._providers = fetch(this.portal + '/.well-known/openid-configuration', { headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { return d.nikniq_login_providers || ['nikniq']; })
+        .catch(function () { self._providers = null; return ['nikniq']; });
+    }
+    return this._providers;
+  };
+
+  /**
+   * Render "Sign in with NikniQ" and (when the portal offers it) "Sign in with Google"
+   * buttons into el; shows the player's name and a Sign out button once signed in.
+   * Style with .nq-signin, .nq-btn, .nq-nikniq, .nq-google, .nq-player.
+   */
+  Client.prototype.mountSignIn = function (el, opts) {
+    if (!el) return this;
+    var self = this, labels = Object.assign({ nikniq: 'Sign in with NikniQ', google: 'Sign in with Google', signOut: 'Sign out' }, opts && opts.labels);
+    if (!document.getElementById('nq-signin-css')) {
+      var css = document.createElement('style'); css.id = 'nq-signin-css';
+      css.textContent = '.nq-signin{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font:600 15px/1.2 system-ui,sans-serif}'
+        + '.nq-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1rem;border-radius:999px;border:1px solid #d0d4dc;background:#fff;color:#1d2433;cursor:pointer;font:inherit}'
+        + '.nq-btn:hover{box-shadow:0 0 0 3px rgba(0,150,255,.25)}.nq-nikniq{background:linear-gradient(135deg,#e0218a,#7b2ff7);color:#fff;border:0}'
+        + '.nq-btn svg{width:18px;height:18px}.nq-player{display:inline-flex;align-items:center;gap:.5rem}';
+      document.head.appendChild(css);
+    }
+    function btn(cls, html, fn) { var b = document.createElement('button'); b.type = 'button'; b.className = 'nq-btn ' + cls; b.innerHTML = html; b.onclick = fn; return b; }
+    var G = '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.8 6C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 7l7.4 5.7c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.3.8-4.7l-7.8-6C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.8 6C6.6 42.6 14.6 48 24 48z"/></svg>';
+    function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function render() {
+      el.innerHTML = ''; el.classList.add('nq-signin');
+      if (self.player) {
+        var p = document.createElement('span'); p.className = 'nq-player'; p.innerHTML = esc(self.player.name || 'Player');
+        el.appendChild(p); el.appendChild(btn('nq-out', esc(labels.signOut), function () { self.signOut(); }));
+        return;
+      }
+      el.appendChild(btn('nq-nikniq', esc(labels.nikniq), function () { self.signIn(); }));
+      self.providers().then(function (list) {
+        if (!self.player && list.indexOf('google') !== -1 && !el.querySelector('.nq-google')) {
+          el.appendChild(btn('nq-google', G + esc(labels.google), function () { self.signIn({ provider: 'google' }); }));
+        }
+      });
+    }
+    this.ready.then(render, render); this.onChange(render);
+    return this;
   };
 
   Client.prototype.signOut = async function () {
@@ -167,5 +220,5 @@
       .then(function (r) { return r.json(); }).then(function (d) { return d.leaderboard || []; });
   };
 
-  global.NikniQ = { init: function (opts) { return new Client(opts); }, version: '1.1.0' };
+  global.NikniQ = { init: function (opts) { return new Client(opts); }, version: '1.2.0' };
 })(window);

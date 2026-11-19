@@ -36,6 +36,8 @@ Route::get('/.well-known/openid-configuration', function () {
         'subject_types_supported' => ['public'],
         'id_token_signing_alg_values_supported' => ['RS256'],
         'scopes_supported' => \App\Support\Oidc::SCOPES,
+        // Non-standard: values for the authorize endpoint's provider= parameter.
+        'nikniq_login_providers' => array_values(array_filter(['nikniq', config('social.providers.google.enabled') ? 'google' : null])),
         'claims_supported' => ['sub', 'name', 'preferred_username', 'picture', 'profile', 'email', 'email_verified', 'iss', 'aud', 'exp', 'iat', 'auth_time', 'nonce', 'at_hash'],
         'token_endpoint_auth_methods_supported' => ['client_secret_basic', 'client_secret_post', 'none'],
         'code_challenge_methods_supported' => ['S256'],

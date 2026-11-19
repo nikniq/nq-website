@@ -49,6 +49,17 @@
 &lt;/script&gt;</code></pre>
     <p>Players already logged in on nikniq.com are signed in automatically: on its first load in a tab, the SDK makes a quick round trip to the portal and comes back signed in, or as a guest if they aren't logged in. Pass <code>autoSignIn: false</code> to <code>NikniQ.init</code> to turn this off.</p>
 
+    <h2>Sign in with NikniQ or Google</h2>
+    <p>Offer both buttons. Google sign-in goes through NikniQ, so the player still gets a NikniQ account (created on first use, or linked by verified email) and scores, ranks and favourites work the same.</p>
+<pre><code>&lt;div id="signin"&gt;&lt;/div&gt;
+&lt;script&gt;
+  nq.mountSignIn(document.getElementById('signin'));   // ready-made buttons, sign-out once signed in
+  // or wire your own buttons:
+  nikniqButton.onclick = () =&gt; nq.signIn();                      // NikniQ login page (email, password or Google)
+  googleButton.onclick = () =&gt; nq.signIn({ provider: 'google' }); // straight to Google
+&lt;/script&gt;</code></pre>
+    <p><code>nq.providers()</code> resolves to the options the portal offers (for example <code>['nikniq', 'google']</code>); <code>mountSignIn</code> only shows Google when it is available. With standard OAuth, add <code>provider=google</code> to the authorization URL. Players already logged in on nikniq.com skip the choice and come straight back.</p>
+
     <h2>3. Report what happens</h2>
 <pre><code>nq.report({ event: 'level_complete', level: '3', score: 820 });
 nq.report({ event: 'game_over', score: 1240, won: false, duration_seconds: 87 })
@@ -82,6 +93,7 @@ nq.ready
             <tr><td>Revocation</td><td><code>{{ route('api.oauth.revoke') }}</code> (RFC 7009)</td></tr>
             <tr><td>Keys</td><td><code>{{ route('api.oauth.jwks') }}</code>; ID tokens are signed RS256</td></tr>
             <tr><td>Scopes</td><td><code>openid</code> (ID token), <code>profile</code> (name, picture), <code>email</code> (email, email_verified)</td></tr>
+            <tr><td>Google</td><td><code>provider=google</code> sends a guest straight to Google; the result is still a NikniQ account and code. <code>nikniq_login_providers</code> in discovery lists what is available.</td></tr>
             <tr><td>Silent sign-in</td><td><code>prompt=none</code> returns a code if the player is logged in on nikniq.com, otherwise <code>error=login_required</code></td></tr>
         </tbody>
     </table>
@@ -96,6 +108,8 @@ nq.ready
             <tr><td><code>nq.leaderboard(10)</code></td><td>Top scores, no sign-in needed</td></tr>
             <tr><td><code>nq.setFavourite(true)</code></td><td>Add or remove the game from the player's favourites</td></tr>
             <tr><td><code>autoSignIn</code></td><td>Set to <code>false</code> to skip the automatic sign-in check on first load</td></tr>
+            <tr><td><code>nq.signIn({ provider: 'google' })</code></td><td>Sign in with Google (through NikniQ)</td></tr>
+            <tr><td><code>nq.mountSignIn(el)</code></td><td>Render NikniQ and Google sign-in buttons, then the player's name and Sign out</td></tr>
             <tr><td><code>nq.signOut()</code></td><td>Revoke this game's token</td></tr>
         </tbody>
     </table>
