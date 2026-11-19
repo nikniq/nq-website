@@ -76,7 +76,7 @@
 
     @if($spotlight)
         <section class="hero" aria-label="{{ __('Featured game') }}">
-            <div class="hero-art">@include('games._gallery', ['game' => $spotlight, 'eager' => true])</div>
+            <div class="hero-art">@include('games._shotgrid', ['game' => $spotlight, 'eager' => true, 'max' => 5])</div>
             <div class="hero-copy">
                 <span class="eyebrow">★ {{ __('Featured game') }}</span>
                 <h2><a href="{{ route('games.show', $spotlight) }}">{{ $spotlight->name }}</a></h2>
