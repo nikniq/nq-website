@@ -67,7 +67,7 @@
     @if(count($game->screenshotUrls()))
         <section class="shots" aria-labelledby="shots-h">
             <h2 id="shots-h">{{ __('Screenshots') }}</h2>
-            @include('games._shotgrid', ['game' => $game, 'even' => true])
+            @include('games._gallery', ['game' => $game, 'even' => true])
         </section>
     @endif
 

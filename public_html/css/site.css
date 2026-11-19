@@ -778,3 +778,45 @@ html, body { overflow-x:clip; }
 .shot-grid.even .shot-tile:first-child { grid-column:auto; grid-row:auto; aspect-ratio:16/9; }
 @media (max-width:640px) { .shot-grid.even { grid-template-columns:1fr 1fr; } .shot-grid.even .shot-tile:first-child { grid-column:auto; } }
 .shots .shot-grid.even { max-width:none; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); }
+
+/* ===== Screenshot gallery: big picture + thumbnail rail ===== */
+.sg { display:grid; gap:8px; background:#0b1020; padding:8px; border-radius:16px; }
+.sg.has-rail { grid-template-columns:minmax(0,1fr) 168px; }
+.sg-main { position:relative; border-radius:10px; overflow:hidden; background:#000; min-height:0; }
+.sg-view { display:block; width:100%; height:100%; padding:0; border:0; background:none; cursor:zoom-in; }
+.sg-view img { display:block; width:100%; height:100%; aspect-ratio:16/9; object-fit:contain; background:#000; }
+.sg-view img.sg-in { animation:sg-fade .3s ease; }
+@keyframes sg-fade { from { opacity:.25; } to { opacity:1; } }
+.sg-expand { position:absolute; top:.6rem; right:.6rem; width:36px; height:36px; display:grid; place-items:center; border-radius:10px; background:rgba(10,14,30,.6); color:#fff; font-size:1.1rem; opacity:0; transition:opacity .2s; }
+.sg-main:hover .sg-expand, .sg-view:focus-visible .sg-expand { opacity:1; }
+.sg-nav { position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; border:0; background:rgba(10,14,30,.6); color:#fff; font-size:1.9rem; line-height:1; cursor:pointer; display:grid; place-items:center; opacity:0; transition:opacity .2s, background .2s; }
+.sg-main:hover .sg-nav, .sg-nav:focus-visible { opacity:1; }
+.sg-nav:hover, .sg-nav:focus-visible { background:var(--accent-2); }
+.sg-nav.prev { left:.6rem; } .sg-nav.next { right:.6rem; }
+.sg-count { position:absolute; left:.6rem; bottom:.6rem; background:rgba(10,14,30,.7); color:#fff; font-size:.85rem; font-weight:700; padding:.15rem .6rem; border-radius:999px; }
+.sg-rail { display:flex; flex-direction:column; gap:8px; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.3) transparent; min-height:0; max-height:100%; padding-right:2px; }
+.sg-thumb { flex:0 0 auto; position:relative; padding:0; border:0; border-radius:8px; overflow:hidden; background:#000; cursor:pointer; opacity:.55; transition:opacity .2s, transform .2s; outline:none; }
+.sg-thumb img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; }
+.sg-thumb::after { content:""; position:absolute; inset:0; border-radius:8px; border:3px solid transparent; transition:border-color .2s, box-shadow .2s; }
+.sg-thumb:hover { opacity:.9; }
+.sg-thumb[aria-selected="true"] { opacity:1; }
+.sg-thumb[aria-selected="true"]::after { border-color:var(--accent-2); box-shadow:inset 0 0 0 1px rgba(0,0,0,.4), 0 0 14px color-mix(in srgb, var(--accent-2) 60%, transparent); }
+.sg-thumb:focus-visible::after { border-color:#fff; }
+/* rail height follows the main picture: make the grid row the picture's height */
+.sg.has-rail { grid-template-rows:auto; align-items:stretch; }
+.sg.has-rail .sg-rail { height:0; min-height:100%; }
+/* featured hero: fill the art area */
+.hero-art .sg { height:100%; border-radius:0; }
+.hero-art .sg-view img { aspect-ratio:auto; min-height:clamp(240px, 32vw, 540px); object-fit:cover; }
+.shots .sg { max-width:1200px; }
+.lb-count { position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); color:#fff; background:rgba(0,0,0,.5); padding:.2rem .7rem; border-radius:999px; font-weight:700; }
+@media (min-width:1400px) { .sg.has-rail { grid-template-columns:minmax(0,1fr) 200px; } }
+@media (max-width:800px) {
+  .sg.has-rail { grid-template-columns:1fr; }
+  .sg.has-rail .sg-rail { height:auto; min-height:0; flex-direction:row; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; padding:0 0 2px; }
+  .sg-thumb { width:120px; scroll-snap-align:center; }
+  .sg-nav, .sg-expand { opacity:1; width:40px; height:40px; }
+  .hero-art .sg-view img { min-height:0; aspect-ratio:16/9; }
+}
+@media (hover:none) { .sg-nav, .sg-expand { opacity:1; } }
+@media (max-width:800px) { .sg-expand { display:none; } }
