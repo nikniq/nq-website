@@ -20,56 +20,58 @@
     </div>
 
     <form class="search-wrap" method="get" action="{{ route('games.index') }}" role="search">
+        @php($advCount = ($filters['in'] ? 1 : 0) + ($filters['match'] ? 1 : 0))
         <div class="searchbar">
+            <span class="search-field">
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
             <input type="search" name="q" value="{{ $query }}" placeholder="{{ __('Search :count games', ['count' => \App\Models\Game::enabled()->count()]) }}" aria-label="{{ __('Search games') }}"
                    role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-suggest" autocomplete="off">
             <kbd class="hide-sm" aria-hidden="true">/</kbd>
-            <button class="btn" type="submit">{{ __('Search') }}</button>
+            </span>
+            <button class="btn search-go" type="submit"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>{{ __('Search') }}</span></button>
+            <details class="adv-search">
+                <summary class="btn ghost adv-toggle">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                    {{ __('Advanced search') }}
+                    @if($advCount)<span class="adv-count">{{ $advCount }}</span>@endif
+                    <span class="adv-caret" aria-hidden="true">▾</span>
+                </summary>
+                <div class="adv-body">
+                    <fieldset>
+                        <legend>{{ __('Search in') }}</legend>
+                        <label><input type="radio" name="in" value="" @checked($filters['in'] === '')> {{ __('Names, genres and descriptions') }}</label>
+                        <label><input type="radio" name="in" value="name" @checked($filters['in'] === 'name')> {{ __('Names only') }}</label>
+                    </fieldset>
+                    <fieldset>
+                        <legend>{{ __('Match') }}</legend>
+                        <label><input type="radio" name="match" value="" @checked($filters['match'] === '')> {{ __('All words') }}</label>
+                        <label><input type="radio" name="match" value="any" @checked($filters['match'] === 'any')> {{ __('Any word') }}</label>
+                    </fieldset>
+                    <div class="adv-tips">
+                        <p class="adv-title">{{ __('Search tips') }}</p>
+                        <ul>
+                            <li><code>"power pellets"</code> {{ __('exact phrase') }}</li>
+                            <li><code>-memory</code> {{ __('leave out games that mention a word') }}</li>
+                            <li><code>genre:puzzle</code> {{ __('only one genre') }}</li>
+                            <li><code>is:calm</code> {{ __('dementia-friendly games') }} · <code>is:featured</code> · <code>is:favourite</code></li>
+                        </ul>
+                        <p class="muted">{{ __('Small typos are forgiven, so "tetrs" still finds Tetris.') }}</p>
+                    </div>
+                </div>
+            </details>
             <ul class="suggest" id="search-suggest" data-src="{{ route('games.suggest', ['lang' => app()->getLocale()]) }}" role="listbox" aria-label="{{ __('Suggestions') }}" hidden></ul>
         </div>
         @foreach(['genre', 'featured', 'dementia', 'favourites', 'sort'] as $keep)
             @if(!empty($filters[$keep]))<input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] === true ? 1 : $filters[$keep] }}">@endif
         @endforeach
-        @php($advCount = ($filters['in'] ? 1 : 0) + ($filters['match'] ? 1 : 0))
-        <div class="adv-row">
-        <details class="adv-search" @if($filters['in'] || $filters['match']) open @endif>
-            <summary class="btn ghost adv-toggle">
-                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-                {{ __('Advanced search') }}
-                @if($advCount)<span class="adv-count">{{ $advCount }}</span>@endif
-                <span class="adv-caret" aria-hidden="true">▾</span>
-            </summary>
-            <div class="adv-body">
-                <fieldset>
-                    <legend>{{ __('Search in') }}</legend>
-                    <label><input type="radio" name="in" value="" @checked($filters['in'] === '')> {{ __('Names, genres and descriptions') }}</label>
-                    <label><input type="radio" name="in" value="name" @checked($filters['in'] === 'name')> {{ __('Names only') }}</label>
-                </fieldset>
-                <fieldset>
-                    <legend>{{ __('Match') }}</legend>
-                    <label><input type="radio" name="match" value="" @checked($filters['match'] === '')> {{ __('All words') }}</label>
-                    <label><input type="radio" name="match" value="any" @checked($filters['match'] === 'any')> {{ __('Any word') }}</label>
-                </fieldset>
-                <div class="adv-tips">
-                    <p class="adv-title">{{ __('Search tips') }}</p>
-                    <ul>
-                        <li><code>"power pellets"</code> {{ __('exact phrase') }}</li>
-                        <li><code>-memory</code> {{ __('leave out games that mention a word') }}</li>
-                        <li><code>genre:puzzle</code> {{ __('only one genre') }}</li>
-                        <li><code>is:calm</code> {{ __('dementia-friendly games') }} · <code>is:featured</code> · <code>is:favourite</code></li>
-                    </ul>
-                    <p class="muted">{{ __('Small typos are forgiven, so "tetrs" still finds Tetris.') }}</p>
-                </div>
-            </div>
-        </details>
         @if($advCount)
+        <div class="adv-row">
             <span class="adv-active">
                 @if($filters['in'] === 'name')<span class="chip on">{{ __('Names only') }}</span>@endif
                 @if($filters['match'] === 'any')<span class="chip on">{{ __('Any word') }}</span>@endif
             </span>
-        @endif
         </div>
+        @endif
     </form>
 
     @if($spotlight)

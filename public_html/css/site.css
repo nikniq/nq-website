@@ -722,3 +722,33 @@ html, body { overflow-x:clip; }
     0 0 42px 12px color-mix(in srgb, var(--accent-2) 45%, transparent),
     0 0 80px 20px color-mix(in srgb, var(--accent) 30%, transparent);
 }
+
+/* ===== Search row: field, Search button, Advanced search side by side ===== */
+.searchbar { flex-wrap:nowrap; gap:.6rem; }
+.search-field { position:relative; flex:1; min-width:0; display:flex; align-items:center; }
+.search-field input { width:100%; }
+.searchbar .search-field kbd { right:1.1rem; }
+.searchbar .search-go svg, .searchbar .adv-toggle svg { position:static; left:auto; width:20px; height:20px; }
+.searchbar .search-go { display:inline-flex; align-items:center; gap:.55rem; font-weight:800; letter-spacing:.01em;
+  background:linear-gradient(135deg, var(--accent-2), color-mix(in srgb, var(--accent-2) 55%, var(--accent)));
+  color:#fff; border:0; box-shadow:0 8px 22px -8px color-mix(in srgb, var(--accent-2) 70%, transparent);
+  transition:transform .15s ease, box-shadow .2s ease, filter .2s ease; }
+.searchbar .search-go svg { color:#fff; }
+.searchbar .search-go:hover, .searchbar .search-go:focus-visible { transform:translateY(-1px); filter:brightness(1.08);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--accent-2) 30%, transparent), 0 0 26px 4px color-mix(in srgb, var(--accent-2) 45%, transparent); }
+.searchbar .search-go:active { transform:translateY(1px); }
+.searchbar .adv-search { margin:0; display:block; flex:0 0 auto; }
+.searchbar .adv-toggle { height:64px; border-radius:18px; padding:0 1.2rem; white-space:nowrap; background:var(--panel); font-weight:700; }
+.searchbar .adv-body { position:absolute; left:0; right:0; top:calc(100% + .6rem); z-index:40; margin:0; box-shadow:0 24px 50px -18px var(--shadow); border-color:color-mix(in srgb, var(--accent-2) 40%, var(--line)); }
+.adv-row { margin-top:.8rem; }
+.adv-row .adv-active { display:inline-flex; order:0; }
+@media (min-width:1024px) { .searchbar .adv-toggle { height:72px; border-radius:20px; } }
+@media (max-width:640px) {
+  .searchbar { flex-wrap:wrap; }
+  .search-field { flex-basis:100%; }
+  .searchbar .search-go, .searchbar .adv-search { flex:1 1 0; }
+  .searchbar .search-go { justify-content:center; }
+  .searchbar .adv-toggle { width:100%; justify-content:center; height:48px; border-radius:14px; }
+  .searchbar .adv-body { top:calc(100% + .4rem); }
+}
+@media (max-width:640px) { .searchbar .search-go { height:48px; border-radius:14px; } }
