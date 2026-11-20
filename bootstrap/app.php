@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AuthenticatePlayer;
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\RestrictImpersonation;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -22,7 +23,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
             'admin' => EnsureUserIsAdmin::class,
             'player' => AuthenticatePlayer::class,
         ]);
-        $middleware->web(append: [SetLocale::class]);
+        $middleware->web(append: [SetLocale::class, RestrictImpersonation::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
         $middleware->redirectUsersTo(fn () => route('dashboard'));
     })

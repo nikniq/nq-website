@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/visibility', [PlayerProfileController::class, 'visibility'])->name('profile.visibility');
     Route::get('/profile/export', [ProfileController::class, 'export'])->name('profile.export');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('throttle:6,1')->name('profile.destroy');
+    Route::post('/impersonate/stop', [AdminPlayerController::class, 'stopImpersonating'])->name('impersonate.stop');
     Route::post('/profile/disconnect', [ProfileController::class, 'disconnect'])->name('profile.disconnect');
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
@@ -119,6 +120,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/players/{id}', [AdminPlayerController::class, 'destroy'])->whereNumber('id')->name('players.destroy');
         Route::post('/players/{id}/restore', [AdminPlayerController::class, 'restore'])->whereNumber('id')->name('players.restore');
         Route::delete('/players/{id}/purge', [AdminPlayerController::class, 'purge'])->whereNumber('id')->name('players.purge');
+        Route::get('/players/{id}', [AdminPlayerController::class, 'show'])->whereNumber('id')->name('players.show');
+        Route::put('/players/{id}', [AdminPlayerController::class, 'update'])->whereNumber('id')->name('players.update');
+        Route::post('/players/{id}/revoke-tokens', [AdminPlayerController::class, 'revokeTokens'])->whereNumber('id')->name('players.revoke-tokens');
+        Route::post('/players/{id}/impersonate', [AdminPlayerController::class, 'impersonate'])->whereNumber('id')->name('players.impersonate');
+        Route::get('/logs', [AdminPlayerController::class, 'logs'])->name('logs.index');
         Route::post('/players/{id}/admin', [AdminPlayerController::class, 'toggleAdmin'])->whereNumber('id')->name('players.admin');
         Route::get('/activity', [AdminPlayerController::class, 'activity'])->name('players.activity');
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

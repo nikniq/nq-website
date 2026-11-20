@@ -86,6 +86,10 @@
 </header>
 <main id="content" tabindex="-1">
     <div class="wrap">
+        @if(session('impersonator_id'))
+            <div class="flash impersonating" role="status"><span>👁 Viewing as <strong>{{ auth()->user()?->name }}</strong> ({{ auth()->user()?->email }}). Read-only.</span>
+                <form method="post" action="{{ route('impersonate.stop') }}">@csrf<button class="btn sm" type="submit">Back to admin</button></form></div>
+        @endif
         @auth
             @if(! auth()->user()->hasPassword() && ! auth()->user()->hasLinkedProvider() && ! request()->routeIs('register.password'))
                 <div class="flash error">{!! __('Your account has no password yet. :link so you can log in next time.', ['link' => '<a href="'.e(route('register.password')).'">'.e(__('Choose one now')).'</a>']) !!}</div>

@@ -27,7 +27,7 @@
         @forelse($players as $u)
             <tr @class(['is-off' => $u->trashed()])>
                 <td>
-                    <span class="row-title">{{ $u->name }}</span> @if($u->is_admin)<span class="badge">admin</span>@endif @if($u->is(auth()->user()))<span class="badge calm">you</span>@endif
+                    <a class="row-title" href="{{ route('admin.players.show', $u->id) }}">{{ $u->name }}</a> @if($u->is_admin)<span class="badge">admin</span>@endif @if($u->is(auth()->user()))<span class="badge calm">you</span>@endif
                     <div class="muted sub-line">{{ $u->email }} · joined {{ $u->created_at?->toFormattedDateString() }}</div>
                 </td>
                 <td class="muted">{{ $u->hasLinkedProvider() ? $u->providerLabel() : ($u->hasPassword() ? 'password' : 'unfinished') }}</td>
@@ -45,6 +45,7 @@
                     <details class="row-menu">
                         <summary class="btn sm ghost">Manage ▾</summary>
                         <div class="row-menu-panel">
+                            <a class="btn sm" href="{{ route('admin.players.show', $u->id) }}">Details, edit &amp; usage</a>
                             @if($u->trashed())
                                 <form method="post" action="{{ route('admin.players.restore', $u->id) }}">@csrf
                                     <button class="btn sm" type="submit">Restore account</button>
