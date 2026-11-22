@@ -11,4 +11,5 @@ return [
     'Adventure' => 'Abenteuer',
     'Stealth' => 'Schleichspiel',
     'Music' => 'Musik',
+    'Arena' => 'Arena',
 ];

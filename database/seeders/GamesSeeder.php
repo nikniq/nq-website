@@ -47,6 +47,7 @@ class GamesSeeder extends Seeder
         'mahjong' => ['Mahjong', 'mahjong', 'Puzzle', 'Mahjong solitaire: match free pairs of tiles across three layouts, with hints, undo and combos.'],
         'starlasso' => ['Starlasso', 'starlasso', 'Arcade', 'Draw loops of light around stars, dodge the shards and never lasso a mine.'],
         'starsling' => ['Starsling', 'starsling', 'Arcade', 'A one-tap arcade game: sling your comet from planet to planet before its orbit burns out.'],
+        'league' => ['Nexus Quest League', 'league', 'Arena', 'A fast 3v3 battle arena: pick a champion, push your lane, topple the towers and shatter the enemy Nexus in about 15 minutes.'],
     ];
 
     /** Seeded in an earlier version but with no live site: disabled, not deleted, so any stats survive. */

@@ -28,4 +28,5 @@ return [
     'mahjong' => 'Mahjong solitario: empareja fichas libres en tres disposiciones, con pistas, deshacer y combos.',
     'starlasso' => 'Dibuja lazos de luz alrededor de las estrellas, esquiva los fragmentos y nunca atrapes una mina.',
     'starsling' => 'Un arcade de un toque: lanza tu cometa de planeta en planeta antes de que su órbita se apague.',
+    'league' => 'Una arena de batalla 3c3 rápida: elige un campeón, empuja tu calle, derriba las torres y destruye el Nexo enemigo en unos 15 minutos.',
 ];

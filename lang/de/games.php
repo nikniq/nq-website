@@ -28,4 +28,5 @@ return [
     'mahjong' => 'Mahjong-Solitär: Kombiniere freie Steinpaare in drei Layouts, mit Tipps, Rückgängig und Combos.',
     'starlasso' => 'Zieh Lichtschleifen um Sterne, weich den Splittern aus und fang niemals eine Mine ein.',
     'starsling' => 'Ein Ein-Tipp-Arcadespiel: Schleudere deinen Kometen von Planet zu Planet, bevor seine Umlaufbahn verglüht.',
+    'league' => 'Eine schnelle 3-gegen-3-Kampfarena: Wähle einen Champion, drück deine Lane, stürze die Türme und zerschmettere den gegnerischen Nexus in etwa 15 Minuten.',
 ];

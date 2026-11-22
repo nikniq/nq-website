@@ -28,4 +28,5 @@ return [
     'mahjong' => ['Videz le plateau en associant des paires de tuiles libres identiques.', ['Une tuile est libre si rien n’est posé dessus et que son côté gauche ou droit est dégagé.', 'Libérez d’abord les tuiles qui en bloquent plusieurs ; toutes les fleurs vont ensemble.']],
     'starlasso' => ['Entourez les étoiles avec votre traînée pour les attraper, et laissez les mines hors de vos boucles.', ['Plus une boucle contient d’étoiles, plus elle rapporte.', 'Enchaînez les boucles rapidement pour monter le combo jusqu’à ×8.']],
     'starsling' => ['Relâchez au bon moment pour lancer votre comète vers la planète suivante.', ['Relâchez en moins d’un tour pour prolonger votre série.', 'Attrapez des étoiles et sautez des planètes pour des points bonus.']],
+    'league' => ['Détruisez le Nexus ennemi avec votre équipe de trois avant qu\'il ne détruise le vôtre.', ['Restez derrière votre vague de sbires pour que les tours ennemies les visent, pas vous.', 'Dépensez votre or en objets quand vous rentrez à la base et gardez votre ultime pour un combat.']],
 ];

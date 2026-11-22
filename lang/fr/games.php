@@ -28,4 +28,5 @@ return [
     'mahjong' => 'Mahjong solitaire : associez les paires de tuiles libres sur trois dispositions, avec indices, annulation et combos.',
     'starlasso' => 'Tracez des boucles de lumière autour des étoiles, évitez les éclats et ne capturez jamais une mine.',
     'starsling' => 'Un jeu d’arcade à une touche : lancez votre comète de planète en planète avant que son orbite ne s’éteigne.',
+    'league' => 'Une arène de combat 3c3 rapide : choisissez un champion, poussez votre couloir, abattez les tours et brisez le Nexus ennemi en 15 minutes environ.',
 ];

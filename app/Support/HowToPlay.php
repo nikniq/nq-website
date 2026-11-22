@@ -37,6 +37,7 @@ class HowToPlay
         'mahjong' => ['Clear the board by matching pairs of identical free tiles.', ['A tile is free when nothing sits on it and its left or right side is open.', 'Free up tiles that block several others first; any flower matches any flower.']],
         'starlasso' => ['Circle stars with your trail to catch them, and keep mines outside your loops.', ['Bigger loops with more stars inside pay far more.', 'Chain loops quickly to build your combo up to ×8.']],
         'starsling' => ['Let go at the right moment to fling your comet to the next planet.', ['Let go within one lap to build a streak.', 'Grab stars and skip planets for bonus points.']],
+        'league' => ['Destroy the enemy Nexus with your team of three before they destroy yours.', ['Stay behind your minion wave so enemy towers hit them, not you.', 'Spend gold on items when you return to base, and save your ultimate for a fight.']],
     ];
 
     /** @return array{0:string,1:array<int,string>}|null */

@@ -28,4 +28,5 @@ return [
     'mahjong' => ['Räum das Brett, indem du Paare gleicher freier Steine kombinierst.', ['Ein Stein ist frei, wenn nichts auf ihm liegt und seine linke oder rechte Seite offen ist.', 'Befreie zuerst Steine, die mehrere andere blockieren; jede Blume passt zu jeder Blume.']],
     'starlasso' => ['Umkreise Sterne mit deiner Spur, um sie zu fangen, und lass Minen außerhalb deiner Schleifen.', ['Je mehr Sterne in einer Schleife, desto mehr Punkte.', 'Zieh Schleifen schnell hintereinander, um die Combo bis ×8 zu steigern.']],
     'starsling' => ['Lass im richtigen Moment los, um deinen Kometen zum nächsten Planeten zu schleudern.', ['Lass innerhalb einer Runde los, um deine Serie zu halten.', 'Sammle Sterne und überspring Planeten für Bonuspunkte.']],
+    'league' => ['Zerstöre mit deinem Dreierteam den gegnerischen Nexus, bevor er deinen zerstört.', ['Bleib hinter deiner Vasallenwelle, damit gegnerische Türme sie treffen und nicht dich.', 'Gib dein Gold in der Basis für Gegenstände aus und heb dir deine Ultimate für einen Kampf auf.']],
 ];
