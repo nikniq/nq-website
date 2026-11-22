@@ -23,7 +23,7 @@ class GamesSeeder extends Seeder
         'chopper' => ['Chopper', 'chopper', 'Arcade', 'Pilot a rescue helicopter through tight caverns, dodge obstacles and bring everyone home.', true],
         'blockworld' => ['Blockworld', 'blockworld', 'Sandbox', 'Mine by day, survive the night: a voxel survival world built block by block.', true],
         'towers' => ['Towers', 'towers', 'Strategy', 'Place towers, hold the line, and survive every wave in this canvas tower defence.'],
-        'dungeon' => ['Dungeon Adventure', 'dungeon', 'Roguelike', 'A free browser roguelike: delve, fight monsters, find the treasure.'],
+        'dungeon' => ['Dungeon Affair', 'dungeon', 'Roguelike', 'A free browser roguelike: delve, fight monsters, find the treasure.'],
         'space-invaders' => ['Space Invaders', 'spaceinvaders', 'Arcade', 'The classic alien shooter, rebuilt in HTML5 canvas with crisp SVG sprites.'],
         'missile-command' => ['Missile Command', 'missilecommand', 'Arcade', 'Defend your cities from incoming missiles.'],
         'asteroids' => ['Asteroids', 'asteroids', 'Arcade', 'Spin, thrust and blast your way through an asteroid field.'],
