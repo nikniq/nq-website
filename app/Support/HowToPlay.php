@@ -38,6 +38,9 @@ class HowToPlay
         'starlasso' => ['Circle stars with your trail to catch them, and keep mines outside your loops.', ['Bigger loops with more stars inside pay far more.', 'Chain loops quickly to build your combo up to ×8.']],
         'starsling' => ['Let go at the right moment to fling your comet to the next planet.', ['Let go within one lap to build a streak.', 'Grab stars and skip planets for bonus points.']],
         'league' => ['Destroy the enemy Nexus with your team of three before they destroy yours.', ['Stay behind your minion wave so enemy towers hit them, not you.', 'Spend gold on items when you return to base, and save your ultimate for a fight.']],
+        'chinese-chess' => ['Checkmate the enemy general before yours is trapped.', ['The general and advisors must stay inside the palace; the elephants cannot cross the river.', 'Soldiers can move sideways once they have crossed the river.']],
+        'baccarat' => ['Bet on the hand you think will finish closest to nine.', ['Card values are added and only the last digit counts, so 7 + 8 makes 5.', 'A Banker bet wins slightly more often than a Player bet; Tie pays most but rarely lands.']],
+        'poker' => ['Make the best five-card poker hand: a pair of jacks or better pays.', ['Hold any pair, and keep four cards to a flush or straight.', 'Never keep a kicker with a pair; draw three fresh cards instead.']],
     ];
 
     /** @return array{0:string,1:array<int,string>}|null */

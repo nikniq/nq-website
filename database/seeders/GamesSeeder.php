@@ -48,6 +48,9 @@ class GamesSeeder extends Seeder
         'starlasso' => ['Starlasso', 'starlasso', 'Arcade', 'Draw loops of light around stars, dodge the shards and never lasso a mine.'],
         'starsling' => ['Starsling', 'starsling', 'Arcade', 'A one-tap arcade game: sling your comet from planet to planet before its orbit burns out.'],
         'league' => ['Nexus Quest League', 'league', 'Arena', 'A fast 3v3 battle arena: pick a champion, push your lane, topple the towers and shatter the enemy Nexus in about 15 minutes.'],
+        'chinese-chess' => ['Chinese Chess', 'chinese-chess', 'Board', 'Xiangqi, the classic Chinese chess: cross the river, guard the palace and checkmate the general.'],
+        'baccarat' => ['Baccarat', 'baccarat', 'Card', 'The elegant casino card game: bet on Player, Banker or Tie and see whose hand lands closest to nine.'],
+        'poker' => ['Poker', 'poker', 'Card', 'Jacks or Better video poker: hold your best cards, draw the rest and chase a royal flush.'],
     ];
 
     /** Seeded in an earlier version but with no live site: disabled, not deleted, so any stats survive. */

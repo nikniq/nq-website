@@ -29,4 +29,7 @@ return [
     'starlasso' => ['Entourez les étoiles avec votre traînée pour les attraper, et laissez les mines hors de vos boucles.', ['Plus une boucle contient d’étoiles, plus elle rapporte.', 'Enchaînez les boucles rapidement pour monter le combo jusqu’à ×8.']],
     'starsling' => ['Relâchez au bon moment pour lancer votre comète vers la planète suivante.', ['Relâchez en moins d’un tour pour prolonger votre série.', 'Attrapez des étoiles et sautez des planètes pour des points bonus.']],
     'league' => ['Détruisez le Nexus ennemi avec votre équipe de trois avant qu\'il ne détruise le vôtre.', ['Restez derrière votre vague de sbires pour que les tours ennemies les visent, pas vous.', 'Dépensez votre or en objets quand vous rentrez à la base et gardez votre ultime pour un combat.']],
+    'chinese-chess' => ['Matez le général adverse avant que le vôtre ne soit piégé.', ['Le général et les conseillers restent dans le palais ; les éléphants ne traversent pas la rivière.', 'Les soldats peuvent aller sur le côté une fois la rivière franchie.']],
+    'baccarat' => ['Misez sur la main qui finira selon vous le plus près de neuf.', ['On additionne les cartes et seul le dernier chiffre compte : 7 + 8 donne 5.', 'La Banque gagne un peu plus souvent que le Joueur ; l\'Égalité paie le plus mais sort rarement.']],
+    'poker' => ['Faites la meilleure main de cinq cartes : une paire de valets ou mieux paie.', ['Gardez toute paire, et quatre cartes vers une couleur ou une quinte.', 'Ne gardez pas de carte isolée avec une paire ; tirez trois nouvelles cartes.']],
 ];

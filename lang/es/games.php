@@ -29,4 +29,7 @@ return [
     'starlasso' => 'Dibuja lazos de luz alrededor de las estrellas, esquiva los fragmentos y nunca atrapes una mina.',
     'starsling' => 'Un arcade de un toque: lanza tu cometa de planeta en planeta antes de que su órbita se apague.',
     'league' => 'Una arena de batalla 3c3 rápida: elige un campeón, empuja tu calle, derriba las torres y destruye el Nexo enemigo en unos 15 minutos.',
+    'chinese-chess' => 'Xiangqi, el clásico ajedrez chino: cruza el río, protege el palacio y da jaque mate al general.',
+    'baccarat' => 'El elegante juego de cartas de casino: apuesta por el Jugador, la Banca o el Empate y mira qué mano queda más cerca de nueve.',
+    'poker' => 'Videopóquer Jacks or Better: guarda tus mejores cartas, cambia el resto y persigue la escalera real.',
 ];

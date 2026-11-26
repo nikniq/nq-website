@@ -29,4 +29,7 @@ return [
     'starlasso' => 'Zieh Lichtschleifen um Sterne, weich den Splittern aus und fang niemals eine Mine ein.',
     'starsling' => 'Ein Ein-Tipp-Arcadespiel: Schleudere deinen Kometen von Planet zu Planet, bevor seine Umlaufbahn verglüht.',
     'league' => 'Eine schnelle 3-gegen-3-Kampfarena: Wähle einen Champion, drück deine Lane, stürze die Türme und zerschmettere den gegnerischen Nexus in etwa 15 Minuten.',
+    'chinese-chess' => 'Xiangqi, das klassische chinesische Schach: Überquere den Fluss, schütze den Palast und setze den General matt.',
+    'baccarat' => 'Das elegante Casino-Kartenspiel: Setze auf Spieler, Bank oder Unentschieden und sieh, welche Hand näher an neun liegt.',
+    'poker' => 'Jacks-or-Better-Videopoker: Halte deine besten Karten, zieh den Rest neu und jage den Royal Flush.',
 ];

@@ -12,4 +12,5 @@ return [
     'Stealth' => 'Schleichspiel',
     'Music' => 'Musik',
     'Arena' => 'Arena',
+    'Card' => 'Karten',
 ];

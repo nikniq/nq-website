@@ -12,4 +12,5 @@ return [
     'Stealth' => 'ステルス',
     'Music' => '音楽',
     'Arena' => 'アリーナ',
+    'Card' => 'カード',
 ];

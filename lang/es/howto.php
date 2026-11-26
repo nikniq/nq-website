@@ -29,4 +29,7 @@ return [
     'starlasso' => ['Rodea estrellas con tu estela para atraparlas y deja las minas fuera de tus lazos.', ['Cuantas más estrellas en un lazo, más puntos.', 'Encadena lazos rápido para subir el combo hasta ×8.']],
     'starsling' => ['Suelta en el momento justo para lanzar tu cometa al siguiente planeta.', ['Suelta en menos de una vuelta para mantener la racha.', 'Atrapa estrellas y sáltate planetas para ganar puntos extra.']],
     'league' => ['Destruye el Nexo enemigo con tu equipo de tres antes de que destruyan el tuyo.', ['Quédate detrás de tu oleada de súbditos para que las torres enemigas les disparen a ellos y no a ti.', 'Gasta el oro en objetos al volver a la base y guarda tu habilidad definitiva para un combate.']],
+    'chinese-chess' => ['Da jaque mate al general rival antes de que atrapen al tuyo.', ['El general y los consejeros no salen del palacio; los elefantes no pueden cruzar el río.', 'Los soldados pueden moverse de lado tras cruzar el río.']],
+    'baccarat' => ['Apuesta por la mano que crees que quedará más cerca de nueve.', ['Se suman las cartas y solo cuenta la última cifra: 7 + 8 da 5.', 'La Banca gana algo más a menudo que el Jugador; el Empate paga más pero sale poco.']],
+    'poker' => ['Forma la mejor mano de cinco cartas: paga una pareja de jotas o mejor.', ['Guarda cualquier pareja y cuatro cartas para color o escalera.', 'No guardes una carta suelta con la pareja; pide tres cartas nuevas.']],
 ];

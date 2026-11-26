@@ -29,4 +29,7 @@ return [
     'starlasso' => ['Umkreise Sterne mit deiner Spur, um sie zu fangen, und lass Minen außerhalb deiner Schleifen.', ['Je mehr Sterne in einer Schleife, desto mehr Punkte.', 'Zieh Schleifen schnell hintereinander, um die Combo bis ×8 zu steigern.']],
     'starsling' => ['Lass im richtigen Moment los, um deinen Kometen zum nächsten Planeten zu schleudern.', ['Lass innerhalb einer Runde los, um deine Serie zu halten.', 'Sammle Sterne und überspring Planeten für Bonuspunkte.']],
     'league' => ['Zerstöre mit deinem Dreierteam den gegnerischen Nexus, bevor er deinen zerstört.', ['Bleib hinter deiner Vasallenwelle, damit gegnerische Türme sie treffen und nicht dich.', 'Gib dein Gold in der Basis für Gegenstände aus und heb dir deine Ultimate für einen Kampf auf.']],
+    'chinese-chess' => ['Setze den gegnerischen General matt, bevor deiner gefangen ist.', ['General und Berater bleiben im Palast; Elefanten dürfen den Fluss nicht überqueren.', 'Soldaten dürfen nach dem Fluss auch seitwärts ziehen.']],
+    'baccarat' => ['Setze auf die Hand, die deiner Meinung nach am nächsten an neun endet.', ['Die Kartenwerte werden addiert, nur die letzte Ziffer zählt: 7 + 8 ergibt 5.', 'Die Bank gewinnt etwas öfter als der Spieler; Unentschieden zahlt am meisten, kommt aber selten.']],
+    'poker' => ['Bilde die beste Fünf-Karten-Hand: Ein Buben-Paar oder besser zahlt.', ['Halte jedes Paar und vier Karten zu einem Flush oder einer Straße.', 'Behalte zu einem Paar keine Beikarte; zieh lieber drei neue Karten.']],
 ];
