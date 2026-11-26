@@ -11,7 +11,7 @@
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 @endsection
 @section('content')
-    @php($spotlight = ($query === '' && ! $activeFilters && $filters['sort'] === '') ? $games->firstWhere('is_featured', true) : null)
+    @php($showcase = ($query === '' && ! $activeFilters && $filters['sort'] === '') ? $games->filter(fn ($g) => $g->thumbnailUrl())->sortByDesc('is_featured')->take(8)->values() : collect())
     @php($link = fn (array $changes) => route('games.index', array_filter(array_merge(request()->query(), $changes), fn ($v) => $v !== '' && $v !== null && $v !== false && $v !== 0)))
 
     <div class="page-head">
@@ -74,19 +74,42 @@
         @endif
     </form>
 
-    @if($spotlight)
-        <section class="hero" aria-label="{{ __('Featured game') }}">
-            <div class="hero-art">@include('games._shotgrid', ['game' => $spotlight, 'eager' => true, 'max' => 5])</div>
-            <div class="hero-copy">
-                <span class="eyebrow">★ {{ __('Featured game') }}</span>
-                <h2><a href="{{ route('games.show', $spotlight) }}">{{ $spotlight->name }}</a></h2>
-                <p>{{ $spotlight->localDescription() }}</p>
-                <div class="row">
-                    @if($spotlight->url)<a class="btn big" href="{{ route('games.play', $spotlight) }}">▶&nbsp; {{ __('Play now') }}</a>@endif
-                    <a class="btn big ghost" href="{{ route('games.show', $spotlight) }}">{{ __('About the game') }}</a>
-                </div>
+    @if($showcase->isNotEmpty())
+        <section class="showcase" aria-roledescription="carousel" aria-label="{{ __('Featured games') }}" data-showcase>
+            <div class="sc-track" tabindex="0">
+                @foreach($showcase as $i => $g)
+                    @php($img = $g->webpUrl() ?? $g->thumbnailUrl())
+                    <article class="sc-slide" aria-roledescription="slide" aria-label="{{ $i + 1 }} / {{ $showcase->count() }}: {{ $g->name }}">
+                        <img class="sc-bg" src="{{ $img }}" alt="" @if($i === 0) fetchpriority="high" @else loading="lazy" @endif decoding="async">
+                        <div class="sc-copy">
+                            <span class="eyebrow">@if($g->is_featured)★ {{ __('Featured game') }}@else{{ \App\Models\Game::genreLabel($g->genre) }}@endif</span>
+                            <h2><a href="{{ route('games.show', $g) }}">{{ $g->name }}</a></h2>
+                            <p>{{ \Illuminate\Support\Str::limit($g->localDescription(), 140) }}</p>
+                            <div class="row">
+                                @if($g->url)<a class="btn big" href="{{ route('games.play', $g) }}">▶&nbsp; {{ __('Play now') }}</a>@endif
+                                <a class="btn big ghost" href="{{ route('games.show', $g) }}">{{ __('About the game') }}</a>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
             </div>
+            @if($showcase->count() > 1)
+                <button type="button" class="sc-nav prev" data-sc-prev aria-label="{{ __('Previous') }}">‹</button>
+                <button type="button" class="sc-nav next" data-sc-next aria-label="{{ __('Next') }}">›</button>
+                <div class="sc-dots">@foreach($showcase as $i => $g)<button type="button" data-sc-dot="{{ $i }}" aria-label="{{ $g->name }}" @if($i === 0) aria-current="true" @endif></button>@endforeach</div>
+            @endif
         </section>
+        <script>
+        (function(){var r=document.currentScript.previousElementSibling,t=r.querySelector('.sc-track'),s=t.children,d=r.querySelectorAll('[data-sc-dot]'),cur=0,timer;
+        function go(i){i=(i+s.length)%s.length;t.scrollTo({left:s[i].offsetLeft,behavior:'smooth'});}
+        t.addEventListener('scroll',function(){var i=Math.round(t.scrollLeft/t.clientWidth);if(i!==cur){cur=i;d.forEach(function(b,k){b.toggleAttribute('aria-current',k===i);});}},{passive:true});
+        r.querySelectorAll('[data-sc-dot]').forEach(function(b){b.onclick=function(){go(+b.dataset.scDot);};});
+        var p=r.querySelector('[data-sc-prev]'),n=r.querySelector('[data-sc-next]');if(p){p.onclick=function(){go(cur-1);};n.onclick=function(){go(cur+1);};}
+        t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(cur+1);e.preventDefault();}if(e.key==='ArrowLeft'){go(cur-1);e.preventDefault();}});
+        var calm=matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.dataset.calm==='1';
+        function play(){stop();if(!calm&&s.length>1)timer=setInterval(function(){go(cur+1);},6000);}function stop(){clearInterval(timer);}
+        ['pointerenter','focusin','touchstart'].forEach(function(e){r.addEventListener(e,stop,{passive:true});});r.addEventListener('pointerleave',play);play();})();
+        </script>
     @endif
 
     <div class="finder">
